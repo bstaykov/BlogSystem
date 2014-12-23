@@ -1,15 +1,16 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using BlogSystem.Web.Models;
-
-namespace BlogSystem.Web.Controllers
+﻿namespace BlogSystem.Web.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Web;
+    using System.Web.Mvc;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
+    using BlogSystem.Web.Models;
+    using BlogSystem.Models;
+
     [Authorize]
     public class ManageController : Controller
     {
@@ -23,6 +24,7 @@ namespace BlogSystem.Web.Controllers
         }
 
         private ApplicationUserManager _userManager;
+
         public ApplicationUserManager UserManager
         {
             get
@@ -323,7 +325,7 @@ namespace BlogSystem.Web.Controllers
             }
         }
 
-        private async Task SignInAsync(ApplicationUser user, bool isPersistent)
+        private async Task SignInAsync(User user, bool isPersistent)
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie, DefaultAuthenticationTypes.TwoFactorCookie);
             AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = isPersistent }, await user.GenerateUserIdentityAsync(UserManager));

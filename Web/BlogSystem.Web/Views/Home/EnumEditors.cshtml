@@ -1,0 +1,34 @@
+﻿@using BlogSystem.Web.ViewModels
+@model EnumModel
+
+@{
+    ViewBag.Title = "EnumEditors";
+}
+
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+    <li class="active">EnumEditors</li>
+</ul>
+
+@if (TempData["success"] != null)
+{
+    <div class="alert-success">@TempData["success"]</div>
+}
+<br />
+
+@using (Html.BeginForm("EnumEditors", "Home", FormMethod.Post, new { id = "formToSend" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true)
+    <div>
+        @Html.LabelFor(m => m.Color)
+        @Html.EnumDropDownListFor(m => m.Color, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Color)
+    </div>
+    @*<div>
+        @Html.DropDownListFor(model => model.Color, Enum.GetNames(typeof(BlogSystem.Web.ViewModels.ColorType)).Select(e => new SelectListItem { Text = e }))
+    </div>*@
+
+    @Html.Submit("Submit")
+}

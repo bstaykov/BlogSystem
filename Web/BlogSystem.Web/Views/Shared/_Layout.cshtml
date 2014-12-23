@@ -6,7 +6,6 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -23,14 +22,21 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("FormViewPage", "FormPage", "Home")</li>
+                    <li>@Html.ActionLink("HtmlEditors", "HtmlEditors", "Home")</li>
+                    <li>@Html.ActionLink("EnumEditors", "EnumEditors", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
+    @*<div>
+        @Html.Action("Breadcrumbs")
+    </div>*@
     <div class="container body-content">
-        @RenderBody()
+        <div id="content">
+            @RenderBody()
+        </div>
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
@@ -39,6 +45,22 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @*@RenderSection("scripts", required: false)*@
+    
+    <!-- jQuery -->
+    @*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
+
+    <!-- jQuery ScrollTo Plugin -->
+    @*<script src="//balupton.github.io/jquery-scrollto/lib/jquery-scrollto.js"></script>
+
+    <!-- History.js -->
+    <script src="//browserstate.github.io/history.js/scripts/bundled/html4+html5/jquery.history.js"></script>
+
+    <!-- Ajaxify -->
+    <script src="//rawgithub.com/browserstate/ajaxify/master/ajaxify-html5.js"></script>*@
+
 </body>
 </html>

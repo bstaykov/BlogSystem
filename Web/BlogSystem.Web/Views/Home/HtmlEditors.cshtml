@@ -1,0 +1,136 @@
+﻿@using BlogSystem.Web.ViewModels
+@model TestEditorsModel
+
+@{
+    ViewBag.Title = "HtmlEditors";
+}
+
+<ul class="breadcrumb">
+    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+    <li class="active">HtmlEditors</li>
+</ul>
+
+@if (TempData["success"] != null)
+{
+    <div class="success">@TempData["success"]</div>
+}
+<br />
+
+@using (Html.BeginForm("HtmlEditors", "Home", FormMethod.Post, new { id = "formToSend" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true)
+
+    @*@Html.EditorForModel()*@
+    <div>
+        @Html.LabelFor(m => m.Name)
+        @Html.EditorFor(m => m.Name)
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+    <div>
+        @*@foreach (var donation in Model.Donations)
+        {
+            <div>
+                @Html.LabelFor(m => donation.DonationValue)
+                @Html.EditorFor(m => donation.DonationValue)
+                @Html.ValidationMessageFor(m => donation.DonationValue)
+            </div>
+        }*@
+        @for (int i = 0; i < Model.Donations.Count; i++)
+        {
+            <div>
+                @Html.LabelFor(m => m.Donations[i].DonationValue)
+                @Html.EditorFor(m => m.Donations[i].DonationValue)
+                @Html.ValidationMessageFor(m => m.Donations[i].DonationValue)
+            </div>
+        }
+        <div>
+            <div id="donationParent"></div>
+        </div>
+        <a id="addDonationAnchor">Add donation</a>
+        <div>
+            <div id="personParent"></div>
+        </div>
+        <a id="addPersonBtn">Add Person</a>
+    </div>
+
+    <div>
+        @Html.LabelFor(m => m.IsDonationAgreed)
+        @Html.EditorFor(m => m.IsDonationAgreed)
+        @Html.ValidationMessageFor(m => m.IsDonationAgreed)
+    </div>
+    <div>
+        @*
+            NOTE
+                <system.web>
+                    <globalization culture="en-US" uiCulture="en-US" />
+                </system.web>
+        *@
+        @Html.LabelFor(m => m.Price)
+        @Html.EditorFor(m => m.Price)
+        @Html.ValidationMessageFor(m => m.Price)
+    </div>
+
+    @Html.Submit("Submit")
+}
+
+<script>
+    @{
+        var newPersonIndex = 0;
+    }
+
+    function updateIndex() {
+        newPersonIndex += 1;
+    }
+
+    function clearPersonValues(personId) {
+        var divId = '#personDiv' + personId;
+        var inputFullNameId = '#personFullName' + personId;
+        var inputAgeId = '#personAge' + personId;
+        $(inputFullNameId).val(null);
+        $(inputAgeId).val('0');
+        $(divId).css('display', 'none');
+        console.log(divId);
+    }
+
+    window.onload = function () {
+        $('#addDonationAnchor').bind({
+            click: function () {
+                $('#donationParent').append('<div><label>Extra Donation</label> @Html.TextBox("extraDonations", null, new { type = "number" })</div>');
+
+                @*append to list - not working*@
+                @*$('#donationParent').append('<div><label>DonationValue</label> @Html.TextBox("Donation", null, new { type = "number" })</div>');*@
+
+                @*appen clone of list element - not working*@
+                @*$("#Donations_0__DonationValue").clone().appendTo("#donationParent");*@
+            }
+        });
+
+        var index = 0;
+
+        $('#addPersonBtn').bind({
+            click: function () {
+                
+                @*//Dinamicaly add people - working
+                $('#personParent').append('<div><label>Extra Person FullName</label><input type="text" name="person[' + index + '].FullName" value="Ivan"/></div>');
+                $('#personParent').append('<div><label>Extra Person Age</label><input type="number" name="person[' + index + '].Age" value="21" /></div>');
+                index += 1;
+                *@
+
+                @*//Dinamicaly adding People objects to List<Person> - working*@
+                $('#personParent').append('<div id="personDiv' + index + '"><label>Extra Person FullName</label> '
+                    + '<input type="text" id="' + 'personFullName' + index + '" name="People[' + index + '].FullName" value="Ivan"/>'
+                    + '<label>Extra Person Age</label>'
+                    + '<input type="number" id="' + 'personAge' + index + '"  name="People[' + index + '].Age" value="21" />'
+                    + '<a href="#" onclick="clearPersonValues(' + index + ')" >Dellete</a></div>');
+
+                index += 1;
+                @* // Dinamicaly add People by @Html.EditorFor - not working
+                $('#personParent').append('<div><label>Extra Person FullName</label> @Html.EditorFor(m => Model.People[0].FullName)</div>');
+                $('#personParent').append('<div><label>Extra Person FullName</label> @Html.EditorFor(m => Model.People[0].Age)</div>');*@
+
+            }
+        });
+    }
+</script>

@@ -1,16 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
-namespace BlogSystem.Web.Controllers
+﻿namespace BlogSystem.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Mvc;
+    using Microsoft.AspNet.Identity;
+    using BlogSystem.Web.Models;
+    using BlogSystem.Models;
+    using System.Data.Entity;
+    using BlogSystem.Common.Repository;
+    using BlogSystem.Data;
+    using System.Threading;
+    using BlogSystem.Web.ViewModels;
+
     public class HomeController : Controller
     {
+        private IRepository<User> users;
+
+        public HomeController()
+            :this(new GenericRepository<User>(new BlogSystemDbContext()))
+        {
+
+        }
+
+        public HomeController(IRepository<User> users)
+        {
+            this.users = users;
+        }
+
         public ActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        [ChildActionOnly]
+        public ActionResult GetUserInfo()
+        {
+            var userName = this.User.Identity.Name;
+            string userUrl = this.users.All().Where(u => u.UserName == userName).First().ImageUrl;
+            if (userUrl == null)
+            {
+                userUrl = "http://imgs.abduzeedo.com/files/articles/baby-animals/Baby-Animals-002.jpg";
+            }
+            return this.PartialView("_GetUserInfo", userUrl);
         }
 
         public ActionResult About()
@@ -22,9 +56,131 @@ namespace BlogSystem.Web.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            var mess = "Your contact page.";
+
+            ViewBag.Message = mess;
 
             return View();
+        }
+
+        public ActionResult Link1()
+        {
+            return this.PartialView("_Link1");
+        }
+
+        public ActionResult Link2()
+        {
+            Thread.Sleep(2000);
+            return this.PartialView("_Link2");
+        }
+
+        [HttpGet]
+        public ActionResult Form()
+        {
+            return this.PartialView("_Form", new FormInputModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Form(FormInputModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string result = string.Format("Name: {0}, Age: {1}", model.Name ,model.Age);
+                return this.Content(result);
+            }
+
+            return this.PartialView("_Form", model);
+        }
+
+        [HttpGet]
+        public ActionResult FormServer()
+        {
+            return this.PartialView("_FormServer", new FormInputModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult FormServer(FormInputModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                this.TempData["success"] = "Form send successfully.";
+                return RedirectToAction("Index");
+            }
+
+            return this.PartialView("_FormServer", model);
+        }
+
+        [HttpGet]
+        public ActionResult FormPage()
+        {
+            return this.View(new FormInputModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [OutputCache(Duration=15*60)]
+        public ActionResult FormPage(FormInputModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                this.TempData["success"] = "Form send successfully.";
+                return RedirectToAction("Index");
+            }
+
+            return this.View(model);
+        }
+
+        [HttpGet]
+        public ActionResult HtmlEditors()
+        {
+            return this.View(new TestEditorsModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult HtmlEditors(TestEditorsModel model, List<int> extraDonations, List<Person> person)
+        {
+            //TODO check People for NULL values
+
+            if (ModelState.IsValid)
+            {
+                var extra = "";
+                if (extraDonations != null)
+                {
+                    extra = string.Join(",", extraDonations);
+                }
+                this.TempData["success"] = model.ToString() + " " + extra;
+                return RedirectToAction("HtmlEditors");
+            }
+
+            return this.View(model);
+        }
+
+        [HttpGet]
+        public ActionResult EnumEditors()
+        {
+            return this.View(new EnumModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EnumEditors(EnumModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                this.TempData["success"] = model.Color.ToString();
+                return RedirectToAction("EnumEditors");
+            }
+
+            return this.View(model);
+        }
+
+        [HttpGet]
+        public ActionResult Breadcrumbs(BreadscrumbsModel model)
+        {
+            return this.PartialView("_Breadcrumbs", model);
         }
     }
 }

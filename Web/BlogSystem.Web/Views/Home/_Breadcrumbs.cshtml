@@ -1,0 +1,5 @@
+﻿<ul class="breadcrumb">
+    <li>@Html.ActionLink("Home", "Index", ViewContext.RouteData.GetRequiredString("controller"))</li>
+    <li>@Html.ActionLink("Home", ViewContext.RouteData.GetRequiredString("action"), ViewContext.RouteData.GetRequiredString("controller"))</li>
+    <li>Data</li>
+</ul>

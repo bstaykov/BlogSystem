@@ -1,0 +1,43 @@
+﻿@using BlogSystem.Web.ViewModels
+@model FormInputModel
+
+@using (Html.BeginForm("FormServer", "Home", FormMethod.Post, new { @class = "form-horizontal", id = "searchForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    // excludes properties errors
+    @Html.ValidationSummary(true)
+
+    <div class="row">
+        <div class="row">
+            <div class="input-group">
+                @Html.LabelFor(m => m.Name, new { @class = "input-group-addon", style = "width: 80px;" })
+                @*@Html.Span(new { @class = "input-group-addon" })*@
+                @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control", style = "width: 80px;" } })
+                @Html.ValidationMessageFor(m => m.Name, null, new { @class = "alert-warning" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-group">
+                @Html.LabelFor(m => m.Age, new { @class = "input-group-addon", style = "width: 80px;" })
+                @Html.EditorFor(m => m.Age, new { htmlAttributes = new { @class = "form-control", style = "width: 80px;" } })
+                @Html.ValidationMessageFor(m => m.Age, null, new { @class = "alert-warning" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        @Html.Submit("Send", new { @class = "btn", id = "submitId" })
+    </div>
+}
+
+@*@* CLIENT VALIDATION *@
+@*@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@
+
+<script>
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse("#searchForm");
+    });
+</script>

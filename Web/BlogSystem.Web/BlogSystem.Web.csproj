@@ -170,17 +170,25 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\ViewenginesConfiguration.cs" />
     <Compile Include="Areas\Articles\ArticlesAreaRegistration.cs" />
+    <Compile Include="Areas\Articles\Controllers\HomeController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\BreadscrumbsModel.cs" />
+    <Compile Include="ViewModels\ColorType.cs" />
+    <Compile Include="ViewModels\Donation.cs" />
+    <Compile Include="ViewModels\EnumModel.cs" />
+    <Compile Include="ViewModels\FormInputModel.cs" />
+    <Compile Include="ViewModels\Person.cs" />
+    <Compile Include="ViewModels\TestEditorsModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -188,6 +196,22 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
+    <Content Include="Files\Images\07d48413-849a-4084-a593-d6a4cf649fc6.jpeg" />
+    <Content Include="Files\Images\337f67e5-4c71-4327-8d31-bca6b606a2a6.jpeg" />
+    <Content Include="Files\Images\36afbffe-57cf-4e98-885c-01a0d9e92be9.jpeg" />
+    <Content Include="Files\Images\5c4405dc-d2ef-492e-9ade-2bfe0f33a0ad.png" />
+    <Content Include="Files\Images\640ad5f6-9a65-4d0c-887f-ba37a2fb5cf4.png" />
+    <Content Include="Files\Images\6421b178-b4bd-488e-ac0a-8e56e808612c.jpeg" />
+    <Content Include="Files\Images\7be3d1b1-a36a-492d-ad03-985e715dbe1c.jpeg" />
+    <Content Include="Files\Images\910d203a-74ff-45d5-8cb9-5baa4b0e78f2.jpeg" />
+    <Content Include="Files\Images\96ecf501-2b2e-4834-be67-39ddb07a20a5.jpeg" />
+    <Content Include="Files\Images\a3b13683-38bc-4b67-8d32-700c7da4f08a.jpeg" />
+    <Content Include="Files\Images\aa93082a-c795-4e10-97d4-b2e3624bedf5.jpeg" />
+    <Content Include="Files\Images\aaf64bed-c198-4a5d-b23e-cfc74078de36.jpeg" />
+    <Content Include="Files\Images\aee8af6b-5806-4a5c-a6d6-8095936745bf.jpeg" />
+    <Content Include="Files\Images\avatar.jpg" />
+    <Content Include="Files\Images\b5c2a591-0029-4665-aa05-bbec5d42e483.jpeg" />
+    <Content Include="Files\Images\d23a14ff-b66d-403d-b820-24ba4efe81f4.jpeg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -197,6 +221,9 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Areas\Articles\Views\web.config" />
+    <Content Include="Areas\Articles\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Articles\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Articles\Views\Home\InsertArticle.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -204,6 +231,8 @@
     <Content Include="Scripts\jquery-2.1.1.min.js" />
     <Content Include="Scripts\jquery-2.1.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -215,7 +244,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -226,9 +257,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\_RemoveAccountPartial.cshtml" />
@@ -252,16 +280,43 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_GetUserInfo.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\_Link1.cshtml" />
+    <Content Include="Views\Home\_Link2.cshtml" />
+    <Content Include="Views\Home\_Form.cshtml" />
+    <Content Include="Views\Home\_FormServer.cshtml" />
+    <Content Include="Views\Home\FormPage.cshtml" />
+    <Content Include="Views\Home\HtmlEditors.cshtml" />
+    <Content Include="Views\Home\EnumEditors.cshtml" />
+    <Content Include="Views\Home\_Breadcrumbs.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\String.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Articles\Controllers\" />
     <Folder Include="Areas\Articles\Models\" />
     <Folder Include="Areas\Articles\Views\Shared\" />
+    <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\BlogSystem.Common\BlogSystem.Common.csproj">
+      <Project>{ca5f8b21-7bbb-4e64-84e0-92e1014a9f72}</Project>
+      <Name>BlogSystem.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Data\BlogSystem.Data\BlogSystem.Data.csproj">
+      <Project>{141658eb-e69e-4929-8c02-290d6d34e38b}</Project>
+      <Name>BlogSystem.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Models\BlogSystem.Models\BlogSystem.Models.csproj">
+      <Project>{03e45975-7b97-44b8-bc4d-3b70b48cc6bf}</Project>
+      <Name>BlogSystem.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

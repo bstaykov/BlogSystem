@@ -1,17 +1,20 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using BlogSystem.Web.Models;
-
-namespace BlogSystem.Web.Controllers
+﻿namespace BlogSystem.Web.Controllers
 {
+    using System;
+    using System.Globalization;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using System.Web;
+    using System.Web.Mvc;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
+    using BlogSystem.Web.Models;
+    using BlogSystem.Models;
+    using BlogSystem.Common.Repository;
+    using BlogSystem.Data;
+
     [Authorize]
     public class AccountController : Controller
     {
@@ -48,6 +51,16 @@ namespace BlogSystem.Web.Controllers
             return View();
         }
 
+        //
+        // GET: /Account/LoginSpa
+        [AllowAnonymous]
+        public ActionResult LoginSpa(string returnUrl)
+        {
+            string cookieToken, formToken;
+            System.Web.Helpers.AntiForgery.GetTokens(null, out cookieToken, out formToken);
+            return Json(new {aft = cookieToken + ":" + formToken }, JsonRequestBehavior.AllowGet);
+        }
+
         private ApplicationSignInManager _signInManager;
 
         public ApplicationSignInManager SignInManager
@@ -73,7 +86,7 @@ namespace BlogSystem.Web.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -150,11 +163,12 @@ namespace BlogSystem.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase profilePic)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                string urlToSaveInDb = SavePic(profilePic);
+                var user = new User { UserName = model.UserName, Email = model.Email, ImageUrl = urlToSaveInDb };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -173,6 +187,27 @@ namespace BlogSystem.Web.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        private string SavePic(HttpPostedFileBase profilePic)
+        {
+            string picUrl;
+            string url;
+            if (profilePic != null)
+            {
+                string fileContentType = profilePic.ContentType.Substring(profilePic.ContentType.IndexOf('/') + 1);
+                string fileName = Guid.NewGuid().ToString();
+                string picName = string.Format("{0}.{1}", fileName, fileContentType);
+                picUrl = Server.MapPath("~/Files/Images/") + picName;
+                profilePic.SaveAs(picUrl);
+                url = "/Files/Images/" + picName;
+            }
+            else
+            {
+                url = "/Files/Images/avatar.jpg";
+            }
+
+            return url;
         }
 
         //
@@ -370,7 +405,7 @@ namespace BlogSystem.Web.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new User { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

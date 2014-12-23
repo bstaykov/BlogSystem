@@ -3,6 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BlogSystem.Web.Models
 {
+    public class UserDetails
+    {
+        public string UserName { get; set; }
+
+        public string Url { get; set; }
+    }
+
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
@@ -49,9 +56,8 @@ namespace BlogSystem.Web.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "UserName")]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -64,6 +70,11 @@ namespace BlogSystem.Web.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [StringLength(25, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+        [Display(Name = "UserName")]
+        public string UserName { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
