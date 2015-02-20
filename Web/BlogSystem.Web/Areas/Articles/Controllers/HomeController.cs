@@ -11,25 +11,13 @@
         // GET: Articles/Home
         public ActionResult Index()
         {
-            return this.PartialView("Index");
+            return View();
         }
 
         [HttpGet]
         public ActionResult InsertArticle()
         {
             return this.PartialView("InsertArticle");
-        }
-
-        [HttpGet]
-        public ActionResult ListedArticles()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult ListedArticles2()
-        {
-            return View();
         }
     }
 }

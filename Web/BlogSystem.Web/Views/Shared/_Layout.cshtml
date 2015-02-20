@@ -39,7 +39,7 @@
             @RenderBody()
         </div>
         <hr />
-        @Html.Action("ChatContent", "Home")
+        @Html.Action("ChatContent", "Home", new { area = "" })
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>

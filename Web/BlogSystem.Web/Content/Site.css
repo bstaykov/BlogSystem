@@ -3,6 +3,10 @@
     padding-bottom: 20px;
 }
 
+img {
+    max-width: 100%;
+}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -47,10 +51,10 @@ textarea {
     }
 
 #div-chat-menu {
- position: fixed;
- bottom:0;
- right:0;
- width:200px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 200px;
 }
 
 #unreadMessagesCount {
