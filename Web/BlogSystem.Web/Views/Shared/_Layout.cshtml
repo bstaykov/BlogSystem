@@ -31,13 +31,15 @@
         </div>
     </div>
     @*<div>
-        @Html.Action("Breadcrumbs")
-    </div>*@
-    <div class="container body-content">
+            @Html.Action("Breadcrumbs")
+        </div>*@
+    <div class="container body-content">        
+        @*<button data-toggle="popover" data-content="Link: <a href='http://google.com'>GOOGLE</a>" data-html="true"> CLICK </button>*@
         <div id="content">
             @RenderBody()
         </div>
         <hr />
+        @Html.Action("ChatContent", "Home")
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
@@ -45,22 +47,23 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/signalR")
+    @Scripts.Render("~/bundles/customSignalR")
 
     @*@Scripts.Render("~/bundles/jqueryval")*@
-     
+
     @RenderSection("scripts", required: false)
-    
+
     <!-- jQuery -->
     @*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
 
     <!-- jQuery ScrollTo Plugin -->
     @*<script src="//balupton.github.io/jquery-scrollto/lib/jquery-scrollto.js"></script>
 
-    <!-- History.js -->
-    <script src="//browserstate.github.io/history.js/scripts/bundled/html4+html5/jquery.history.js"></script>
+        <!-- History.js -->
+        <script src="//browserstate.github.io/history.js/scripts/bundled/html4+html5/jquery.history.js"></script>
 
-    <!-- Ajaxify -->
-    <script src="//rawgithub.com/browserstate/ajaxify/master/ajaxify-html5.js"></script>*@
-
+        <!-- Ajaxify -->
+        <script src="//rawgithub.com/browserstate/ajaxify/master/ajaxify-html5.js"></script>*@
 </body>
 </html>

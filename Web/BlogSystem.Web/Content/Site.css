@@ -45,3 +45,14 @@ textarea {
         cursor: inherit;
         display: block;
     }
+
+#div-chat-menu {
+ position: fixed;
+ bottom:0;
+ right:0;
+ width:200px;
+}
+
+#unreadMessagesCount {
+    color: red;
+}

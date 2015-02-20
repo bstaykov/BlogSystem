@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity
+
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -26,7 +28,7 @@
             UpdateTargetId = "ajax-content",
             LoadingElementId = "loading",
             OnBegin = "clearContent('ajax-content')"
-            
+
         },
         new { @class = "no-ajaxy" })
     </li>
@@ -67,12 +69,39 @@
     </div>
 </div>
 
-<script>
-    function clearContent(id) {
-        $("#" + id).empty();
+<div>
+    @if (!(Request.IsAuthenticated))
+    {
+        <input type="text" id="userName" value="UserName" />
+        <br />
+        <input type="text" id="anonymous-message" value="message" />
+        <button id="send-anonymous-message">Send</button>
     }
-</script>
+    else
+    {
+        <div id="currentRooms">
+            <div>
+                Current rooms:
+            </div>
+        </div>
+        <input type="text" id="room" value="Room" />
+        <button id="join-room">Join</button>
+        <br />
+        <input type="text" id="message" value="message" />
+        <button id="send-message">Send</button>
+        <br />
+        <input type="text" id="room-message" value="message" />
+        <button id="send-message-to-room">Send To Rooms Only</button>
+    }
+</div>
+<div id="messages">
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function clearContent(id) {
+            $("#" + id).empty();
+        }
+    </script>
 }

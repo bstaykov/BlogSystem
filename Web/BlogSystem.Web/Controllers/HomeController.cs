@@ -182,5 +182,23 @@
         {
             return this.PartialView("_Breadcrumbs", model);
         }
+
+        public ActionResult UserInfo(string username)
+        {
+            var userInfo = this.users.All().Where(u => u.UserName == username).FirstOrDefault();
+
+            UserInfoModel user = new UserInfoModel()
+            {
+                UserName = userInfo.UserName,
+                ImageUrl = userInfo.ImageUrl
+            };
+
+            return this.View(user);
+        }
+
+        public ActionResult ChatContent()
+        {
+            return this.PartialView("_ChatContent");
+        }
     }
 }

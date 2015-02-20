@@ -3,15 +3,32 @@
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
+        
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="#" id="onlineUsers" data-toggle="modal" data-target=".bs-example-modal-sm">
+                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    (<span id="usersOnline">0</span>)
+                </a>
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-            @Html.Action("GetUserInfo", "Home")
-        </li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-    </ul>
+                <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div id="listOfOnlineUsers"></div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li>
+                <a href="#">@Html.Action("GetUserInfo", "Home")</a>    
+            </li>
+            <li><a id="logOutButton" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </ul>
     }
 }
 else

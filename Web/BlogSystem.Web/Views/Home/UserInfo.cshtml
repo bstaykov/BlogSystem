@@ -1,0 +1,20 @@
+﻿@using BlogSystem.Web.ViewModels
+@model UserInfoModel
+@{
+    ViewBag.Title = "UserInfo";
+}
+
+<h2>UserInfo</h2>
+
+<h3>UserName: @Model.UserName</h3>
+
+@if (@Model.ImageUrl != null) 
+{ 
+    <img src="@(Model.ImageUrl)" alt="picture" />
+}
+else
+{
+    <h3>User has no picture.</h3>
+}
+
+
