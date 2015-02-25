@@ -190,6 +190,7 @@
     <Compile Include="Hubs\ChatHelpersClasses\AbstractChatRoom.cs" />
     <Compile Include="Hubs\ChatHelpersClasses\PublicChatRoom.cs" />
     <Compile Include="Hubs\ChatHelpersClasses\Participant.cs" />
+    <Compile Include="Hubs\PostsUpdater.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageUserViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -241,6 +242,7 @@
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\custom\customSignalRPosts.js" />
     <Content Include="Scripts\custom\customSignalR.js" />
     <Content Include="Scripts\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery-2.1.1.min.js" />

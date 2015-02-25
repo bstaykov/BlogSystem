@@ -28,7 +28,8 @@ namespace BlogSystem.Web
                         "~/Scripts/jquery.signalR-2.1.2.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/customSignalR").Include(
-                        "~/Scripts/custom/customSignalR.js"));
+                        "~/Scripts/custom/customSignalR.js",
+                        "~/Scripts/custom/customSignalRPosts.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
