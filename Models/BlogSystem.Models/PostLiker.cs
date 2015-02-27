@@ -12,7 +12,7 @@
         public virtual Post Post { get; set; }
 
         [Key, Column(Order = 1)]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         public virtual User User { get; set; }
 

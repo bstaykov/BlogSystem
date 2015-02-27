@@ -7,7 +7,7 @@
     public class CommentLiker
     {
         [Key, Column(Order = 0)]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         public virtual User User { get; set; }
 
