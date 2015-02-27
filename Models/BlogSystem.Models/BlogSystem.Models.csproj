@@ -52,7 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comment.cs" />
+    <Compile Include="CommentLiker.cs" />
     <Compile Include="Post.cs" />
+    <Compile Include="PostCategory.cs" />
+    <Compile Include="PostLiker.cs" />
+    <Compile Include="Tag.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

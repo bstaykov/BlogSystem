@@ -21,6 +21,14 @@
 
         public IDbSet<Post> Posts { get; set; }
 
+        public IDbSet<Tag> Tags { get; set; }
+
+        public IDbSet<Comment> Comments { get; set; }
+
+        public IDbSet<PostLiker> PostLikers { get; set; }
+
+        public IDbSet<CommentLiker> CommentLikers { get; set; }
+
         public override IDbSet<User> Users { get; set; }
 
         public override int SaveChanges()

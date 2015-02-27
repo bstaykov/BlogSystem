@@ -10,7 +10,7 @@
     {
         private readonly string name;
         private PublicChatRoom chatRoom;
-        private List<string> unreceivedMesseges;
+        //private List<string> unreceivedMesseges;
 
         public Participant(string name)
         {
