@@ -36,6 +36,7 @@
                 this.posts = value;
             }
         }
+
         public virtual ICollection<Log> Logs
         {
             get

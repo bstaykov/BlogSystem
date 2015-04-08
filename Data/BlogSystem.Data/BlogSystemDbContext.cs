@@ -1,6 +1,7 @@
 ﻿namespace BlogSystem.Data
 {
     using BlogSystem.Common.Models;
+    using BlogSystem.Data.Migrations;
     using BlogSystem.Models;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
@@ -12,6 +13,7 @@
         public BlogSystemDbContext()
             : base("BlogSystem", throwIfV1Schema: false)
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<BlogSystemDbContext, Configuration>());
         }
 
         public static BlogSystemDbContext Create()

@@ -53,6 +53,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlogSystemDbContext.cs" />
+    <Compile Include="Migrations\201504082055336_LogUserId.cs" />
+    <Compile Include="Migrations\201504082055336_LogUserId.Designer.cs">
+      <DependentUpon>201504082055336_LogUserId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504082057362_LogUserName.cs" />
+    <Compile Include="Migrations\201504082057362_LogUserName.Designer.cs">
+      <DependentUpon>201504082057362_LogUserName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -69,6 +77,14 @@
       <Project>{03e45975-7b97-44b8-bc4d-3b70b48cc6bf}</Project>
       <Name>BlogSystem.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201504082055336_LogUserId.resx">
+      <DependentUpon>201504082055336_LogUserId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504082057362_LogUserName.resx">
+      <DependentUpon>201504082057362_LogUserName.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

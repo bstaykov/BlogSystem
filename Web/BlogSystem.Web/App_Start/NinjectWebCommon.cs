@@ -67,6 +67,7 @@ namespace BlogSystem.Web.App_Start
         {
             kernel.Bind<DbContext>().To<BlogSystemDbContext>();
             kernel.Bind(typeof(IRepository<Post>)).To(typeof(GenericRepository<Post>));
+            kernel.Bind(typeof(IRepository<Log>)).To(typeof(GenericRepository<Log>));
         }        
     }
 }
