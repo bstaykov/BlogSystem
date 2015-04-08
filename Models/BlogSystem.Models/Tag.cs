@@ -8,7 +8,7 @@
 
         public Tag()
         {
-            this.posts = new HashSet<Post>();
+            this.Posts = new HashSet<Post>();
         }
 
         public int Id { get; set; }

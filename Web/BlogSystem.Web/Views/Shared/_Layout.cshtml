@@ -20,14 +20,17 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("FormViewPage", "FormPage", "Home")</li>
-                    <li>@Html.ActionLink("HtmlEditors", "HtmlEditors", "Home")</li>
-                    <li>@Html.ActionLink("EnumEditors", "EnumEditors", "Home")</li>
+                    <li>@Html.ActionLink("Posts", "Index", "Home", new { area = "Posts" }, new { @class = "navbar-brand" })</li>
+                    <li>@Html.ActionLink("MyPosts", "MyPosts", "Home", new { area = "Posts" }, new { @class = "navbar-brand" })</li>
+                    <li>@Html.ActionLink("Insert Post", "InsertPost", "Home", new { area = "Posts" }, new { @class = "navbar-brand" })</li>
+                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, htmlAttributes: null)</li>
+                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, htmlAttributes: null)</li>
+                    <li>@Html.ActionLink("FormViewPage", "FormPage", "Home", new { area = "" }, htmlAttributes: null)</li>
+                    <li>@Html.ActionLink("HtmlEditors", "HtmlEditors", "Home", new { area = "" }, htmlAttributes: null)</li>
+                    <li>@Html.ActionLink("EnumEditors", "EnumEditors", "Home", new { area = "" }, htmlAttributes: null)</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
-            </div>
+            </div>            
         </div>
     </div>
     @*<div>

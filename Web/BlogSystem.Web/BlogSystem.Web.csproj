@@ -49,6 +49,21 @@
     <Reference Include="AutoMapper.Net4">
       <HintPath>..\..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
+    <Reference Include="Glimpse.Ado">
+      <HintPath>..\..\packages\Glimpse.Ado.1.7.3\lib\net45\Glimpse.Ado.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.AspNet">
+      <HintPath>..\..\packages\Glimpse.AspNet.1.8.0\lib\net45\Glimpse.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Core">
+      <HintPath>..\..\packages\Glimpse.1.8.6\lib\net45\Glimpse.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.EF6">
+      <HintPath>..\..\packages\Glimpse.EF6.1.6.5\lib\net45\Glimpse.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Mvc5">
+      <HintPath>..\..\packages\Glimpse.Mvc5.1.5.3\lib\net45\Glimpse.Mvc5.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.SignalR.Core.2.1.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -196,11 +211,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\ViewenginesConfiguration.cs" />
-    <Compile Include="Areas\Articles\ArticlesAreaRegistration.cs" />
-    <Compile Include="Areas\Articles\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Posts\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Posts\Models\MyPostViewModel.cs" />
+    <Compile Include="Areas\Posts\Models\PostInputModel.cs" />
+    <Compile Include="Areas\Posts\Models\PostViewModel.cs" />
+    <Compile Include="Areas\Posts\PostsAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -210,6 +231,7 @@
     <Compile Include="Hubs\ChatHelpersClasses\PublicChatRoom.cs" />
     <Compile Include="Hubs\ChatHelpersClasses\Participant.cs" />
     <Compile Include="Hubs\PostsUpdater.cs" />
+    <Compile Include="Infrastructure\Filters\LogAttribute.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageUserViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -254,10 +276,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Areas\Articles\Views\web.config" />
-    <Content Include="Areas\Articles\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Articles\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Articles\Views\Home\InsertArticle.cshtml" />
+    <Content Include="Areas\Posts\Views\web.config" />
+    <Content Include="Areas\Posts\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Posts\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Posts\Views\Home\InsertPost.cshtml" />
+    <Content Include="Areas\Posts\Views\Home\MyPosts.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -336,8 +359,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Articles\Models\" />
-    <Folder Include="Areas\Articles\Views\Shared\" />
+    <Folder Include="Areas\Posts\Views\Shared\" />
+    <Folder Include="Views\Admin\" />
+    <Folder Include="Views\Base\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>

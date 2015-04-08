@@ -11,9 +11,9 @@
 
         public Post()
         {
-            this.postLikers = new HashSet<PostLiker>();
-            this.comments = new HashSet<Comment>();
-            this.tags = new HashSet<Tag>();
+            this.PostLikers = new HashSet<PostLiker>();
+            this.Comments = new HashSet<Comment>();
+            this.Tags = new HashSet<Tag>();
         }
 
         public int Id { get; set; }
@@ -26,7 +26,9 @@
 
         public DateTime DateTimePosted { get; set; }
 
-        public string Author { get; set; }
+        public string UserId { get; set; }
+
+        public virtual User User { get; set; }
 
         public int Likes { get; set; }
 

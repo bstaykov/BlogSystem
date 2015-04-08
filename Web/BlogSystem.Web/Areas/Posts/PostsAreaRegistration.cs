@@ -1,22 +1,22 @@
 ﻿using System.Web.Mvc;
 
-namespace BlogSystem.Web.Areas.Articles
+namespace BlogSystem.Web.Areas.Posts
 {
-    public class ArticlesAreaRegistration : AreaRegistration 
+    public class PostsAreaRegistration : AreaRegistration 
     {
         public override string AreaName 
         {
             get 
             {
-                return "Articles";
+                return "Posts";
             }
         }
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             context.MapRoute(
-                "Articles_default",
-                "Articles/{controller}/{action}/{id}",
+                "Posts_default",
+                "Posts/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
         }

@@ -7,7 +7,7 @@ namespace BlogSystem.Models
 
         public Comment()
         {
-            this.commentLikers = new HashSet<CommentLiker>();
+            this.CommentLikers = new HashSet<CommentLiker>();
         }
 
 

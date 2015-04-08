@@ -9,10 +9,9 @@ namespace BlogSystem.Data.Migrations
     {
         public Configuration()
         {
-            this.AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = true;
 
-            // TODO remove in production
-            this.AutomaticMigrationDataLossAllowed = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(BlogSystemDbContext context)

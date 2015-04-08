@@ -10,6 +10,10 @@ namespace BlogSystem.Web.App_Start
 
     using Ninject;
     using Ninject.Web.Common;
+    using BlogSystem.Common.Repository;
+    using BlogSystem.Models;
+    using System.Data.Entity;
+    using BlogSystem.Data;
 
     public static class NinjectWebCommon 
     {
@@ -61,6 +65,8 @@ namespace BlogSystem.Web.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            kernel.Bind<DbContext>().To<BlogSystemDbContext>();
+            kernel.Bind(typeof(IRepository<Post>)).To(typeof(GenericRepository<Post>));
         }        
     }
 }

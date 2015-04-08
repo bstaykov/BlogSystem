@@ -8,18 +8,45 @@
 
     public class User : IdentityUser
     {
+        private ICollection<Post> posts;
+        private ICollection<Log> logs;
         private ICollection<PostLiker> postLikers;
         private ICollection<CommentLiker> commentLikers;
 
         public User()
         {
-            this.postLikers = new HashSet<PostLiker>();
-            this.commentLikers = new HashSet<CommentLiker>();
+            this.Posts = new HashSet<Post>();
+            this.Logs = new HashSet<Log>();
+            this.PostLikers = new HashSet<PostLiker>();
+            this.CommentLikers = new HashSet<CommentLiker>();
         }
 
         public string ImageUrl { get; set; }
 
         public int Points { get; set; }
+
+        public virtual ICollection<Post> Posts
+        {
+            get
+            {
+                return this.posts;
+            }
+            set
+            {
+                this.posts = value;
+            }
+        }
+        public virtual ICollection<Log> Logs
+        {
+            get
+            {
+                return this.logs;
+            }
+            set
+            {
+                this.logs = value;
+            }
+        }
 
         public virtual ICollection<PostLiker> PostLikers
         {

@@ -21,6 +21,8 @@
 
         public IDbSet<Post> Posts { get; set; }
 
+        public IDbSet<Log> Logs { get; set; }
+
         public IDbSet<Tag> Tags { get; set; }
 
         public IDbSet<Comment> Comments { get; set; }

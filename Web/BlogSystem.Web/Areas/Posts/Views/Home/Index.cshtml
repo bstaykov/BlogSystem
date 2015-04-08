@@ -1,0 +1,28 @@
+﻿@using BlogSystem.Web.Areas.Posts.Models
+
+@model IList<PostViewModel>
+
+@{
+    ViewBag.Title = "Posts Home Page";
+}
+
+@foreach (var post in Model)
+{
+    <p>
+        <div>Id: @post.Id</div>
+        <div>Title: @post.Title</div>
+        <div>Content: @post.Content</div>
+        <div>Category: @post.Category</div>
+        <div>DateTimePosted: @post.DateTimePosted</div>
+        <div>Author: @post.Author</div>
+        <div>CommentsCount: @post.CommentsCount</div>
+        <div>Likes: @post.Likes</div>
+    </p>
+}
+
+
+<a href="#" id="postUpdater">UpdatePosts</a>
+<input id="message" type="text" name="name" value="SomeText" />
+<div id="messages"></div>
+
+
