@@ -17,7 +17,7 @@
 
 <div class="jumbotron">
     @using (Html.BeginForm("InsertPost", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
-    {        
+    {   
         @Html.AntiForgeryToken()
 
         // excludes properties errors

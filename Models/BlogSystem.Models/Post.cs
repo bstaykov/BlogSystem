@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public class Post
     {
@@ -18,6 +19,7 @@
 
         public int Id { get; set; }
 
+        [MaxLength(50)]
         public string Title { get; set; }
 
         public string Content { get; set; }

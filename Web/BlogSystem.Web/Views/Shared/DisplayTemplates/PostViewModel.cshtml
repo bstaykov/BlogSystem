@@ -1,0 +1,23 @@
+﻿@using BlogSystem.Web.Areas.Posts.Models
+@model PostViewModel
+
+<div class="col-lg-12">
+
+    <h2 class="media-heading">@Model.Title</h2>
+    <h4 class="media-body">@Model.Content</h4>
+
+    @*<span class="label label-default">Id: @post.Id</span>*@
+    <span class="label label-primary">@Model.Category</span>
+    <span class="label label-success">@Model.Author</span>
+    <span class="label label-info">@Model.DateTimePosted</span>
+    @if (@Model.Likes >= 0)
+    {
+        <span class="label label-success">Likes @Model.Likes</span>
+    }
+    else
+    {
+        <span class="label label-danger">Likes @Model.Likes</span>
+    }
+    <span class="label label-info">Comments @Model.CommentsCount</span>
+
+</div>

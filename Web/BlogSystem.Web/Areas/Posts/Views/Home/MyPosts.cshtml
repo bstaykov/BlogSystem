@@ -6,15 +6,6 @@
     ViewBag.Title = "My Posts";
 }
 
-@foreach (var post in Model)
-{
-    <p>
-        <div>Id: @post.Id</div>
-        <div>Title: @post.Title</div>
-        <div>Content: @post.Content</div>
-        <div>Category: @post.Category</div>
-        <div>DateTimePosted: @post.DateTimePosted</div>
-    </p>
-}
+@Html.DisplayForModel(@Model)
 
 

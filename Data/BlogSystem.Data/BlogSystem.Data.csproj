@@ -61,11 +61,17 @@
     <Compile Include="Migrations\201504082057362_LogUserName.Designer.cs">
       <DependentUpon>201504082057362_LogUserName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201504082252426_PostTitleIndex.cs" />
+    <Compile Include="Migrations\201504082252426_PostTitleIndex.Designer.cs">
+      <DependentUpon>201504082252426_PostTitleIndex.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +90,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201504082057362_LogUserName.resx">
       <DependentUpon>201504082057362_LogUserName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504082252426_PostTitleIndex.resx">
+      <DependentUpon>201504082252426_PostTitleIndex.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
