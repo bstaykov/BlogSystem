@@ -6,12 +6,10 @@
     ViewBag.Title = "Posts Home Page";
 }
 
-<div class="row">
-    @Html.DisplayForModel(@Model)
-</div>
+@Html.DisplayForModel(@Model)
 
 <a href="#" id="postUpdater">UpdatePosts</a>
 <input id="message" type="text" name="name" value="SomeText" />
 <div id="messages"></div>
 
-
+@RazorHelpers.IntToMoney(32)

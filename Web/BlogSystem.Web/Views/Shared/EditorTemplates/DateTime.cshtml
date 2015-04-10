@@ -1,0 +1,67 @@
+﻿@model DateTime
+
+@{
+    var date = DateTime.Now;
+    var year = date.Year;
+    var month = date.Month;
+    var day = date.Day;
+
+    var startYear = year - 2;
+    var endYear = year;
+
+    if (ViewBag.startYear != null)
+    {
+        startYear = ViewBag.startYear;
+    }
+
+    if (ViewBag.endYear != null)
+    {
+        endYear = ViewBag.endYear;
+    }
+}
+
+<div class="row">
+    <div class="row">
+        <div class="col-md-1">
+            @Html.LabelFor(m => m.Year)
+        </div>
+        <div class="col-md-2 pull-left">
+            @Html.DropDownListFor(m => m.Year, Enumerable.Range(startYear, endYear - startYear + 1).Select(x => new SelectListItem { Text = x.ToString(), Value = x.ToString() }))
+        </div>
+        <div class="alert-warning col-md-4">
+            @Html.ValidationMessageFor(m => m.Year)
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="row">
+        <div class="col-md-1">
+            @Html.LabelFor(m => m.Month)
+        </div>
+        <div class="col-md-2 pull-left">
+            @Html.DropDownListFor(m => m.Month, Enumerable.Range(1, 12).Select(x => new SelectListItem { Text = x.ToString(), Value = x.ToString() }))
+        </div>
+        <div class="alert-warning col-md-4">
+            @Html.ValidationMessageFor(m => m.Month)
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="row">
+        <div class="col-md-1">
+            @Html.LabelFor(m => m.Day)
+        </div>
+        <div class="col-md-2 pull-left">
+            @Html.DropDownListFor(m => m.Day, Enumerable.Range(1, 31).Select(x => new SelectListItem { Text = x.ToString(), Value = x.ToString() }))
+        </div>
+        <div class="alert-warning col-md-4">
+            @Html.ValidationMessageFor(m => m.Day)
+            @if (TempData["ErrorDateTime"] != null)
+            {
+                @TempData["ErrorDateTime"]
+            }
+        </div>
+    </div>
+</div>
+
+

@@ -55,6 +55,11 @@ namespace BlogSystem.Web.Models
 
     public class LoginViewModel
     {
+        public LoginViewModel()
+        {
+            this.UserName = "boycho";
+        }
+
         [Required]
         [Display(Name = "UserName")]
         public string UserName { get; set; }
@@ -70,6 +75,12 @@ namespace BlogSystem.Web.Models
 
     public class RegisterViewModel
     {
+        public RegisterViewModel()
+        {
+            this.UserName = "boycho";
+            this.Email = "boycho@abv.bg";
+        }
+
         [Required]
         [StringLength(25, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
         [Display(Name = "UserName")]

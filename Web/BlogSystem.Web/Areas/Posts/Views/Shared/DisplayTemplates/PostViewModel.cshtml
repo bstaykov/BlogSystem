@@ -1,4 +1,4 @@
-﻿@*@using BlogSystem.Web.Areas.Posts.Models
+﻿@using BlogSystem.Web.Areas.Posts.Models
 @model PostViewModel
 
 <div class="row">
@@ -8,6 +8,7 @@
                 var postsVotesCountId = "article-content" + @Model.Id;
             }
             <div class="col-sm-1">
+                @*@Ajax.ActionLink("", "VoteUp", "Home", "")*@
                 <button type="button" class="btn btn-default btn-sm">
                     <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                     @Ajax.ActionLink("UP", "UpVoteById", "Home",
@@ -39,7 +40,7 @@
         <h2 class="media-heading">@Model.Title</h2>
         <h4 class="media-body">@Model.Content</h4>
 
-        <span class="label label-default">Id: @post.Id</span>
+        @*<span class="label label-default">Id: @post.Id</span>*@
         <span class="label label-primary">@Model.Category</span>
         <span class="label label-success">@Model.Author</span>
         <span class="label label-info">@Model.DateTimePosted</span>
@@ -53,4 +54,4 @@
         }
         <span class="label label-info">Comments @Model.CommentsCount</span>
     </div>
-</div>*@
+</div>

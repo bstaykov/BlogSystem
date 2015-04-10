@@ -1,5 +1,4 @@
 ﻿@using BlogSystem.Web.Areas.Posts.Models
-@using BlogSystem.Web.Helpers
 
 @model PostInputModel
 
@@ -9,49 +8,10 @@
 
 @if (TempData["success"] != null)
 {
-    <div data-dismiss="alert" class="alert alert-dismissable alert-success">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        <strong>Well done!</strong> Post added. <a href="#" class="alert-link">@TempData["success"]</a>.
-    </div>
+    @TempDataHelpers.TempMessage("SUCCESS", "success")
 }
 
-<div class="jumbotron">
-    @using (Html.BeginForm("InsertPost", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
-    {   
-        @Html.AntiForgeryToken()
-
-        // excludes properties errors
-        @Html.ValidationSummary(true)
-
-        <div class="row">
-            <div class="form-group">
-                @Html.LabelFor(post => post.Title, new { @class = "col-lg-1 control-label" })
-                <div class="col-lg-10">
-                    @Html.EditorFor(post => post.Title, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(post => post.Title, null, new { @class = "alert-warning" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(post => post.Content, new { @class = "col-lg-1 control-label" })
-                <div class="col-lg-10">
-                    @Html.EditorFor(post => post.Content, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(post => post.Content, null, new { @class = "alert-warning" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(post => post.Category, new { @class = "col-lg-1 control-label" })
-                <div class="col-lg-10">
-                    @Html.EnumDropDownListFor(post => post.Category, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(post => post.Category)
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            @Html.Submit("Save", new { @class = "btn col-lg-1", id = "submitId" })
-        </div>
-    }
-</div>
+@Html.EditorForModel(@Model)
 
 @* CLIENT VALIDATION *@
 

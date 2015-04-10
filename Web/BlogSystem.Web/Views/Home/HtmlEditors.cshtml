@@ -10,6 +10,8 @@
     <li class="active">HtmlEditors</li>
 </ul>
 
+@Html.Partial("_TestDateTimeEditor", DateTime.Now)
+
 @if (TempData["success"] != null)
 {
     <div class="success">@TempData["success"]</div>

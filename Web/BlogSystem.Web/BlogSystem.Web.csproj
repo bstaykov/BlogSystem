@@ -229,6 +229,8 @@
     <Compile Include="Areas\Posts\Models\PostInputModel.cs" />
     <Compile Include="Areas\Posts\Models\PostViewModel.cs" />
     <Compile Include="Areas\Posts\PostsAreaRegistration.cs" />
+    <Compile Include="Areas\Votes\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Votes\VotesAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs">
@@ -262,6 +264,8 @@
     <Compile Include="ViewModels\UserInfoModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Posts\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Posts\Views\Home\InsertPost.cshtml" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -293,9 +297,13 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Areas\Posts\Views\web.config" />
     <Content Include="Areas\Posts\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Posts\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Posts\Views\Home\InsertPost.cshtml" />
     <Content Include="Areas\Posts\Views\Home\MyPosts.cshtml" />
+    <Content Include="App_Code\RazorHelpers.cshtml" />
+    <Content Include="Areas\Votes\Views\web.config" />
+    <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\MyPostViewModel.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\PostViewModel.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\EditorTemplates\PostInputModel.cshtml" />
+    <Content Include="App_Code\TempDataHelpers.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -320,6 +328,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Shared\DisplayTemplates\PostViewModel.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -371,15 +382,17 @@
     <Content Include="Views\Shared\DisplayTemplates\String.cshtml" />
     <Content Include="Views\Home\UserInfo.cshtml" />
     <Content Include="Views\Home\_ChatContent.cshtml" />
-    <Content Include="Views\Shared\DisplayTemplates\PostViewModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MyPostViewModel.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Views\Home\_TestDateTimeEditor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Posts\Views\Shared\" />
+    <Folder Include="Areas\Votes\Models\" />
+    <Folder Include="Areas\Votes\Views\Home\" />
+    <Folder Include="Areas\Votes\Views\Shared\" />
     <Folder Include="Views\Admin\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

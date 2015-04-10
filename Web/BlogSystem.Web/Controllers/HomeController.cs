@@ -200,5 +200,11 @@
         {
             return this.PartialView("_ChatContent");
         }
+
+        [HttpGet]
+        public ActionResult TestDateTimeEditor()
+        {
+            return this.PartialView("_TestDateTimeEditor");
+        }
     }
 }
