@@ -302,8 +302,6 @@
     <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\MyPostViewModel.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\PostViewModel.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\EditorTemplates\PostInputModel.cshtml" />
-    <Content Include="App_Code\RazorHelpers.cshtml" />
-    <Content Include="App_Code\TempDataHelpers.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
