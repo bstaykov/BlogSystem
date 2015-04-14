@@ -4,8 +4,9 @@
     using System;
     using System.Linq.Expressions;
     using Microsoft.AspNet.Identity;
+    using BlogSystem.Web.Infrastructure.Mapping;
 
-    public class PostViewModel
+    public class PostViewModel : IMapFrom<Post>
     {
         public static Expression<Func<Post, PostViewModel>> FromPost
         {

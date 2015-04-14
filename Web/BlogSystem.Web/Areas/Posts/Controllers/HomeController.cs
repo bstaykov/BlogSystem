@@ -10,6 +10,9 @@
     using BlogSystem.Web.Areas.Posts.Models;
     using BlogSystem.Web.Infrastructure.Filters;
 
+    using AutoMapper.QueryableExtensions;
+    using AutoMapper;
+
     public class HomeController : Controller
     {
         private readonly IRepository<Post> posts;
@@ -23,10 +26,15 @@
         [OutputCache(Duration = 1)]
         public ActionResult Index()
         {
+            //var allPosts = this.posts.All()
+            //    .Select(PostViewModel.FromPost)
+            //    .OrderBy(post => post.DateTimePosted)
+            //    .ToList();
+
             var allPosts = this.posts.All()
-                .Select(PostViewModel.FromPost)
-                .OrderBy(post => post.DateTimePosted)
-                .ToList();
+                .AsQueryable()
+                .Project().To<PostViewModel>()
+                .OrderBy(post => post.DateTimePosted);
 
             return View(allPosts);
         }
@@ -47,15 +55,20 @@
             {
                 this.TempData["success"] = "Post was added!";
 
-                Post newPost = new Post()
-                {
-                    Title = post.Title,
-                    Content = post.Content,
-                    DateTimePosted = DateTime.Now,
-                    UserId = User.Identity.GetUserId(),
-                    CommentsCount = 0,
-                    Likes = 0
-                };
+                Mapper.CreateMap<PostInputModel, Post>();
+                Post newPost = Mapper.Map<Post>(post);
+                newPost.DateTimePosted = DateTime.Now;
+                newPost.UserId = User.Identity.GetUserId();
+
+                //Post newPost = new Post()
+                //{
+                //    Title = post.Title,
+                //    Content = post.Content,
+                //    DateTimePosted = DateTime.Now,
+                //    UserId = User.Identity.GetUserId(),
+                //    CommentsCount = 0,
+                //    Likes = 0
+                //};
 
                 this.posts.Add(newPost);
                 this.posts.SaveChanges();
@@ -73,12 +86,18 @@
         {
             string userId = User.Identity.GetUserId();
 
+            //var myPosts = this.posts.All()
+            //    .AsQueryable()
+            //    .Where(post => post.UserId == userId)
+            //    .Select(MyPostViewModel.FromPost)
+            //    .OrderBy(post => post.DateTimePosted)
+            //    .ToList();
+
             var myPosts = this.posts.All()
                 .AsQueryable()
                 .Where(post => post.UserId == userId)
-                .OrderBy(post => post.DateTimePosted)
-                .Select(MyPostViewModel.FromPost)
-                .ToList();
+                .Project().To<MyPostViewModel>()
+                .OrderBy(post => post.DateTimePosted);
 
             return View(myPosts);
         }

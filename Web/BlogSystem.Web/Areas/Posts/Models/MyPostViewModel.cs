@@ -5,7 +5,10 @@
     using System.Linq.Expressions;
     using Microsoft.AspNet.Identity;
 
-    public class MyPostViewModel
+    using AutoMapper;
+    using BlogSystem.Web.Infrastructure.Mapping;
+
+    public class MyPostViewModel : IMapFrom<Post>, IHaveCustomMappings
     {
         public static Expression<Func<Post, MyPostViewModel>> FromPost
         {
@@ -30,6 +33,18 @@
 
         public PostCategory Category { get; set; }
 
+        public string Info { get; set; }
+
+        public int Likes { get; set; }
+
+        public int CommentsCount { get; set; }
+
         public DateTime DateTimePosted { get; set; }
+
+        public void CreateMappings(IConfiguration configuration)
+        {
+            configuration.CreateMap<Post, MyPostViewModel>()
+                .ForMember(post => post.Info, options => options.MapFrom(post => "Likes: " + post.Likes + " Comments: " + post.CommentsCount));
+        }
     }
 }
