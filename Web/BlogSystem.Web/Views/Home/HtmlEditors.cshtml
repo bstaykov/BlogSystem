@@ -1,4 +1,6 @@
 ﻿@using BlogSystem.Web.ViewModels
+@using System
+
 @model TestEditorsModel
 
 @{
@@ -10,7 +12,7 @@
     <li class="active">HtmlEditors</li>
 </ul>
 
-@Html.Partial("_TestDateTimeEditor", DateTime.Now)
+@*@Html.Partial("_TestDateTimeEditor", DateTime.Now)*@
 
 @if (TempData["success"] != null)
 {
@@ -22,56 +24,73 @@
 {
     @Html.AntiForgeryToken()
 
-    @Html.ValidationSummary(true)
+    @Html.ValidationSummary()
 
     @*@Html.EditorForModel()*@
-    <div>
-        @Html.LabelFor(m => m.Name)
-        @Html.EditorFor(m => m.Name)
-        @Html.ValidationMessageFor(m => m.Name)
+    <div class="row">
+        <div class="col-md-1">
+            @Html.LabelFor(m => m.Name)
+        </div>
+        <div class="col-md-2">
+            @Html.EditorFor(m => m.Name, new { @class = "form-control" })
+        </div>
+        <div class="alert-warning col-md-4">
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
     </div>
-    <div>
-        @*@foreach (var donation in Model.Donations)
-        {
-            <div>
-                @Html.LabelFor(m => donation.DonationValue)
-                @Html.EditorFor(m => donation.DonationValue)
-                @Html.ValidationMessageFor(m => donation.DonationValue)
-            </div>
-        }*@
-        @for (int i = 0; i < Model.Donations.Count; i++)
-        {
-            <div>
+    
+    @*@Html.EditorFor(m => m.SomeDate, new { startYear = 2010 })*@
+
+    for (int i = 0; i < Model.Donations.Count; i++)
+    {
+        <div class="row">
+            <div class="col-md-1">
                 @Html.LabelFor(m => m.Donations[i].DonationValue)
+            </div>
+            <div class="col-md-2">
                 @Html.EditorFor(m => m.Donations[i].DonationValue)
+            </div>
+            <div class="alert-warning col-md-4">
                 @Html.ValidationMessageFor(m => m.Donations[i].DonationValue)
             </div>
-        }
-        <div>
-            <div id="donationParent"></div>
         </div>
-        <a id="addDonationAnchor">Add donation</a>
-        <div>
-            <div id="personParent"></div>
-        </div>
-        <a id="addPersonBtn">Add Person</a>
+    }
+    <div>
+        <div id="donationParent"></div>
     </div>
+    <a id="addDonationAnchor">Add donation</a>
+    <div>
+        <div id="personParent"></div>
+    </div>
+    <a id="addPersonBtn">Add Person</a>
 
-    <div>
-        @Html.LabelFor(m => m.IsDonationAgreed)
-        @Html.EditorFor(m => m.IsDonationAgreed)
-        @Html.ValidationMessageFor(m => m.IsDonationAgreed)
+    <div class="row">
+        <div class="col-md-1">
+            @Html.LabelFor(m => m.IsDonationAgreed)
+        </div>
+        <div class="col-md-2">
+            @Html.EditorFor(m => m.IsDonationAgreed)
+        </div>
+        <div class="alert-warning col-md-4">
+            @Html.ValidationMessageFor(m => m.IsDonationAgreed)
+        </div>
     </div>
-    <div>
+    <div class="row">
         @*
             NOTE
                 <system.web>
                     <globalization culture="en-US" uiCulture="en-US" />
                 </system.web>
         *@
-        @Html.LabelFor(m => m.Price)
-        @Html.EditorFor(m => m.Price)
-        @Html.ValidationMessageFor(m => m.Price)
+        <div class="col-md-1">
+            @Html.LabelFor(m => m.Price)
+        </div>
+        <div class="col-md-2">
+            @Html.EditorFor(m => m.Price)
+        </div>
+        <div class="alert-warning col-md-4">
+            @Html.ValidationMessageFor(m => m.Price)
+        </div>
     </div>
 
     @Html.Submit("Submit")
@@ -100,12 +119,6 @@
         $('#addDonationAnchor').bind({
             click: function () {
                 $('#donationParent').append('<div><label>Extra Donation</label> @Html.TextBox("extraDonations", null, new { type = "number" })</div>');
-
-                @*append to list - not working*@
-                @*$('#donationParent').append('<div><label>DonationValue</label> @Html.TextBox("Donation", null, new { type = "number" })</div>');*@
-
-                @*appen clone of list element - not working*@
-                @*$("#Donations_0__DonationValue").clone().appendTo("#donationParent");*@
             }
         });
 
@@ -113,7 +126,7 @@
 
         $('#addPersonBtn').bind({
             click: function () {
-                
+
                 @*//Dinamicaly add people - working
                 $('#personParent').append('<div><label>Extra Person FullName</label><input type="text" name="person[' + index + '].FullName" value="Ivan"/></div>');
                 $('#personParent').append('<div><label>Extra Person Age</label><input type="number" name="person[' + index + '].Age" value="21" /></div>');
@@ -128,10 +141,6 @@
                     + '<a href="#" onclick="clearPersonValues(' + index + ')" class="glyphicon glyphicon-trash" ></a></div>');
 
                 index += 1;
-                @* // Dinamicaly add People by @Html.EditorFor - not working
-                $('#personParent').append('<div><label>Extra Person FullName</label> @Html.EditorFor(m => Model.People[0].FullName)</div>');
-                $('#personParent').append('<div><label>Extra Person FullName</label> @Html.EditorFor(m => Model.People[0].Age)</div>');*@
-
             }
         });
     }

@@ -1,0 +1,25 @@
+﻿@model DateTime
+
+@if (TempData["success"] != null)
+{
+    @TempDataHelpers.TempMessage(@TempData["success"].ToString())
+}
+else if (TempData["error"] != null)
+{
+    @TempDataHelpers.TempMessage(@TempData["error"].ToString(), "warning")
+}
+
+@using (Html.BeginForm("TestDateTime", "Home", FormMethod.Post, new { id = "formToSend" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary()
+    
+    @Html.EditorFor(m => @Model, new { startYear = 2010 })
+
+    @Html.Submit("Submit")
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

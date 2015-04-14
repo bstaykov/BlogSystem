@@ -32,7 +32,7 @@
         public double Price { get; set; }
 
         public List<Person> People { get; set; }
-
+        
         public override string ToString()
         {
             var sb = new StringBuilder();
@@ -63,6 +63,7 @@
             {
                 return new ValidationResult("Check here to agree 1000$ donation!");
             }
+
             return ValidationResult.Success;
         }
     }

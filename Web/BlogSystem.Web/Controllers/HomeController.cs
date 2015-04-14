@@ -144,6 +144,13 @@
         {
             //TODO check People for NULL values
 
+            DateTime date;
+
+            if (DateTime.TryParse(string.Format(""), out date) == false)
+            {
+                ModelState.AddModelError(string.Empty, "Date is invalid!");
+            }
+
             if (ModelState.IsValid)
             {
                 var extra = "";
@@ -205,6 +212,35 @@
         public ActionResult TestDateTimeEditor()
         {
             return this.PartialView("_TestDateTimeEditor");
+        }
+
+        [HttpGet]
+        public ActionResult TestDateTime()
+        {
+            return this.View(DateTime.Now);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TestDateTime(int Day, int Month, int Year)
+        {
+            DateTime date;
+
+            if (DateTime.TryParse(string.Format("{0}/{1}/{2}", Month, Day, Year), out date) == false)
+            {
+                ModelState.AddModelError(string.Empty, "Date is invalid!");
+            }
+
+            if (ModelState.IsValid)
+            {
+                this.TempData["success"] = "SUCCESS";
+
+                return RedirectToAction("TestDateTime");
+            }
+
+            this.TempData["error"] = "Invalid date!";
+
+            return this.View(new DateTime());
         }
     }
 }

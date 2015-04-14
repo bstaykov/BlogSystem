@@ -1,6 +1,7 @@
 ﻿namespace BlogSystem.Web
 {
     using BlogSystem.Web.App_Start;
+    using BlogSystem.Web.Infrastructure.Mapping;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -19,6 +20,9 @@
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            var autoMapperConfig = new AutoMapperConfig();
+            autoMapperConfig.Execute();
         }
     }
 }
