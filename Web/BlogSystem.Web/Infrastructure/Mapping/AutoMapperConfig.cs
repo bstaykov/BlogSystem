@@ -7,9 +7,9 @@
 
     using AutoMapper;
 
-    public class AutoMapperConfig
+    public static class AutoMapperConfig
     {
-        public void Execute()
+        public static void Execute()
         {
             var types = Assembly.GetExecutingAssembly().GetExportedTypes();
 
