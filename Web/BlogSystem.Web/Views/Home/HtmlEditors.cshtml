@@ -7,10 +7,7 @@
     ViewBag.Title = "HtmlEditors";
 }
 
-<ul class="breadcrumb">
-    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-    <li class="active">HtmlEditors</li>
-</ul>
+@Html.Partial("_TestLinks")
 
 @*@Html.Partial("_TestDateTimeEditor", DateTime.Now)*@
 

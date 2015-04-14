@@ -5,10 +5,7 @@
     ViewBag.Title = "EnumEditors";
 }
 
-<ul class="breadcrumb">
-    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-    <li class="active">EnumEditors</li>
-</ul>
+@Html.Partial("_TestLinks")
 
 @if (TempData["success"] != null)
 {

@@ -53,8 +53,6 @@
         {
             if (ModelState.IsValid)
             {
-                this.TempData["success"] = "Post was added!";
-
                 Mapper.CreateMap<PostInputModel, Post>();
                 Post newPost = Mapper.Map<Post>(post);
                 newPost.DateTimePosted = DateTime.Now;
@@ -72,6 +70,8 @@
 
                 this.posts.Add(newPost);
                 this.posts.SaveChanges();
+
+                this.TempData["success"] = "Post was added!";
 
                 return RedirectToAction("InsertPost");
             }

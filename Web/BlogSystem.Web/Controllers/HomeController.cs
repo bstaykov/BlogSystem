@@ -242,5 +242,36 @@
 
             return this.View(new DateTime());
         }
+
+        [HttpGet]
+        public ActionResult TestDateTimeComplex()
+        {
+            return this.View(new TestDateTimeComplexInputModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TestDateTimeComplex(TestDateTimeComplexInputModel DateAdded)
+        {
+            DateTime date;
+
+            if (DateTime.TryParse(string.Format("{0}/{1}/{2}", DateAdded.Month, DateAdded.Day, DateAdded.Year), out date) == false)
+            {
+                ModelState.AddModelError(string.Empty, "Date is invalid!");
+            }
+
+            DateAdded.DateAdded = date;
+
+            if (ModelState.IsValid)
+            {
+                this.TempData["success"] = "SUCCESS";
+
+                return RedirectToAction("TestDateTime");
+            }
+
+            this.TempData["error"] = "Invalid date!";
+
+            return this.View(DateAdded);
+        }
     }
 }

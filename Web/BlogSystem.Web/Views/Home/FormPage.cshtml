@@ -5,10 +5,7 @@
     ViewBag.Title = "FormPage";
 }
 
-<ul class="breadcrumb">
-    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-    <li class="active">FormPage</li>
-</ul>
+@Html.Partial("_TestLinks")
 
 @using (Html.BeginForm("FormServer", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
 {

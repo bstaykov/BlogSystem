@@ -1,0 +1,11 @@
+﻿<div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav">
+        <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, htmlAttributes: null)</li>
+        <li>@Html.ActionLink("FormViewPage", "FormPage", "Home", new { area = "" }, htmlAttributes: null)</li>
+        <li>@Html.ActionLink("HtmlEditors", "HtmlEditors", "Home", new { area = "" }, htmlAttributes: null)</li>
+        <li>@Html.ActionLink("EnumEditors", "EnumEditors", "Home", new { area = "" }, htmlAttributes: null)</li>
+        <li>@Html.ActionLink("TestDate", "TestDateTime", "Home", new { area = "" }, htmlAttributes: null)</li>
+        <li>@Html.ActionLink("TestDateComplex", "TestDateTimeComplex", "Home", new { area = "" }, htmlAttributes: null)</li>
+    </ul>
+    @Html.Partial("_LoginPartial")
+</div>

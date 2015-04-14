@@ -263,6 +263,7 @@
     <Compile Include="ViewModels\EnumModel.cs" />
     <Compile Include="ViewModels\FormInputModel.cs" />
     <Compile Include="ViewModels\Person.cs" />
+    <Compile Include="ViewModels\TestDateTimeComplexInputModel.cs" />
     <Compile Include="ViewModels\TestEditorsModel.cs" />
     <Compile Include="ViewModels\UserInfoModel.cs" />
   </ItemGroup>
@@ -391,6 +392,8 @@
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
     <Content Include="Views\Home\_TestDateTimeEditor.cshtml" />
     <Content Include="Views\Home\TestDateTime.cshtml" />
+    <Content Include="Views\Home\_TestLinks.cshtml" />
+    <Content Include="Views\Home\TestDateTimeComplex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,4 +1,6 @@
-﻿@model DateTime
+﻿@using BlogSystem.Web.ViewModels
+
+@model TestDateTimeComplexInputModel
 
 @Html.Partial("_TestLinks")
 
@@ -11,13 +13,13 @@ else if (TempData["error"] != null)
     @TempDataHelpers.TempMessage(@TempData["error"].ToString(), "warning")
 }
 
-@using (Html.BeginForm("TestDateTime", "Home", FormMethod.Post, new { id = "formToSend" }))
+@using (Html.BeginForm("TestDateTimeComplex", "Home", FormMethod.Post, new { id = "formToSend" }))
 {
     @Html.AntiForgeryToken()
 
     @Html.ValidationSummary()
-    
-    @Html.EditorFor(m => @Model, new { startYear = 2010 })
+
+    @Html.EditorFor(m => m.DateAdded, new { startYear = 2014 })
 
     @Html.Submit("Submit")
 }
