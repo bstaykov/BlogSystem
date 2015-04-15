@@ -1,8 +1,8 @@
-﻿using System.Web;
-using System.Web.Optimization;
-
-namespace BlogSystem.Web
+﻿namespace BlogSystem.Web
 {
+    using System.Web;
+    using System.Web.Optimization;
+
     public class BundleConfig
     {
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
@@ -37,7 +37,6 @@ namespace BlogSystem.Web
 
             // Set EnableOptimizations to false for debugging. For more information,
             // visit http://go.microsoft.com/fwlink/?LinkId=301862
-
             BundleTable.EnableOptimizations = false;
         }
     }

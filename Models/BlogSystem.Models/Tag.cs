@@ -21,6 +21,7 @@
             {
                 return this.posts;
             }
+
             set
             {
                 this.posts = value;

@@ -42,6 +42,7 @@
             {
                 return this.postLikers;
             }
+
             set
             {
                 this.postLikers = value;
@@ -54,6 +55,7 @@
             {
                 return this.comments;
             }
+
             set
             {
                 this.comments = value;
@@ -66,6 +68,7 @@
             {
                 return this.tags;
             }
+
             set
             {
                 this.tags = value;

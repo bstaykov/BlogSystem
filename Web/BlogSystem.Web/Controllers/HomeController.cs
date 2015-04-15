@@ -2,26 +2,27 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data.Entity;
     using System.Linq;
+    using System.Threading;
     using System.Web;
     using System.Web.Mvc;
-    using Microsoft.AspNet.Identity;
-    using BlogSystem.Web.Models;
-    using BlogSystem.Models;
-    using System.Data.Entity;
+
     using BlogSystem.Common.Repository;
     using BlogSystem.Data;
-    using System.Threading;
+    using BlogSystem.Models;
+    using BlogSystem.Web.Models;
     using BlogSystem.Web.ViewModels;
+
+    using Microsoft.AspNet.Identity;
 
     public class HomeController : Controller
     {
         private IRepository<User> users;
 
         public HomeController()
-            :this(new GenericRepository<User>(new BlogSystemDbContext()))
+            : this(new GenericRepository<User>(new BlogSystemDbContext()))
         {
-
         }
 
         public HomeController(IRepository<User> users)
@@ -31,19 +32,19 @@
 
         public ActionResult Index()
         {
-            return View();
+            return this.View();
         }
 
-        [HttpGet]
         [ChildActionOnly]
         public ActionResult GetUserInfo()
         {
             var userName = this.User.Identity.Name;
-            string userUrl = this.users.All().Where(u => u.UserName == userName).First().ImageUrl;
+            string userUrl = this.users.All().Where(u => u.UserName == userName).FirstOrDefault().ImageUrl;
             if (userUrl == null)
             {
                 userUrl = "http://imgs.abduzeedo.com/files/articles/baby-animals/Baby-Animals-002.jpg";
             }
+
             return this.PartialView("_GetUserInfo", userUrl);
         }
 
@@ -51,7 +52,7 @@
         {
             ViewBag.Message = "Your application description page.";
 
-            return View();
+            return this.View();
         }
 
         public ActionResult Contact()
@@ -60,7 +61,7 @@
 
             ViewBag.Message = mess;
 
-            return View();
+            return this.View();
         }
 
         public ActionResult Link1()
@@ -86,7 +87,8 @@
         {
             if (ModelState.IsValid)
             {
-                string result = string.Format("Name: {0}, Age: {1}", model.Name ,model.Age);
+                string result = string.Format("Name: {0}, Age: {1}", model.Name, model.Age);
+
                 return this.Content(result);
             }
 
@@ -106,7 +108,7 @@
             if (ModelState.IsValid)
             {
                 this.TempData["success"] = "Form send successfully.";
-                return RedirectToAction("Index");
+                return this.RedirectToAction("Index");
             }
 
             return this.PartialView("_FormServer", model);
@@ -120,13 +122,13 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [OutputCache(Duration=15*60)]
+        [OutputCache(Duration = 15 * 60)]
         public ActionResult FormPage(FormInputModel model)
         {
             if (ModelState.IsValid)
             {
                 this.TempData["success"] = "Form send successfully.";
-                return RedirectToAction("Index");
+                return this.RedirectToAction("Index");
             }
 
             return this.View(model);
@@ -142,24 +144,17 @@
         [ValidateAntiForgeryToken]
         public ActionResult HtmlEditors(TestEditorsModel model, List<int> extraDonations, List<Person> person)
         {
-            //TODO check People for NULL values
-
-            DateTime date;
-
-            if (DateTime.TryParse(string.Format(""), out date) == false)
-            {
-                ModelState.AddModelError(string.Empty, "Date is invalid!");
-            }
-
+            // TODO check People for NULL values
             if (ModelState.IsValid)
             {
-                var extra = "";
+                var extra = string.Empty;
                 if (extraDonations != null)
                 {
                     extra = string.Join(",", extraDonations);
                 }
+
                 this.TempData["success"] = model.ToString() + " " + extra;
-                return RedirectToAction("HtmlEditors");
+                return this.RedirectToAction("HtmlEditors");
             }
 
             return this.View(model);
@@ -178,7 +173,7 @@
             if (ModelState.IsValid)
             {
                 this.TempData["success"] = model.Color.ToString();
-                return RedirectToAction("EnumEditors");
+                return this.RedirectToAction("EnumEditors");
             }
 
             return this.View(model);
@@ -222,11 +217,11 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult TestDateTime(int Day, int Month, int Year)
+        public ActionResult TestDateTime(int day, int month, int year)
         {
             DateTime date;
 
-            if (DateTime.TryParse(string.Format("{0}/{1}/{2}", Month, Day, Year), out date) == false)
+            if (DateTime.TryParse(string.Format("{0}/{1}/{2}", month, day, year), out date) == false)
             {
                 ModelState.AddModelError(string.Empty, "Date is invalid!");
             }
@@ -235,43 +230,12 @@
             {
                 this.TempData["success"] = "SUCCESS";
 
-                return RedirectToAction("TestDateTime");
+                return this.RedirectToAction("TestDateTime");
             }
 
             this.TempData["error"] = "Invalid date!";
 
             return this.View(new DateTime());
-        }
-
-        [HttpGet]
-        public ActionResult TestDateTimeComplex()
-        {
-            return this.View(new TestDateTimeComplexInputModel());
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult TestDateTimeComplex(TestDateTimeComplexInputModel DateAdded)
-        {
-            DateTime date;
-
-            if (DateTime.TryParse(string.Format("{0}/{1}/{2}", DateAdded.Month, DateAdded.Day, DateAdded.Year), out date) == false)
-            {
-                ModelState.AddModelError(string.Empty, "Date is invalid!");
-            }
-
-            DateAdded.DateAdded = date;
-
-            if (ModelState.IsValid)
-            {
-                this.TempData["success"] = "SUCCESS";
-
-                return RedirectToAction("TestDateTime");
-            }
-
-            this.TempData["error"] = "Invalid date!";
-
-            return this.View(DateAdded);
         }
     }
 }

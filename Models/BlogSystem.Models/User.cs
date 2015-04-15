@@ -1,10 +1,11 @@
 ﻿namespace BlogSystem.Models
 {
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
     using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
+
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
 
     public class User : IdentityUser
     {
@@ -31,6 +32,7 @@
             {
                 return this.posts;
             }
+
             set
             {
                 this.posts = value;
@@ -43,6 +45,7 @@
             {
                 return this.logs;
             }
+
             set
             {
                 this.logs = value;
@@ -55,6 +58,7 @@
             {
                 return this.postLikers;
             }
+
             set
             {
                 this.postLikers = value;
@@ -67,6 +71,7 @@
             {
                 return this.commentLikers;
             }
+
             set
             {
                 this.commentLikers = value;
@@ -77,6 +82,7 @@
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            
             // Add custom user claims here
             return userIdentity;
         }

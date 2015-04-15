@@ -1,10 +1,11 @@
 ﻿namespace BlogSystem.Common.Repository
 {
-    using System.Linq;
     using System;
-    using BlogSystem.Common.Models;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Linq;
+
+    using BlogSystem.Common.Models;
 
     public class DeletableEntityRepository<T> : GenericRepository<T>, IDeletableEntityRepository<T>
         where T : class, IDeletableEntity

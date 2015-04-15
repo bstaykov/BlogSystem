@@ -1,7 +1,7 @@
-﻿using System.Web.Mvc;
-
-namespace BlogSystem.Web.Areas.Votes
+﻿namespace BlogSystem.Web.Areas.Votes
 {
+    using System.Web.Mvc;
+
     public class VotesAreaRegistration : AreaRegistration 
     {
         public override string AreaName 
@@ -17,8 +17,7 @@ namespace BlogSystem.Web.Areas.Votes
             context.MapRoute(
                 "Votes_default",
                 "Votes/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
-            );
+                new { action = "Index", id = UrlParameter.Optional });
         }
     }
 }

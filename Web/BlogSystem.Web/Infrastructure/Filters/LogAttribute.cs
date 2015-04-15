@@ -1,11 +1,13 @@
 ﻿namespace BlogSystem.Web.Infrastructure.Filters
 {
+    using System;
     using System.Web.Mvc;
-    using Microsoft.AspNet.Identity;
-    using BlogSystem.Models;
+
     using BlogSystem.Common.Repository;
     using BlogSystem.Data;
-    using System;
+    using BlogSystem.Models;
+
+    using Microsoft.AspNet.Identity;
 
     public class LogAttribute : ActionFilterAttribute
     {
@@ -13,12 +15,11 @@
         {
             var user = filterContext.HttpContext.User.Identity.Name;
             var url = filterContext.HttpContext.Request.RawUrl;
-            //System.Console.WriteLine(user);
 
-            //BlogSystemDbContext dbContext = new BlogSystemDbContext();
-            //dbContext.Logs.Add(new Log() { User = user, Url = url });
-            //dbContext.SaveChanges();
-
+            // System.Console.WriteLine(user);
+            // BlogSystemDbContext dbContext = new BlogSystemDbContext();
+            // dbContext.Logs.Add(new Log() { User = user, Url = url });
+            // dbContext.SaveChanges();
             base.OnActionExecuting(filterContext);
         }
 

@@ -1,12 +1,14 @@
 ﻿namespace BlogSystem.Data
 {
-    using BlogSystem.Common.Models;
-    using BlogSystem.Data.Migrations;
-    using BlogSystem.Models;
-    using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Data.Entity;
     using System.Linq;
+
+    using BlogSystem.Common.Models;
+    using BlogSystem.Data.Migrations;
+    using BlogSystem.Models;
+
+    using Microsoft.AspNet.Identity.EntityFramework;
 
     public class BlogSystemDbContext : IdentityDbContext<User>
     {
@@ -14,11 +16,6 @@
             : base("BlogSystem", throwIfV1Schema: false)
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<BlogSystemDbContext, Configuration>());
-        }
-
-        public static BlogSystemDbContext Create()
-        {
-            return new BlogSystemDbContext();
         }
 
         public IDbSet<Post> Posts { get; set; }
@@ -34,6 +31,11 @@
         public IDbSet<CommentLiker> CommentLikers { get; set; }
 
         public override IDbSet<User> Users { get; set; }
+
+        public static BlogSystemDbContext Create()
+        {
+            return new BlogSystemDbContext();
+        }
 
         public override int SaveChanges()
         {

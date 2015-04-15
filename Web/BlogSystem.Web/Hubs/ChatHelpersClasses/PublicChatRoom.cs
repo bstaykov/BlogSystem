@@ -4,7 +4,7 @@
 
     public class PublicChatRoom : AbstractChatRoom
     {
-        public readonly Dictionary<string, Participant> participants =
+        private readonly Dictionary<string, Participant> participants =
             new Dictionary<string, Participant>();
 
         public override void Register(Participant participant)

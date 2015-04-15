@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-namespace BlogSystem.Web.Models
+﻿namespace BlogSystem.Web.Models
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
     public class UserDetails
     {
         public string UserName { get; set; }
@@ -25,8 +25,11 @@ namespace BlogSystem.Web.Models
     public class SendCodeViewModel
     {
         public string SelectedProvider { get; set; }
+
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
+
         public string ReturnUrl { get; set; }
+
         public bool RememberMe { get; set; }
     }
 
@@ -38,6 +41,7 @@ namespace BlogSystem.Web.Models
         [Required]
         [Display(Name = "Code")]
         public string Code { get; set; }
+
         public string ReturnUrl { get; set; }
 
         [Display(Name = "Remember this browser?")]

@@ -1,7 +1,7 @@
-﻿using System.Web.Mvc;
-
-namespace BlogSystem.Web.Areas.Posts
+﻿namespace BlogSystem.Web.Areas.Posts
 {
+    using System.Web.Mvc;
+
     public class PostsAreaRegistration : AreaRegistration 
     {
         public override string AreaName 
@@ -17,8 +17,7 @@ namespace BlogSystem.Web.Areas.Posts
             context.MapRoute(
                 "Posts_default",
                 "Posts/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
-            );
+                new { action = "Index", id = UrlParameter.Optional });
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿namespace BlogSystem.Web.Areas.Posts.Models
 {
-    using BlogSystem.Models;
     using System.ComponentModel.DataAnnotations;
+
+    using BlogSystem.Models;
 
     public class PostInputModel
     {

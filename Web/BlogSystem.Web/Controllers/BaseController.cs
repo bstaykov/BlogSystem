@@ -1,15 +1,11 @@
 ﻿namespace BlogSystem.Web.Controllers
 {
-    using BlogSystem.Web.Infrastructure.Filters;
     using System.Web.Mvc;
+
+    using BlogSystem.Web.Infrastructure.Filters;
 
     [Log]
     public abstract class BaseController : Controller
     {
-        // GET: Base
-        public ActionResult Index()
-        {
-            return View();
-        }
     }
 }

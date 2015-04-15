@@ -1,15 +1,18 @@
 ﻿namespace BlogSystem.Web
 {
     using System;
+
+    using BlogSystem.Data;
+    using BlogSystem.Models;
+    using BlogSystem.Web.Models;
+
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin;
     using Microsoft.Owin.Security.Cookies;
     using Microsoft.Owin.Security.Google;
+
     using Owin;
-    using BlogSystem.Web.Models;
-    using BlogSystem.Data;
-    using BlogSystem.Models;
 
     public partial class Startup
     {
@@ -48,23 +51,23 @@
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
             // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
+            // app.UseMicrosoftAccountAuthentication(
+            // clientId: "",
+            // clientSecret: "");
 
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
+            // app.UseTwitterAuthentication(
+            // consumerKey: "",
+            // consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            // app.UseFacebookAuthentication(
+            // appId: "",
+            // appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            // app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            // {
+            // ClientId = "",
+            // ClientSecret = ""
+            // });
         }
     }
 }

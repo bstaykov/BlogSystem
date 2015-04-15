@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
-namespace BlogSystem.Models
+﻿namespace BlogSystem.Models
 {
+    using System.Collections.Generic;
+
     public class Comment
     {
         private ICollection<CommentLiker> commentLikers;
@@ -9,7 +10,6 @@ namespace BlogSystem.Models
         {
             this.CommentLikers = new HashSet<CommentLiker>();
         }
-
 
         public int Id { get; set; }
 
@@ -21,7 +21,7 @@ namespace BlogSystem.Models
 
         public int PostId { get; set; }
 
-        public virtual Post post { get; set; }
+        public virtual Post Post { get; set; }
 
         public virtual ICollection<CommentLiker> CommentLikers
         {
@@ -29,6 +29,7 @@ namespace BlogSystem.Models
             {
                 return this.commentLikers;
             }
+
             set
             {
                 this.commentLikers = value;

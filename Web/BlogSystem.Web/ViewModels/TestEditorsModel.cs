@@ -16,11 +16,11 @@
             this.Price = 1.23d;
         }
 
-        [Required(ErrorMessage = "*Required" )]
+        [Required(ErrorMessage = "*Required")]
         [StringLength(20, MinimumLength = 5, ErrorMessage = "Length(5-20)")]
         public string Name { get; set; }
 
-        //[Required(ErrorMessage = "*Required")]
+        // [Required(ErrorMessage = "*Required")]
         public List<Donation> Donations { get; set; }
 
         [Required(ErrorMessage = "*Required")]
@@ -46,7 +46,7 @@
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (IsDonationAgreed == false)
+            if (this.IsDonationAgreed == false)
             {
                 yield return new ValidationResult("Agree to sell appartment ?!", new[] { "IsDonationAgreed" });
             }

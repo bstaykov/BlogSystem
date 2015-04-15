@@ -3,15 +3,16 @@
     using System;
     using System.Linq;
     using System.Web.Mvc;
-    using Microsoft.AspNet.Identity;
+
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
 
     using BlogSystem.Common.Repository;
     using BlogSystem.Models;
     using BlogSystem.Web.Areas.Posts.Models;
     using BlogSystem.Web.Infrastructure.Filters;
 
-    using AutoMapper.QueryableExtensions;
-    using AutoMapper;
+    using Microsoft.AspNet.Identity;
 
     public class HomeController : Controller
     {
@@ -26,24 +27,23 @@
         [OutputCache(Duration = 1)]
         public ActionResult Index()
         {
-            //var allPosts = this.posts.All()
-            //    .Select(PostViewModel.FromPost)
-            //    .OrderBy(post => post.DateTimePosted)
-            //    .ToList();
-
+            // var allPosts = this.posts.All()
+            // .Select(PostViewModel.FromPost)
+            // .OrderBy(post => post.DateTimePosted)
+            // .ToList();
             var allPosts = this.posts.All()
                 .AsQueryable()
                 .Project().To<PostViewModel>()
                 .OrderBy(post => post.DateTimePosted);
 
-            return View(allPosts);
+            return this.View(allPosts);
         }
 
         [HttpGet]
         [Authorize]
         public ActionResult InsertPost()
         {
-            return View(new PostInputModel());
+            return this.View(new PostInputModel());
         }
 
         [HttpPost]
@@ -58,22 +58,21 @@
                 newPost.DateTimePosted = DateTime.Now;
                 newPost.UserId = User.Identity.GetUserId();
 
-                //Post newPost = new Post()
-                //{
-                //    Title = post.Title,
-                //    Content = post.Content,
-                //    DateTimePosted = DateTime.Now,
-                //    UserId = User.Identity.GetUserId(),
-                //    CommentsCount = 0,
-                //    Likes = 0
-                //};
-
+                // Post newPost = new Post()
+                // {
+                // Title = post.Title,
+                // Content = post.Content,
+                // DateTimePosted = DateTime.Now,
+                // UserId = User.Identity.GetUserId(),
+                // CommentsCount = 0,
+                // Likes = 0
+                // };
                 this.posts.Add(newPost);
                 this.posts.SaveChanges();
 
                 this.TempData["success"] = "Post was added!";
 
-                return RedirectToAction("InsertPost");
+                return this.RedirectToAction("InsertPost");
             }
 
             return this.View(post);
@@ -86,20 +85,19 @@
         {
             string userId = User.Identity.GetUserId();
 
-            //var myPosts = this.posts.All()
-            //    .AsQueryable()
-            //    .Where(post => post.UserId == userId)
-            //    .Select(MyPostViewModel.FromPost)
-            //    .OrderBy(post => post.DateTimePosted)
-            //    .ToList();
-
+            // var myPosts = this.posts.All()
+            // .AsQueryable()
+            // .Where(post => post.UserId == userId)
+            // .Select(MyPostViewModel.FromPost)
+            // .OrderBy(post => post.DateTimePosted)
+            // .ToList();
             var myPosts = this.posts.All()
                 .AsQueryable()
                 .Where(post => post.UserId == userId)
                 .Project().To<MyPostViewModel>()
                 .OrderBy(post => post.DateTimePosted);
 
-            return View(myPosts);
+            return this.View(myPosts);
         }
     }
 }

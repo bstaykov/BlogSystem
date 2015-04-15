@@ -1,12 +1,14 @@
 ﻿namespace BlogSystem.Web.Areas.Posts.Models
 {
-    using BlogSystem.Models;
     using System;
     using System.Linq.Expressions;
-    using Microsoft.AspNet.Identity;
 
     using AutoMapper;
+
+    using BlogSystem.Models;
     using BlogSystem.Web.Infrastructure.Mapping;
+
+    using Microsoft.AspNet.Identity;
 
     public class MyPostViewModel : IMapFrom<Post>, IHaveCustomMappings
     {

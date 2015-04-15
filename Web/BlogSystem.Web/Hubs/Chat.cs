@@ -3,10 +3,20 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Web;
-    using Microsoft.AspNet.SignalR;
     using System.Threading.Tasks;
+    using System.Web;
+
     using BlogSystem.Web.Hubs.ChatHelpersClasses;
+
+    using Microsoft.AspNet.SignalR;
+
+    public static class UserHandler
+    {
+        // public static HashSet<string> ConnectedUsers = new HashSet<string>();
+        public static PublicChatRoom PublicChatRoom = new PublicChatRoom();
+        public static HashSet<string> ConnectedIds = new HashSet<string>();
+        public static Dictionary<string, int> ConectedUsers = new Dictionary<string, int>();
+    }
 
     public class Chat : Hub
     {
@@ -42,46 +52,79 @@
 
         public override Task OnConnected()
         {
-            AddUserToCount();
+            this.AddUserToCount();
 
-            UpdateOnlineUsersCount();
+            this.UpdateOnlineUsersCount();
 
             return base.OnConnected();
         }
 
         public override Task OnReconnected()
         {
-            AddUserToCount();
+            this.AddUserToCount();
 
-            UpdateOnlineUsersCount();
+            this.UpdateOnlineUsersCount();
 
             return base.OnReconnected();
         }
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            RemoveUserFromCount();
+            this.RemoveUserFromCount();
 
-            UpdateOnlineUsersCount();
+            this.UpdateOnlineUsersCount();
 
             return base.OnDisconnected(stopCalled);
         }
 
-        private void AddUserToCount()
+        public void RemoveUserOnLogOut()
         {
             var userName = Context.User.Identity.Name;
 
-            if (userName != string.Empty)
-            {
-                if (!(UserHandler.ConectedUsers.ContainsKey(userName)))
-                {
-                    UserHandler.ConectedUsers[userName] = 0;
-                }
+            bool isUserLoged = userName != string.Empty;
 
-                UserHandler.ConectedUsers[userName] += 1;
+            bool isUserInTheList = UserHandler.ConectedUsers.ContainsKey(userName);
+
+            if (isUserLoged && isUserInTheList)
+            {
+                UserHandler.ConectedUsers.Remove(userName);
             }
+
+            this.UpdateOnlineUsersCount();
         }
 
+        public void UpdateOnlineUsersCount()
+        {
+            Clients.All.UpdateOnlineUsersCount(UserHandler.ConectedUsers.Count);
+        }
+
+        public void GetOnlineUsers()
+        {
+            string[] onlineUsers = UserHandler.ConectedUsers.Keys.ToArray();
+
+            Clients.Caller.ListOfUsersOnline(onlineUsers);
+        }
+
+        // public void AddToUserCount()
+        // {
+        // var userName = Context.User.Identity.Name;
+        // var isUserLoged = userName != string.Empty;
+        // var isUserCounted = !(UserHandler.ConectedUsers.ContainsKey(userName));
+        // if (isUserLoged && isUserCounted)
+        // {
+        // UserHandler.ConnectedUsers.Add(userName);
+        // SendOnlineUsersCount();
+        // }
+        // }
+        // public void RemoveFromUserCount()
+        // {
+        // var userName = Context.User.Identity.Name;
+        // if (userName != string.Empty && UserHandler.ConnectedUsers.Contains(userName))
+        // {
+        // UserHandler.ConnectedUsers.Remove(userName);
+        // SendOnlineUsersCount();
+        // }
+        // }
         private void RemoveUserFromCount()
         {
             var userName = Context.User.Identity.Name;
@@ -105,67 +148,19 @@
             }
         }
 
-        public void RemoveUserOnLogOut()
+        private void AddUserToCount()
         {
             var userName = Context.User.Identity.Name;
 
-            bool isUserLoged = userName != string.Empty;
-
-            bool isUserInTheList = UserHandler.ConectedUsers.ContainsKey(userName);
-
-            if (isUserLoged && isUserInTheList)
+            if (userName != string.Empty)
             {
-                UserHandler.ConectedUsers.Remove(userName);
+                if (!UserHandler.ConectedUsers.ContainsKey(userName))
+                {
+                    UserHandler.ConectedUsers[userName] = 0;
+                }
+
+                UserHandler.ConectedUsers[userName] += 1;
             }
-
-            UpdateOnlineUsersCount();
         }
-
-        public void UpdateOnlineUsersCount()
-        {
-            Clients.All.UpdateOnlineUsersCount(UserHandler.ConectedUsers.Count);
-        }
-
-        public void GetOnlineUsers()
-        {
-            string[] onlineUsers = UserHandler.ConectedUsers.Keys.ToArray();
-
-            Clients.Caller.ListOfUsersOnline(onlineUsers);
-        }
-
-        //public void AddToUserCount()
-        //{
-        //    var userName = Context.User.Identity.Name;
-
-        //    var isUserLoged = userName != string.Empty;
-        //    var isUserCounted = !(UserHandler.ConectedUsers.ContainsKey(userName));
-
-        //    if (isUserLoged && isUserCounted)
-        //    {
-        //        UserHandler.ConnectedUsers.Add(userName);
-
-        //        SendOnlineUsersCount();
-        //    }
-        //}
-
-        //public void RemoveFromUserCount()
-        //{
-        //    var userName = Context.User.Identity.Name;
-
-        //    if (userName != string.Empty && UserHandler.ConnectedUsers.Contains(userName))
-        //    {
-        //        UserHandler.ConnectedUsers.Remove(userName);
-        //        SendOnlineUsersCount();
-        //    }
-        //}
-    }
-
-    public static class UserHandler
-    {
-        public static HashSet<string> ConnectedIds = new HashSet<string>();
-        public static Dictionary<string, int> ConectedUsers = new Dictionary<string, int>();
-        //public static HashSet<string> ConnectedUsers = new HashSet<string>();
-
-        public static PublicChatRoom publicChatRoom = new PublicChatRoom();
     }
 }
