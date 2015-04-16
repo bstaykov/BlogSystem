@@ -67,6 +67,7 @@ namespace BlogSystem.Web.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<DbContext>().To<BlogSystemDbContext>();
+            kernel.Bind(typeof(IBlogSystemData)).To(typeof(BlogSystemData));
             kernel.Bind(typeof(IRepository<Post>)).To(typeof(GenericRepository<Post>));
             kernel.Bind(typeof(IRepository<Log>)).To(typeof(GenericRepository<Log>));
             kernel.Bind(typeof(IRepository<PostLiker>)).To(typeof(GenericRepository<PostLiker>));

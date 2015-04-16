@@ -52,7 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlogSystemData.cs" />
     <Compile Include="BlogSystemDbContext.cs" />
+    <Compile Include="IBlogSystemData.cs" />
     <Compile Include="Migrations\201504082055336_LogUserId.cs" />
     <Compile Include="Migrations\201504082055336_LogUserId.Designer.cs">
       <DependentUpon>201504082055336_LogUserId.cs</DependentUpon>

@@ -17,7 +17,7 @@
         public string Title { get; set; }
 
         [Required(ErrorMessage = "Content is required!")]
-        [StringLength(20, ErrorMessage = "Length is incorect.", MinimumLength = 5)]
+        [StringLength(1000, ErrorMessage = "Length is incorect.", MinimumLength = 5)]
         public string Content { get; set; }
 
         [Required(ErrorMessage = "Category is required!")]

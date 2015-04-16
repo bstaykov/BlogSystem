@@ -8,6 +8,7 @@
     using AutoMapper.QueryableExtensions;
 
     using BlogSystem.Common.Repository;
+    using BlogSystem.Data;
     using BlogSystem.Models;
     using BlogSystem.Web.Areas.Posts.Models;
     using BlogSystem.Web.Infrastructure.Filters;
@@ -16,11 +17,16 @@
 
     public class HomeController : Controller
     {
-        private readonly IRepository<Post> posts;
+        private readonly IBlogSystemData data;
 
-        public HomeController(IRepository<Post> posts)
+        public HomeController()
+            : this(new BlogSystemData(new BlogSystemDbContext()))
         {
-            this.posts = posts;
+        }
+
+        public HomeController(IBlogSystemData data)
+        {
+            this.data = data;
         }
 
         [HttpGet]
@@ -31,7 +37,7 @@
             // .Select(PostViewModel.FromPost)
             // .OrderBy(post => post.DateTimePosted)
             // .ToList();
-            var allPosts = this.posts.All()
+            var allPosts = this.data.Posts.All()
                 .AsQueryable()
                 .Project().To<PostViewModel>()
                 .OrderBy(post => post.DateTimePosted);
@@ -67,8 +73,8 @@
                 // CommentsCount = 0,
                 // Likes = 0
                 // };
-                this.posts.Add(newPost);
-                this.posts.SaveChanges();
+                this.data.Posts.Add(newPost);
+                this.data.Posts.SaveChanges();
 
                 this.TempData["success"] = "Post was added!";
 
@@ -91,7 +97,7 @@
             // .Select(MyPostViewModel.FromPost)
             // .OrderBy(post => post.DateTimePosted)
             // .ToList();
-            var myPosts = this.posts.All()
+            var myPosts = this.data.Posts.All()
                 .AsQueryable()
                 .Where(post => post.UserId == userId)
                 .Project().To<MyPostViewModel>()
