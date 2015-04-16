@@ -1,57 +1,61 @@
 ﻿@using BlogSystem.Web.Areas.Posts.Models
+@using Microsoft.AspNet.Identity
+
 @model PostViewModel
 
 <div class="row">
-    <div class="col-sm-1">
-        <div class="row">
-            @{
-                var postsVotesCountId = "article-content" + @Model.Id;
-            }
-            <div class="col-sm-1">
-                @*@Ajax.ActionLink("", "VoteUp", "Home", "")*@
-                <button type="button" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                    @Ajax.ActionLink("UP", "UpVoteById", "Home",
-                            new { postId = @Model.Id, area = "Votes" },
-                            new AjaxOptions
-                            {
-                                InsertionMode = InsertionMode.Replace,
-                                UpdateTargetId = @postsVotesCountId,
-                            })
-                </button>
+    <div id="@Model.Id"></div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="col-sm-1">
+            <div class="row">
+                <div class="col-sm-1">
+                    <button type="button" class="btn btn-default btn-sm">
+                        @Ajax.ActionLink(" UP", "UpVoteById", "Home", new { id = @Model.Id, vote = "UP", area = "Likes" },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = @Model.Id.ToString(),
+                            LoadingElementId = "loading",
+                            HttpMethod = "Post",
+                        },
+                        htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-up" })
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1">
+                    <button type="button" class="btn btn-default btn-sm">
+                        @Ajax.ActionLink(" Down", "DownVoteById", "Home", new { id = @Model.Id, vote = "Down", area = "Likes" },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = @Model.Id.ToString(),
+                            LoadingElementId = "loading",
+                            HttpMethod = "Post",
+                        },
+                        htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-down" })
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-1">
-                <button type="button" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-                    @Ajax.ActionLink("Down", "DownVoteById", "Home",
-                            new { postId = @Model.Id, area = "Votes" },
-                            new AjaxOptions
-                            {
-                                InsertionMode = InsertionMode.Replace,
-                                UpdateTargetId = @postsVotesCountId,
-                            })
-                </button>
-            </div>
-        </div>
-    </div>
+    }
     <div class="col-sm-10">
         <h2 class="media-heading">@Model.Title</h2>
-        <h4 class="media-body">@Model.Content</h4>
-
-        @*<span class="label label-default">Id: @post.Id</span>*@
         <span class="label label-primary">@Model.Category</span>
         <span class="label label-success">@Model.Author</span>
         <span class="label label-info">@Model.DateTimePosted</span>
-        @if (@Model.Likes >= 0)
-        {
-            <span class="label label-success">Likes <span id="@postsVotesCountId">@Model.Likes</span></span>
+        @{
+            var likesCountId = "likes" + @Model.Id;
+            var commentsCountId = "comments" + @Model.Id;
+            var labelClass = "label-success";
         }
-        else
+        @if (@Model.Likes < 0)
         {
-            <span class="label label-danger">Likes <span id="@postsVotesCountId">@Model.Likes</span></span>
+            labelClass = "label-danger";
         }
-        <span class="label label-info">Comments @Model.CommentsCount</span>
+        <span class="label @labelClass">Likes <span id="@likesCountId">@Model.Likes</span></span>
+        <span class="label label-info">Comments <span id="@commentsCountId">@Model.CommentsCount</span></span>
+        <h4 class="media-body">@Model.Content</h4>
     </div>
 </div>

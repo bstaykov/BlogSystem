@@ -224,13 +224,13 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\ViewenginesConfiguration.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Likes\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Likes\LikesAreaRegistration.cs" />
     <Compile Include="Areas\Posts\Controllers\HomeController.cs" />
     <Compile Include="Areas\Posts\Models\MyPostViewModel.cs" />
     <Compile Include="Areas\Posts\Models\PostInputModel.cs" />
     <Compile Include="Areas\Posts\Models\PostViewModel.cs" />
     <Compile Include="Areas\Posts\PostsAreaRegistration.cs" />
-    <Compile Include="Areas\Votes\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Votes\VotesAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs">
@@ -302,12 +302,14 @@
     <Content Include="Areas\Posts\Views\web.config" />
     <Content Include="Areas\Posts\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Posts\Views\Home\MyPosts.cshtml" />
-    <Content Include="Areas\Votes\Views\web.config" />
     <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\MyPostViewModel.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\PostViewModel.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\EditorTemplates\PostInputModel.cshtml" />
     <Content Include="App_Code\RazorHelpers.cshtml" />
     <Content Include="App_Code\TempDataHelpers.cshtml" />
+    <Content Include="Areas\Likes\Views\web.config" />
+    <Content Include="Areas\Likes\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Likes\Views\Shared\_LikingFeedbackMessage.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -396,9 +398,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Votes\Models\" />
-    <Folder Include="Areas\Votes\Views\Home\" />
-    <Folder Include="Areas\Votes\Views\Shared\" />
+    <Folder Include="Areas\Likes\Models\" />
+    <Folder Include="Areas\Likes\Views\Home\" />
     <Folder Include="Views\Admin\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>

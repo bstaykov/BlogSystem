@@ -1,0 +1,8 @@
+﻿@if (TempData["success"] != null)
+{
+    @TempDataHelpers.TempMessage(TempData["success"].ToString(), "success")
+}
+else if (TempData["error"] != null)
+{
+    @TempDataHelpers.TempMessage(TempData["error"].ToString(), "warning")
+}

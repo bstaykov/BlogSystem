@@ -1,22 +1,22 @@
-﻿namespace BlogSystem.Web.Areas.Votes
+﻿namespace BlogSystem.Web.Areas.Likes
 {
     using System.Web.Mvc;
 
-    public class VotesAreaRegistration : AreaRegistration 
+    public class LikesAreaRegistration : AreaRegistration 
     {
         public override string AreaName 
         {
             get 
             {
-                return "Votes";
+                return "Likes";
             }
         }
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             context.MapRoute(
-                "Votes_default",
-                "Votes/{controller}/{action}/{id}",
+                "Likes_default",
+                "Likes/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional });
         }
     }

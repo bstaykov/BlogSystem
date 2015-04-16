@@ -10,7 +10,7 @@
     <span class="label label-info">@Model.DateTimePosted</span>
     <span class="label label-info">@Model.Info</span>
 
-    @Ajax.ActionLink(" ", "DeletePost", "Home", new { id = @Model.Id, area = "Posts"}, 
+    @Ajax.ActionLink("Delete", "DeletePost", "Home", new { id = @Model.Id, area = "Posts"}, 
         new AjaxOptions
         {
             InsertionMode = InsertionMode.Replace,
