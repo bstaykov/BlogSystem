@@ -1,12 +1,24 @@
 ﻿@using BlogSystem.Web.Areas.Posts.Models
+@using BlogSystem.Web.Helpers
+
 @model MyPostViewModel
 
-<div class="col-lg-12">
-    @*<span class="label label-default">Id: @post.Id</span>*@
+<div class="col-lg-12" id="@Model.Id">
     <h2 class="media-heading">@Model.Title</h2>
     <h4 class="media-body">@Model.Content</h4>
     <span class="label label-primary">@Model.Category</span>
     <span class="label label-info">@Model.DateTimePosted</span>
     <span class="label label-info">@Model.Info</span>
+
+    @Ajax.ActionLink(" ", "DeletePost", "Home", new { id = @Model.Id, area = "Posts"}, 
+        new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = @Model.Id.ToString(),
+            LoadingElementId = "loading",
+            Confirm = "Delete?",
+            HttpMethod = "Post",
+        },
+        htmlAttributes: new { @class = "glyphicon glyphicon-trash" })
 </div>
 

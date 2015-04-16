@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Threading;
     using System.Web.Mvc;
 
     using AutoMapper;
@@ -33,14 +34,16 @@
         [OutputCache(Duration = 1)]
         public ActionResult Index()
         {
-            // var allPosts = this.posts.All()
-            // .Select(PostViewModel.FromPost)
-            // .OrderBy(post => post.DateTimePosted)
-            // .ToList();
             var allPosts = this.data.Posts.All()
                 .AsQueryable()
                 .Project().To<PostViewModel>()
                 .OrderBy(post => post.DateTimePosted);
+
+            if (allPosts.Count() == 0) 
+            {
+                this.TempData["error"] = "No posts yet!";
+                return this.View();
+            }
 
             return this.View(allPosts);
         }
@@ -63,16 +66,6 @@
                 Post newPost = Mapper.Map<Post>(post);
                 newPost.DateTimePosted = DateTime.Now;
                 newPost.UserId = User.Identity.GetUserId();
-
-                // Post newPost = new Post()
-                // {
-                // Title = post.Title,
-                // Content = post.Content,
-                // DateTimePosted = DateTime.Now,
-                // UserId = User.Identity.GetUserId(),
-                // CommentsCount = 0,
-                // Likes = 0
-                // };
                 this.data.Posts.Add(newPost);
                 this.data.Posts.SaveChanges();
 
@@ -90,13 +83,6 @@
         public ActionResult MyPosts()
         {
             string userId = User.Identity.GetUserId();
-
-            // var myPosts = this.posts.All()
-            // .AsQueryable()
-            // .Where(post => post.UserId == userId)
-            // .Select(MyPostViewModel.FromPost)
-            // .OrderBy(post => post.DateTimePosted)
-            // .ToList();
             var myPosts = this.data.Posts.All()
                 .AsQueryable()
                 .Where(post => post.UserId == userId)
@@ -104,6 +90,57 @@
                 .OrderBy(post => post.DateTimePosted);
 
             return this.View(myPosts);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult DeletePost(int id)
+        {
+            // TODO DELETE Sleep
+            Thread.Sleep(2000);
+
+            var userId = this.User.Identity.GetUserId();
+
+            var postToDelete = this.data.Posts.GetById(id);
+
+            if (postToDelete == null || postToDelete.UserId != userId)
+            {
+                this.TempData["error"] = "Incorrect id (Cheater)!";
+            }
+            else
+            {
+                this.data.Posts.Delete(postToDelete);
+                this.data.SaveChanges();
+                this.TempData["success"] = "Post deleted successfully.";
+            }
+
+            return this.PartialView("_DeletePost");
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult DeleteAllPost()
+        {
+            var userId = this.User.Identity.GetUserId();
+
+            var posts = this.data.Posts.All().Where(post => post.UserId == userId);
+
+            if (posts == null)
+            {
+                this.TempData["error"] = "No posts found!";
+            }
+            else
+            {
+                foreach (var post in posts)
+                {
+                    this.data.Posts.Delete(post);
+                }
+
+                this.data.SaveChanges();
+                this.TempData["success"] = "Posts deleted successfully.";
+            }
+
+            return this.RedirectToAction("Index");
         }
     }
 }
