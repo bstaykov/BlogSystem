@@ -72,6 +72,9 @@ function showListOfOnlineUsers(onlineUsers) {
 
 function updateUsersOnline(usersCount) {
     $('#usersOnline').html(usersCount);
+
+    // TODO implement messeges
+    $('#unreadMessagesCount').html(usersCount);
 }
 
 function addMessage(message) {

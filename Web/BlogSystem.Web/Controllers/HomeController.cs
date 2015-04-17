@@ -16,20 +16,8 @@
 
     using Microsoft.AspNet.Identity;
 
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private IRepository<User> users;
-
-        public HomeController()
-            : this(new GenericRepository<User>(new BlogSystemDbContext()))
-        {
-        }
-
-        public HomeController(IRepository<User> users)
-        {
-            this.users = users;
-        }
-
         public ActionResult Index()
         {
             return this.View();
@@ -39,7 +27,7 @@
         public ActionResult GetUserInfo()
         {
             var userName = this.User.Identity.Name;
-            string userUrl = this.users.All().Where(u => u.UserName == userName).FirstOrDefault().ImageUrl;
+            string userUrl = this.Data.Users.All().Where(u => u.UserName == userName).FirstOrDefault().ImageUrl;
             if (userUrl == null)
             {
                 userUrl = "http://imgs.abduzeedo.com/files/articles/baby-animals/Baby-Animals-002.jpg";
@@ -187,7 +175,7 @@
 
         public ActionResult UserInfo(string username)
         {
-            var userInfo = this.users.All().Where(u => u.UserName == username).FirstOrDefault();
+            var userInfo = this.Data.Users.All().Where(u => u.UserName == username).FirstOrDefault();
 
             UserInfoModel user = new UserInfoModel()
             {

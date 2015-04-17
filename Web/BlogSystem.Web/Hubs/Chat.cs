@@ -10,16 +10,12 @@
 
     using Microsoft.AspNet.SignalR;
 
-    public static class UserHandler
-    {
-        // public static HashSet<string> ConnectedUsers = new HashSet<string>();
-        public static PublicChatRoom PublicChatRoom = new PublicChatRoom();
-        public static HashSet<string> ConnectedIds = new HashSet<string>();
-        public static Dictionary<string, int> ConectedUsers = new Dictionary<string, int>();
-    }
-
     public class Chat : Hub
     {
+        private static PublicChatRoom publicChatRoom = new PublicChatRoom();
+        private static HashSet<string> connectedIds = new HashSet<string>();
+        private static Dictionary<string, int> conectedUsers = new Dictionary<string, int>();
+
         public void SendMessage(string message)
         {
             var userName = Context.User.Identity.Name;
@@ -83,11 +79,11 @@
 
             bool isUserLoged = userName != string.Empty;
 
-            bool isUserInTheList = UserHandler.ConectedUsers.ContainsKey(userName);
+            bool isUserInTheList = Chat.conectedUsers.ContainsKey(userName);
 
             if (isUserLoged && isUserInTheList)
             {
-                UserHandler.ConectedUsers.Remove(userName);
+                Chat.conectedUsers.Remove(userName);
             }
 
             this.UpdateOnlineUsersCount();
@@ -95,12 +91,12 @@
 
         public void UpdateOnlineUsersCount()
         {
-            Clients.All.UpdateOnlineUsersCount(UserHandler.ConectedUsers.Count);
+            Clients.All.UpdateOnlineUsersCount(Chat.conectedUsers.Count);
         }
 
         public void GetOnlineUsers()
         {
-            string[] onlineUsers = UserHandler.ConectedUsers.Keys.ToArray();
+            string[] onlineUsers = Chat.conectedUsers.Keys.ToArray();
 
             Clients.Caller.ListOfUsersOnline(onlineUsers);
         }
@@ -131,19 +127,19 @@
 
             bool isUserLoged = userName != string.Empty;
 
-            bool isUserInTheList = UserHandler.ConectedUsers.ContainsKey(userName);
+            bool isUserInTheList = Chat.conectedUsers.ContainsKey(userName);
 
             if (isUserLoged && isUserInTheList)
             {
-                bool areMoreThanOneTabsOpened = UserHandler.ConectedUsers[userName] > 1;
+                bool areMoreThanOneTabsOpened = Chat.conectedUsers[userName] > 1;
 
                 if (areMoreThanOneTabsOpened)
                 {
-                    UserHandler.ConectedUsers[userName] -= 1;
+                    Chat.conectedUsers[userName] -= 1;
                 }
                 else
                 {
-                    UserHandler.ConectedUsers.Remove(userName);
+                    Chat.conectedUsers.Remove(userName);
                 }
             }
         }
@@ -154,12 +150,12 @@
 
             if (userName != string.Empty)
             {
-                if (!UserHandler.ConectedUsers.ContainsKey(userName))
+                if (!Chat.conectedUsers.ContainsKey(userName))
                 {
-                    UserHandler.ConectedUsers[userName] = 0;
+                    Chat.conectedUsers[userName] = 0;
                 }
 
-                UserHandler.ConectedUsers[userName] += 1;
+                Chat.conectedUsers[userName] += 1;
             }
         }
     }
