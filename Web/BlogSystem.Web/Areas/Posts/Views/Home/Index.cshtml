@@ -1,8 +1,4 @@
-﻿@using BlogSystem.Web.Areas.Posts.Models
-
-@model IEnumerable<PostViewModel>
-
-@{
+﻿@{
     ViewBag.Title = "Posts Home Page";
 }
 
@@ -12,4 +8,6 @@
     </div>
 </div>
 
-@Html.DisplayForModel(@Model)
+<div id="postsShown">
+    @Html.Action("Posts", "Home", new { area = "Posts" })
+</div>

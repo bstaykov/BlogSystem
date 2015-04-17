@@ -1,6 +1,7 @@
 ﻿namespace BlogSystem.Web.Areas.Posts.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Web.Mvc;
@@ -23,18 +24,86 @@
         [OutputCache(Duration = 1)]
         public ActionResult Index()
         {
-            var allPosts = this.Data.Posts.All()
-                .AsQueryable()
-                .Project().To<PostViewModel>()
-                .OrderBy(post => post.DateTimePosted);
+            return this.View();
+        }
 
-            if (allPosts.Count() == 0) 
+        [HttpGet]
+        public ActionResult Posts(int pageNumber = 1, int postsToTake = 2)
+        {
+            int startPage = 1;
+            int endPage = 5;
+
+            if (pageNumber <= 0)
             {
-                this.TempData["error"] = "No posts yet!";
-                return this.View();
+                pageNumber = 1; 
             }
 
-            return this.View(allPosts);
+            if (postsToTake <= 0 || 20 < postsToTake)
+            {
+                postsToTake = 2;
+            }
+
+            List<PostViewModel> allPosts = this.Data.Posts.All()
+                .AsQueryable()
+                .Project().To<PostViewModel>()
+                .OrderByDescending(post => post.DateTimePosted)
+                .Skip((pageNumber - 1) * postsToTake)
+                .Take(postsToTake)
+                .ToList();
+
+            var postsCount = this.Data.Posts.All().Count();
+
+            if (allPosts == null)
+            {
+                this.TempData["error"] = "Error while loading posts!";
+                return this.PartialView("_Posts");
+            }
+
+            if (postsCount == 0)
+            {
+                this.TempData["error"] = "No posts yet!";
+                return this.PartialView("_Posts");
+            }
+
+            if (postsCount <= 5)
+            {
+                startPage = 1;
+                endPage = postsCount;
+            }
+            else if (pageNumber <= 3)
+            {
+                startPage = 1;
+                if (postsCount < pageNumber + 2)
+                {
+                    endPage = postsCount;
+                }
+                else
+                {
+                    endPage = pageNumber + 2;
+                }
+            }
+            else
+            {
+                startPage = pageNumber - 2;
+                if (postsCount < pageNumber + 2)
+                {
+                    endPage = postsCount;
+                }
+                else
+                {
+                    endPage = pageNumber + 2;
+                }
+            }
+
+            var pagingModel = new PostsPagingViewModel()
+            {
+                Posts = allPosts,
+                StartPage = startPage,
+                CurrentPage = pageNumber,
+                EndPage = endPage,
+            };
+
+            return this.PartialView("_Posts", pagingModel);
         }
 
         [HttpGet]

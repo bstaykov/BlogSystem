@@ -231,6 +231,7 @@
     <Compile Include="Areas\Posts\Controllers\HomeController.cs" />
     <Compile Include="Areas\Posts\Models\MyPostViewModel.cs" />
     <Compile Include="Areas\Posts\Models\PostInputModel.cs" />
+    <Compile Include="Areas\Posts\Models\PostsPagingViewModel.cs" />
     <Compile Include="Areas\Posts\Models\PostViewModel.cs" />
     <Compile Include="Areas\Posts\PostsAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -244,6 +245,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AjaxExtensions.cs" />
     <Compile Include="Helpers\HtmlExtensions.cs" />
     <Compile Include="Hubs\Chat.cs" />
     <Compile Include="Hubs\ChatHelpersClasses\AbstractChatRoom.cs" />
@@ -272,6 +274,9 @@
     <Content Include="Areas\Posts\Views\Home\Index.cshtml" />
     <Content Include="Areas\Posts\Views\Home\InsertPost.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_DeletePost.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\_Posts.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />

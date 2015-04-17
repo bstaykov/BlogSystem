@@ -11,6 +11,7 @@
     [Authorize]
     public class HomeController : BaseController
     {
+        [HttpPost]
         public ActionResult UpVoteById(int id)
         {
             this.ActualVote(id, true);
@@ -18,6 +19,7 @@
             return this.PartialView("_LikingFeedbackMessage");
         }
 
+        [HttpPost]
         public ActionResult DownVoteById(int id)
         {
             this.ActualVote(id, false);
