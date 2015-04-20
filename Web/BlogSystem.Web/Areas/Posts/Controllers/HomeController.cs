@@ -58,6 +58,7 @@
 
             if (postsCount == 0)
             {
+                //TODO CHECK
                 this.TempData["error"] = "No posts yet!";
                 return this.PartialView("_Posts");
             }
@@ -133,14 +134,83 @@
         [OutputCache(Duration = 1)]
         public ActionResult MyPosts()
         {
+            return this.View();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult MyPostsPartial(int pageNumber = 1, int postsPerPage = 3)
+        {
+            if (pageNumber <= 0)
+            {
+                pageNumber = 1;
+            }
+
+            if (postsPerPage <= 0 || 20 < postsPerPage)
+            {
+                postsPerPage = 3;
+            }
+
             string userId = User.Identity.GetUserId();
-            var myPosts = this.Data.Posts.All()
+            var postsToDisplay = this.Data.Posts.All()
                 .AsQueryable()
                 .Where(post => post.UserId == userId)
                 .Project().To<MyPostViewModel>()
-                .OrderBy(post => post.DateTimePosted);
+                .OrderBy(post => post.DateTimePosted)
+                .Skip((pageNumber - 1) * postsPerPage)
+                .Take(postsPerPage)
+                .ToList();
 
-            return this.View(myPosts);
+            int postsCount = this.Data.Posts.All().Where(post => post.UserId == userId).Count();
+
+            if (postsToDisplay == null)
+            {
+                this.TempData["error"] = "Error while loading posts!";
+                return this.PartialView("_MyPostsPartial");
+            }
+
+            if (postsCount == 0)
+            {
+                //TODO return no posts
+                this.TempData["error"] = "No posts yet!";
+                return this.PartialView("_MyPostsPartial");
+            }
+
+            int startPage = 1;
+            int endPage = 5;
+            int availablePages = (int)Math.Ceiling((double)postsCount / postsPerPage);
+
+            if (availablePages <= 5)
+            {
+                startPage = 1;
+                endPage = availablePages;
+            }
+            else
+            {
+                startPage = pageNumber - 2;
+                endPage = pageNumber + 2;
+                while (startPage < 1)
+                {
+                    startPage++;
+                    endPage++;
+                }
+
+                while (endPage > availablePages)
+                {
+                    endPage--;
+                    startPage--;
+                }
+            }
+
+            var pagingModel = new MyPostsPagingViewModel()
+            {
+                Posts = postsToDisplay,
+                StartPage = startPage,
+                CurrentPage = pageNumber,
+                EndPage = endPage,
+            };
+
+            return this.PartialView("_MyPostsPartial", pagingModel);
         }
 
         [HttpPost]
@@ -170,6 +240,7 @@
 
         [HttpPost]
         [Authorize]
+        [ChildActionOnly]
         public ActionResult DeleteAllPost()
         {
             var userId = this.User.Identity.GetUserId();

@@ -1,0 +1,81 @@
+﻿@using BlogSystem.Web.Areas.Posts.Models
+@using BlogSystem.Web.Helpers
+
+@model MyPostsPagingViewModel
+
+@foreach (var item in @Model.Posts)
+{
+    @Html.DisplayFor(m => item)
+}
+
+<nav id="paggingMenu">
+    <ul class="pagination">
+        @if (@Model.CurrentPage > 1)
+        {
+            var previousPage = (@Model.CurrentPage - 1);
+            <li>
+                @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&laquo;</span>"), "MyPostsPartial", "Home", new { pageNumber = @previousPage, area = "Posts" },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "postsShown",
+                            LoadingElementId = "loading",
+                            HttpMethod = "Get",
+                        },
+                        new { aria_label = "Previous" })
+            </li>
+        }
+        else
+        {
+            <li class="disabled">
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        }
+
+        @for (int i = @Model.StartPage; i <= @Model.EndPage; i++)
+        {
+            if (i == @Model.CurrentPage)
+            {
+                <li class="active"><a href="#">@i<span class="sr-only">(current)</span></a></li>
+            }
+            else
+            {
+                <li>
+                    @Ajax.ActionLink(i.ToString(), "MyPostsPartial", "Home", new { pageNumber = i, area = "Posts" },
+                            new AjaxOptions
+                            {
+                                InsertionMode = InsertionMode.Replace,
+                                UpdateTargetId = "postsShown",
+                                LoadingElementId = "loading",
+                                HttpMethod = "Get",
+                            })
+                </li>
+            }
+        }
+        @if (@Model.CurrentPage < @Model.EndPage)
+        {
+            var nextPage = (@Model.CurrentPage + 1);
+            <li>
+                @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&raquo;</span>"), "MyPostsPartial", "Home", new { pageNumber = @nextPage, area = "Posts" },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "postsShown",
+                            LoadingElementId = "loading",
+                            HttpMethod = "Get",
+                        },
+                        new { aria_label = "Next" })
+            </li>
+        }
+        else
+        {
+            <li class="disabled">
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        }
+    </ul>
+</nav>

@@ -229,6 +229,7 @@
     </Compile>
     <Compile Include="Areas\Likes\LikesAreaRegistration.cs" />
     <Compile Include="Areas\Posts\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Posts\Models\MyPostsPagingViewModel.cs" />
     <Compile Include="Areas\Posts\Models\MyPostViewModel.cs" />
     <Compile Include="Areas\Posts\Models\PostInputModel.cs" />
     <Compile Include="Areas\Posts\Models\PostsPagingViewModel.cs" />
@@ -317,6 +318,7 @@
     <Content Include="Areas\Likes\Views\web.config" />
     <Content Include="Areas\Likes\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Likes\Views\Shared\_LikingFeedbackMessage.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\_MyPostsPartial.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
