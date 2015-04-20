@@ -23,21 +23,6 @@
                             HttpMethod = "Get",
                         },
                         new { aria_label = "Previous" })
-
-                @*<a href="#" aria-label="Previous">
-                        <span aria-hidden="true">
-
-                            @Ajax.ActionLink(" ", "Posts", "Home", new { pageNumber = @previousPage, area = "Posts" },
-                            new AjaxOptions
-                            {
-                                InsertionMode = InsertionMode.Replace,
-                                UpdateTargetId = "postsShown",
-                                LoadingElementId = "loading",
-                                HttpMethod = "Get",
-                            },
-                            new { @class = "glyphicon glyphicon-menu-left" })
-                        </span>
-                    </a>*@
             </li>
         }
         else
@@ -49,21 +34,11 @@
             </li>
         }
 
-        @for (int i = @Model.StartPage; i < @Model.EndPage; i++)
+        @for (int i = @Model.StartPage; i <= @Model.EndPage; i++)
         {
             if (i == @Model.CurrentPage)
             {
                 <li class="active"><a href="#">@i<span class="sr-only">(current)</span></a></li>
-                @*<li class="active">
-                    @Ajax.ActionLink(i.ToString(), "Posts", "Home", new { pageNumber = i, area = "Posts" },
-                                new AjaxOptions
-                                {
-                                    InsertionMode = InsertionMode.Replace,
-                                    UpdateTargetId = "postsShown",
-                                    LoadingElementId = "loading",
-                                    HttpMethod = "Get",
-                                })
-                </li>*@
             }
             else
             {
@@ -92,19 +67,6 @@
                             HttpMethod = "Get",
                         },
                         new { aria_label = "Next" })
-
-                @*<a href="#" aria-label="Previous">
-                        <span aria-hidden="true">
-                            @Ajax.ActionLink("&raquo;", "Posts", "Home", new { pageNumber = @nextPage, area = "Posts" },
-                            new AjaxOptions
-                            {
-                                InsertionMode = InsertionMode.Replace,
-                                UpdateTargetId = "postsShown",
-                                LoadingElementId = "loading",
-                                HttpMethod = "Get",
-                            })
-                        </span>
-                    </a>*@
             </li>
         }
         else

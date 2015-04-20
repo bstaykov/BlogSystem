@@ -28,32 +28,29 @@
         }
 
         [HttpGet]
-        public ActionResult Posts(int pageNumber = 1, int postsToTake = 2)
+        public ActionResult Posts(int pageNumber = 1, int postsPerPage = 2)
         {
-            int startPage = 1;
-            int endPage = 5;
-
             if (pageNumber <= 0)
             {
                 pageNumber = 1; 
             }
 
-            if (postsToTake <= 0 || 20 < postsToTake)
+            if (postsPerPage <= 0 || 20 < postsPerPage)
             {
-                postsToTake = 2;
+                postsPerPage = 2;
             }
 
-            List<PostViewModel> allPosts = this.Data.Posts.All()
+            List<PostViewModel> postsToDisplay = this.Data.Posts.All()
                 .AsQueryable()
                 .Project().To<PostViewModel>()
                 .OrderByDescending(post => post.DateTimePosted)
-                .Skip((pageNumber - 1) * postsToTake)
-                .Take(postsToTake)
+                .Skip((pageNumber - 1) * postsPerPage)
+                .Take(postsPerPage)
                 .ToList();
 
-            var postsCount = this.Data.Posts.All().Count();
+            int postsCount = this.Data.Posts.All().Count();
 
-            if (allPosts == null)
+            if (postsToDisplay == null)
             {
                 this.TempData["error"] = "Error while loading posts!";
                 return this.PartialView("_Posts");
@@ -65,39 +62,35 @@
                 return this.PartialView("_Posts");
             }
 
-            if (postsCount <= 5)
+            int startPage = 1;
+            int endPage = 5;
+            int availablePages = (int)Math.Ceiling((double)postsCount / postsPerPage);
+
+            if (availablePages <= 5)
             {
                 startPage = 1;
-                endPage = postsCount;
-            }
-            else if (pageNumber <= 3)
-            {
-                startPage = 1;
-                if (postsCount < pageNumber + 2)
-                {
-                    endPage = postsCount;
-                }
-                else
-                {
-                    endPage = pageNumber + 2;
-                }
+                endPage = availablePages;
             }
             else
             {
                 startPage = pageNumber - 2;
-                if (postsCount < pageNumber + 2)
+                endPage = pageNumber + 2;
+                while (startPage < 1)
                 {
-                    endPage = postsCount;
+                    startPage++;
+                    endPage++;
                 }
-                else
+
+                while (endPage > availablePages)
                 {
-                    endPage = pageNumber + 2;
+                    endPage--;
+                    startPage--;
                 }
             }
 
             var pagingModel = new PostsPagingViewModel()
             {
-                Posts = allPosts,
+                Posts = postsToDisplay,
                 StartPage = startPage,
                 CurrentPage = pageNumber,
                 EndPage = endPage,
