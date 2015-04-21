@@ -64,7 +64,7 @@
                 };
 
                 this.Data.PostLikers.Add(newPostLiker);
-                post.Likes = post.Likes  + postsLikeValue;
+                post.Likes = post.Likes + postsLikeValue;
                 this.Data.SaveChanges();
 
                 this.TempData["success"] = "Post voted successfully.";
@@ -76,9 +76,9 @@
             else
             {
                 postLiker.IsLiked = isLiked;
-                post.Likes = post.Likes  + inverseLikeValue;
+                post.Likes = post.Likes + inverseLikeValue;
                 this.Data.SaveChanges();
-                this.TempData["success"] = "Post voted successfully.";
+                this.TempData["success"] = "Vote inversed successfully.";
             }
 
             return;

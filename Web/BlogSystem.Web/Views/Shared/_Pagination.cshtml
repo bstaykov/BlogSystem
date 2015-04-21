@@ -7,6 +7,28 @@
         @if (@Model.CurrentPage > 1)
         {
             var previousPage = (@Model.CurrentPage - 1);
+            if (@Model.CurrentPage > 3)
+            {
+                <li>
+                    @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&laquo;&laquo;</span>"), @Model.ViewName, @Model.ControllerName, new { pageNumber = 1, area = @Model.AreaName },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "postsShown",
+                            LoadingElementId = "loading",
+                            HttpMethod = "Get",
+                        },
+                        new { aria_label = "First" })
+                </li>
+            }
+            else
+            {
+                <li class="disabled">
+                    <a href="#" aria-label="First">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+            }
             <li>
                 @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&laquo;</span>"), @Model.ViewName, @Model.ControllerName, new { pageNumber = @previousPage, area = @Model.AreaName },
                         new AjaxOptions
@@ -21,6 +43,11 @@
         }
         else
         {
+            <li class="disabled">
+                <a href="#" aria-label="First">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                </a>
+            </li>
             <li class="disabled">
                 <a href="#" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
@@ -62,12 +89,39 @@
                         },
                         new { aria_label = "Next" })
             </li>
+            if (@Model.CurrentPage < @Model.AvailablePages - 2)
+            {
+                <li>
+                    @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&raquo;&raquo;</span>"), @Model.ViewName, @Model.ControllerName, new { pageNumber = @Model.AvailablePages, area = @Model.AreaName },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "postsShown",
+                            LoadingElementId = "loading",
+                            HttpMethod = "Get",
+                        },
+                        new { aria_label = "Last" })
+                </li>
+            }
+            else
+            {
+                <li class="disabled">
+                    <a href="#" aria-label="Last">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                </li>
+            }
         }
         else
         {
             <li class="disabled">
                 <a href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li class="disabled">
+                <a href="#" aria-label="Last">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
                 </a>
             </li>
         }

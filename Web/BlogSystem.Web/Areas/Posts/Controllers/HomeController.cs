@@ -72,6 +72,7 @@
                     StartPage = startPage,
                     CurrentPage = pageNumber,
                     EndPage = endPage,
+                    AvailablePages = availablePages,
                 },
             };
 
@@ -162,6 +163,7 @@
                     StartPage = startPage,
                     CurrentPage = pageNumber,
                     EndPage = endPage,
+                    AvailablePages = availablePages,
                 },
             };
 
