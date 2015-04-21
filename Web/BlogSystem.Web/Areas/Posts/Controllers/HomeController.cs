@@ -15,6 +15,7 @@
     using BlogSystem.Web.Areas.Posts.Models;
     using BlogSystem.Web.Controllers;
     using BlogSystem.Web.Infrastructure.Filters;
+    using BlogSystem.Web.ViewModels;
 
     using Microsoft.AspNet.Identity;
 
@@ -30,15 +31,7 @@
         [HttpGet]
         public ActionResult Posts(int pageNumber = 1, int postsPerPage = 2)
         {
-            if (pageNumber <= 0)
-            {
-                pageNumber = 1; 
-            }
-
-            if (postsPerPage <= 0 || 20 < postsPerPage)
-            {
-                postsPerPage = 2;
-            }
+            this.CheckParams(ref pageNumber, ref postsPerPage);
 
             List<PostViewModel> postsToDisplay = this.Data.Posts.All()
                 .AsQueryable()
@@ -58,43 +51,28 @@
 
             if (postsCount == 0)
             {
-                //TODO CHECK
+                // TODO CHECK
                 this.TempData["error"] = "No posts yet!";
                 return this.PartialView("_Posts");
             }
 
-            int startPage = 1;
-            int endPage = 5;
-            int availablePages = (int)Math.Ceiling((double)postsCount / postsPerPage);
+            int startPage;
+            int endPage;
+            int availablePages;
 
-            if (availablePages <= 5)
-            {
-                startPage = 1;
-                endPage = availablePages;
-            }
-            else
-            {
-                startPage = pageNumber - 2;
-                endPage = pageNumber + 2;
-                while (startPage < 1)
-                {
-                    startPage++;
-                    endPage++;
-                }
-
-                while (endPage > availablePages)
-                {
-                    endPage--;
-                    startPage--;
-                }
-            }
+            this.SetPagingParams(postsCount, postsPerPage, pageNumber, out availablePages, out startPage, out endPage);
 
             var pagingModel = new PostsPagingViewModel()
             {
                 Posts = postsToDisplay,
-                StartPage = startPage,
-                CurrentPage = pageNumber,
-                EndPage = endPage,
+                Pagination = new PaginationModel() 
+                {
+                    AreaName = "Posts",
+                    ViewName = "Posts",
+                    StartPage = startPage,
+                    CurrentPage = pageNumber,
+                    EndPage = endPage,
+                },
             };
 
             return this.PartialView("_Posts", pagingModel);
@@ -141,15 +119,7 @@
         [Authorize]
         public ActionResult MyPostsPartial(int pageNumber = 1, int postsPerPage = 3)
         {
-            if (pageNumber <= 0)
-            {
-                pageNumber = 1;
-            }
-
-            if (postsPerPage <= 0 || 20 < postsPerPage)
-            {
-                postsPerPage = 3;
-            }
+            this.CheckParams(ref pageNumber, ref postsPerPage);
 
             string userId = User.Identity.GetUserId();
             var postsToDisplay = this.Data.Posts.All()
@@ -171,43 +141,28 @@
 
             if (postsCount == 0)
             {
-                //TODO return no posts
+                // TODO return no posts
                 this.TempData["error"] = "No posts yet!";
                 return this.PartialView("_MyPostsPartial");
             }
 
-            int startPage = 1;
-            int endPage = 5;
-            int availablePages = (int)Math.Ceiling((double)postsCount / postsPerPage);
+            int startPage;
+            int endPage;
+            int availablePages;
 
-            if (availablePages <= 5)
-            {
-                startPage = 1;
-                endPage = availablePages;
-            }
-            else
-            {
-                startPage = pageNumber - 2;
-                endPage = pageNumber + 2;
-                while (startPage < 1)
-                {
-                    startPage++;
-                    endPage++;
-                }
-
-                while (endPage > availablePages)
-                {
-                    endPage--;
-                    startPage--;
-                }
-            }
+            this.SetPagingParams(postsCount, postsPerPage, pageNumber, out availablePages, out startPage, out endPage);
 
             var pagingModel = new MyPostsPagingViewModel()
             {
                 Posts = postsToDisplay,
-                StartPage = startPage,
-                CurrentPage = pageNumber,
-                EndPage = endPage,
+                Pagination = new PaginationModel()
+                {
+                    AreaName = "Posts",
+                    ViewName = "MyPostsPartial",
+                    StartPage = startPage,
+                    CurrentPage = pageNumber,
+                    EndPage = endPage,
+                },
             };
 
             return this.PartialView("_MyPostsPartial", pagingModel);
@@ -263,6 +218,50 @@
             }
 
             return this.RedirectToAction("Index");
+        }
+
+        [NonAction]
+        private void CheckParams(ref int pageNumber, ref int postsPerPage)
+        {
+            if (pageNumber <= 0)
+            {
+                pageNumber = 1;
+            }
+
+            if (postsPerPage <= 0 || 20 < postsPerPage)
+            {
+                postsPerPage = 2;
+            }
+        }
+
+        [NonAction]
+        private void SetPagingParams(int postsCount, int postsPerPage, int pageNumber, out int availablePages, out int startPage, out int endPage)
+        {
+            startPage = 1;
+            endPage = 5;
+            availablePages = (int)Math.Ceiling((double)postsCount / postsPerPage);
+
+            if (availablePages <= 5)
+            {
+                startPage = 1;
+                endPage = availablePages;
+            }
+            else
+            {
+                startPage = pageNumber - 2;
+                endPage = pageNumber + 2;
+                while (startPage < 1)
+                {
+                    startPage++;
+                    endPage++;
+                }
+
+                while (endPage > availablePages)
+                {
+                    endPage--;
+                    startPage--;
+                }
+            }
         }
     }
 }
