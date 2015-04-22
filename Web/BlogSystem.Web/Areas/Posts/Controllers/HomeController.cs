@@ -28,6 +28,23 @@
             return this.View();
         }
 
+        [HttpPost]
+        public ActionResult DisplayPost(int id)
+        {
+            var post = this.Data.Posts.All()
+                .AsQueryable()
+                .Project().To<PostViewModel>()
+                .Where(p => p.Id == id)
+                .FirstOrDefault();
+
+            if (post == null)
+            {
+                return null;
+            }
+
+            return this.PartialView("_DisplayPost", post);
+        }
+
         [HttpGet]
         public ActionResult Posts(int pageNumber = 1, int postsPerPage = 2)
         {

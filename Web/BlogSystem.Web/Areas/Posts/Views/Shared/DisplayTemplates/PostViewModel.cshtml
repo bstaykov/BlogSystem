@@ -41,7 +41,16 @@
         </div>
     }
     <div class="col-sm-10">
-        <h2 class="media-heading">@Model.Title</h2>
+        <h2 class="media-heading">
+                @Ajax.ActionLink(@Model.Title, "DisplayPost", "Home", new { id = @Model.Id, area = "Posts" },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "displayedPost",
+                            LoadingElementId = "loading",
+                            HttpMethod = "Post",
+                        })
+        </h2>
         <span class="label label-primary">@Model.Category</span>
         <span class="label label-success">@Model.Author</span>
         <span class="label label-info">@Model.DateTimePosted</span>

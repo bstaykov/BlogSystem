@@ -232,6 +232,7 @@
     <Compile Include="Areas\Posts\Models\MyPostsPagingViewModel.cs" />
     <Compile Include="Areas\Posts\Models\MyPostViewModel.cs" />
     <Compile Include="Areas\Posts\Models\PostInputModel.cs" />
+    <Compile Include="Areas\Posts\Models\PostsListViewModel.cs" />
     <Compile Include="Areas\Posts\Models\PostsPagingViewModel.cs" />
     <Compile Include="Areas\Posts\Models\PostViewModel.cs" />
     <Compile Include="Areas\Posts\PostsAreaRegistration.cs" />
@@ -320,6 +321,7 @@
     <Content Include="Areas\Likes\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Likes\Views\Shared\_LikingFeedbackMessage.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_MyPostsPartial.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\_DisplayPost.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

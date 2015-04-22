@@ -5,10 +5,12 @@
     public class Comment
     {
         private ICollection<CommentLiker> commentLikers;
+        private ICollection<Comment> subComments;
 
         public Comment()
         {
             this.CommentLikers = new HashSet<CommentLiker>();
+            this.SubComments = new HashSet<Comment>();
         }
 
         public int Id { get; set; }
@@ -33,6 +35,19 @@
             set
             {
                 this.commentLikers = value;
+            }
+        }
+
+        public virtual ICollection<Comment> SubComments
+        {
+            get
+            {
+                return this.subComments;
+            }
+
+            set
+            {
+                this.subComments = value;
             }
         }
     }
