@@ -228,11 +228,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Likes\LikesAreaRegistration.cs" />
+    <Compile Include="Areas\Posts\Controllers\CommentsController.cs" />
     <Compile Include="Areas\Posts\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Posts\Models\CommentInputModel.cs" />
+    <Compile Include="Areas\Posts\Models\CommentViewModel.cs" />
     <Compile Include="Areas\Posts\Models\MyPostsPagingViewModel.cs" />
     <Compile Include="Areas\Posts\Models\MyPostViewModel.cs" />
     <Compile Include="Areas\Posts\Models\PostInputModel.cs" />
-    <Compile Include="Areas\Posts\Models\PostsListViewModel.cs" />
+    <Compile Include="Areas\Posts\Models\PostListViewModel.cs" />
     <Compile Include="Areas\Posts\Models\PostsPagingViewModel.cs" />
     <Compile Include="Areas\Posts\Models\PostViewModel.cs" />
     <Compile Include="Areas\Posts\PostsAreaRegistration.cs" />
@@ -276,7 +279,14 @@
   <ItemGroup>
     <Content Include="Areas\Posts\Views\Home\Index.cshtml" />
     <Content Include="Areas\Posts\Views\Home\InsertPost.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\PostListViewModel.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\EditorTemplates\PostInputModel.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Areas\Posts\Views\Shared\_DeletePost.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\_InsertPostForm.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Areas\Posts\Views\Shared\_Posts.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -314,7 +324,6 @@
     <Content Include="Areas\Posts\Views\Home\MyPosts.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\MyPostViewModel.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\PostViewModel.cshtml" />
-    <Content Include="Areas\Posts\Views\Shared\EditorTemplates\PostInputModel.cshtml" />
     <Content Include="App_Code\RazorHelpers.cshtml" />
     <Content Include="App_Code\TempDataHelpers.cshtml" />
     <Content Include="Areas\Likes\Views\web.config" />
@@ -322,6 +331,7 @@
     <Content Include="Areas\Likes\Views\Shared\_LikingFeedbackMessage.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_MyPostsPartial.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_DisplayPost.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\CommentViewModel.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -413,6 +423,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Likes\Models\" />
     <Folder Include="Areas\Likes\Views\Home\" />
+    <Folder Include="Areas\Posts\Views\Comments\" />
     <Folder Include="Views\Admin\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>

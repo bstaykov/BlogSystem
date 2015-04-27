@@ -68,12 +68,9 @@ namespace BlogSystem.Web.App_Start
         {
             kernel.Bind<DbContext>().To<BlogSystemDbContext>();
             kernel.Bind(typeof(IBlogSystemData)).To(typeof(BlogSystemData));
-            kernel.Bind(typeof(IRepository<Post>)).To(typeof(GenericRepository<Post>));
-            kernel.Bind(typeof(IRepository<Log>)).To(typeof(GenericRepository<Log>));
-            kernel.Bind(typeof(IRepository<PostLiker>)).To(typeof(GenericRepository<PostLiker>));
-            kernel.Bind(typeof(IRepository<Comment>)).To(typeof(GenericRepository<Comment>));
-            kernel.Bind(typeof(IRepository<Tag>)).To(typeof(GenericRepository<Tag>));
-            kernel.Bind(typeof(IRepository<CommentLiker>)).To(typeof(GenericRepository<CommentLiker>));
+            kernel.Bind(typeof(IDeletableEntityRepository<>)).To(typeof(DeletableEntityRepository<>));
+            kernel.Bind(typeof(IRepository<Post>)).To(typeof(DeletableEntityRepository<Post>));
+            kernel.Bind(typeof(IRepository<>)).To(typeof(GenericRepository<>));
         }        
     }
 }

@@ -50,10 +50,10 @@
         {
             this.CheckParams(ref pageNumber, ref postsPerPage);
 
-            List<PostViewModel> postsToDisplay = this.Data.Posts.All()
+            List<PostListViewModel> postsToDisplay = this.Data.Posts.All()
                 .AsQueryable()
-                .Project().To<PostViewModel>()
-                .OrderByDescending(post => post.DateTimePosted)
+                .Project().To<PostListViewModel>()
+                .OrderByDescending(post => post.CreatedOn)
                 .Skip((pageNumber - 1) * postsPerPage)
                 .Take(postsPerPage)
                 .ToList();
@@ -63,14 +63,13 @@
             if (postsToDisplay == null)
             {
                 this.TempData["error"] = "Error while loading posts!";
-                return this.PartialView("_Posts");
+                return this.PartialView("Error");
             }
 
             if (postsCount == 0)
             {
-                // TODO CHECK
                 this.TempData["error"] = "No posts yet!";
-                return this.PartialView("_Posts");
+                return this.PartialView("Error");
             }
 
             int startPage;
@@ -100,29 +99,47 @@
         [Authorize]
         public ActionResult InsertPost()
         {
-            return this.View(new PostInputModel());
+            return this.View();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult InsertPostForm()
+        {
+            return this.PartialView("_InsertPostForm", new PostInputModel());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult InsertPost(PostInputModel post)
+        public ActionResult InsertPostForm(PostInputModel post)
         {
             if (ModelState.IsValid)
             {
                 Mapper.CreateMap<PostInputModel, Post>();
                 Post newPost = Mapper.Map<Post>(post);
-                newPost.DateTimePosted = DateTime.Now;
+                newPost.CreatedOn = DateTime.Now;
                 newPost.UserId = User.Identity.GetUserId();
                 this.Data.Posts.Add(newPost);
-                this.Data.Posts.SaveChanges();
+                try
+                {
+                    int result = this.Data.Posts.SaveChanges();
+                    if (result == 1)
+                    {
+                        this.TempData["success"] = "Post was added!";
 
-                this.TempData["success"] = "Post was added!";
+                        return this.PartialView("_InsertPostForm", new PostInputModel());
+                    }
 
-                return this.RedirectToAction("InsertPost");
+                    this.TempData["error"] = "Post was not added!";
+                }
+                catch (System.Data.Entity.Infrastructure.DbUpdateException)
+                {
+                    this.TempData["error"] = "Post was not added!";
+                }
             }
 
-            return this.View(post);
+            return this.PartialView("_InsertPostForm", post);
         }
 
         [HttpGet]
@@ -144,7 +161,7 @@
                 .AsQueryable()
                 .Where(post => post.UserId == userId)
                 .Project().To<MyPostViewModel>()
-                .OrderBy(post => post.DateTimePosted)
+                .OrderByDescending(post => post.CreatedOn)
                 .Skip((pageNumber - 1) * postsPerPage)
                 .Take(postsPerPage)
                 .ToList();
@@ -153,15 +170,14 @@
 
             if (postsToDisplay == null)
             {
-                this.TempData["error"] = "Error while loading posts!";
-                return this.PartialView("_MyPostsPartial");
+                this.TempData["error"] = "Error while loading your posts!";
+                return this.PartialView("Error");
             }
 
             if (postsCount == 0)
             {
-                // TODO return no posts
                 this.TempData["error"] = "No posts yet!";
-                return this.PartialView("_MyPostsPartial");
+                return this.PartialView("Error");
             }
 
             int startPage;

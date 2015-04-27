@@ -5,6 +5,7 @@
 
     using AutoMapper;
 
+    using BlogSystem.Common.Models;
     using BlogSystem.Models;
     using BlogSystem.Web.Infrastructure.Mapping;
 
@@ -22,7 +23,7 @@
                     Title = post.Title,
                     Content = post.Content,
                     Category = post.Category,
-                    DateTimePosted = post.DateTimePosted,
+                    CreatedOn = post.CreatedOn,
                 };
             }
         }
@@ -33,6 +34,10 @@
 
         public string Content { get; set; }
 
+        public DateTime CreatedOn { get; set; }
+
+        public bool IsDeleted { get; set; }
+
         public PostCategory Category { get; set; }
 
         public string Info { get; set; }
@@ -40,8 +45,6 @@
         public int Likes { get; set; }
 
         public int CommentsCount { get; set; }
-
-        public DateTime DateTimePosted { get; set; }
 
         public void CreateMappings(IConfiguration configuration)
         {

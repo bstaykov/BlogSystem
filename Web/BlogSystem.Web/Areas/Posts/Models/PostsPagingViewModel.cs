@@ -6,7 +6,7 @@
 
     public class PostsPagingViewModel
     {
-        public IEnumerable<PostViewModel> Posts { get; set; }
+        public IEnumerable<PostListViewModel> Posts { get; set; }
 
         public PaginationModel Pagination { get; set; }
     }

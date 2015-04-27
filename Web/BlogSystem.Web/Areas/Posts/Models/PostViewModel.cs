@@ -3,12 +3,14 @@
     using System;
     using System.Linq.Expressions;
 
+    using AutoMapper;
+
     using BlogSystem.Models;
     using BlogSystem.Web.Infrastructure.Mapping;
 
     using Microsoft.AspNet.Identity;
 
-    public class PostViewModel : IMapFrom<Post>
+    public class PostViewModel : IMapFrom<Post>, IHaveCustomMappings
     {
         public static Expression<Func<Post, PostViewModel>> FromPost
         {
@@ -20,7 +22,7 @@
                     Title = post.Title,
                     Content = post.Content,
                     Category = post.Category,
-                    DateTimePosted = post.DateTimePosted,
+                    CreatedOn = post.CreatedOn,
                     Author = post.User.UserName,
                     CommentsCount = post.CommentsCount,
                     Likes = post.Likes
@@ -36,12 +38,18 @@
 
         public PostCategory Category { get; set; }
 
-        public DateTime DateTimePosted { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         public string Author { get; set; }
 
         public int Likes { get; set; }
 
         public int CommentsCount { get; set; }
+
+        public void CreateMappings(IConfiguration configuration)
+        {
+            configuration.CreateMap<Post, PostViewModel>()
+                .ForMember(post => post.Author, options => options.MapFrom(post => post.User.UserName));
+        }
     }
 }

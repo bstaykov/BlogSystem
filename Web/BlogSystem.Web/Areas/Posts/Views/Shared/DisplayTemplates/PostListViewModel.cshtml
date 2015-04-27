@@ -1,0 +1,41 @@
+﻿@using BlogSystem.Web.Areas.Posts.Models
+@using Microsoft.AspNet.Identity
+
+@model PostListViewModel
+
+<div class="row">
+    <div class="col-sm-10">
+        <h2 class="media-heading">
+            @Ajax.ActionLink(@Model.Title, "DisplayPost", "Home", new { id = @Model.Id, area = "Posts" },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "displayedPost",
+                            LoadingElementId = "loading",
+                            HttpMethod = "Post",
+                        })
+        </h2>
+        <h4 class="media-body">@Model.Content</h4>
+        <span class="label label-primary">@Model.Category</span>
+        <span class="label label-success">@Model.Author</span>
+        <span class="label label-info">@Model.CreatedOn</span>
+        @{
+            var likesCountId = "likes" + @Model.Id;
+            var commentsCountId = "comments" + @Model.Id;
+            var labelClass = "label-success";
+        }
+        @if (@Model.Likes < 0)
+        {
+            labelClass = "label-danger";
+        }
+        <span class="label @labelClass">Likes <span id="@likesCountId">@Model.Likes</span></span>
+        <span class="label label-info">
+            @{
+                var postCommentsId = "post" + @Model.Id;
+            }
+            <span id="@commentsCountId">
+                Comments @Model.CommentsCount
+            </span>
+        </span>
+    </div>
+</div>

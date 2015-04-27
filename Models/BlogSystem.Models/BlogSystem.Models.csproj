@@ -68,6 +68,12 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\BlogSystem.Common\BlogSystem.Common.csproj">
+      <Project>{ca5f8b21-7bbb-4e64-84e0-92e1014a9f72}</Project>
+      <Name>BlogSystem.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

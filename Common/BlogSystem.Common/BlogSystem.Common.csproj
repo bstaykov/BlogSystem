@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\AuditInfo.cs" />
+    <Compile Include="Models\DeletableEntity.cs" />
     <Compile Include="Models\IAuditInfo.cs" />
     <Compile Include="Models\IDeletableEntity.cs" />
     <Compile Include="Models\IOrderable.cs" />

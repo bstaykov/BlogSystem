@@ -8,10 +8,8 @@
     @if (User.Identity.IsAuthenticated)
     {
         <div class="col-sm-1">
-            <div class="row">
-                <div class="col-sm-1">
-                    <button type="button" class="btn btn-default btn-sm">
-                        @Ajax.ActionLink(" UP", "UpVoteById", "Home", new { id = @Model.Id, vote = "UP", area = "Likes" },
+            <button type="button" class="btn btn-default btn-sm">
+                @Ajax.ActionLink(" ", "UpVoteById", "Home", new { id = @Model.Id, vote = "UP", area = "Likes" },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
@@ -20,13 +18,9 @@
                             HttpMethod = "Post",
                         },
                         htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-up" })
-                    </button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-1">
-                    <button type="button" class="btn btn-default btn-sm">
-                        @Ajax.ActionLink(" Down", "DownVoteById", "Home", new { id = @Model.Id, vote = "Down", area = "Likes" },
+            </button>
+            <button type="button" class="btn btn-default btn-sm">
+                @Ajax.ActionLink(" ", "DownVoteById", "Home", new { id = @Model.Id, vote = "Down", area = "Likes" },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
@@ -35,14 +29,12 @@
                             HttpMethod = "Post",
                         },
                         htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-down" })
-                    </button>
-                </div>
-            </div>
+            </button>
         </div>
     }
-    <div class="col-sm-10">
+    <div class="col-sm-11">
         <h2 class="media-heading">
-                @Ajax.ActionLink(@Model.Title, "DisplayPost", "Home", new { id = @Model.Id, area = "Posts" },
+            @Ajax.ActionLink(@Model.Title, "DisplayPost", "Home", new { id = @Model.Id, area = "Posts" },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
@@ -53,7 +45,7 @@
         </h2>
         <span class="label label-primary">@Model.Category</span>
         <span class="label label-success">@Model.Author</span>
-        <span class="label label-info">@Model.DateTimePosted</span>
+        <span class="label label-info">@Model.CreatedOn</span>
         @{
             var likesCountId = "likes" + @Model.Id;
             var commentsCountId = "comments" + @Model.Id;
@@ -64,7 +56,76 @@
             labelClass = "label-danger";
         }
         <span class="label @labelClass">Likes <span id="@likesCountId">@Model.Likes</span></span>
-        <span class="label label-info">Comments <span id="@commentsCountId">@Model.CommentsCount</span></span>
+        <span class="label label-info">
+            @{
+                var postCommentsId = "post" + @Model.Id;
+            }
+            <span id="@commentsCountId">
+                @Ajax.ActionLink("Comments" + @Model.CommentsCount, "ViewComments", "Comments", new { postId = @Model.Id, area = "Posts" },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = @Model.Id.ToString(),
+                            LoadingElementId = postCommentsId,
+                            HttpMethod = "Post",
+                        })
+            </span>
+        </span>
         <h4 class="media-body">@Model.Content</h4>
+        <div id="@postCommentsId">
+            @if (@Model.CommentsCount == 0)
+            {
+                @Ajax.ActionLink("First one to comment...", "GetCommentForm", "Comments", new { id = @Model.Id, area = "Posts" },
+                new AjaxOptions
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = @postCommentsId,
+                    LoadingElementId = "loading",
+                })
+            }
+            else
+            {
+
+            }
+        </div>
     </div>
 </div>
+
+@*<ul class="media-list">
+        <li class="media">
+            <div class="media-left">
+
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">Media heading</h4>
+                ...
+            </div>
+        </li>
+        <li class="media">
+            <div class="media-left">
+
+            </div>
+            <div class="media-body">
+                <ul class="media-list">
+                    <li class="media">
+                        <div class="media-left">
+
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Media heading</h4>
+                            ...
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left">
+
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Media heading</h4>
+                            ...
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>*@

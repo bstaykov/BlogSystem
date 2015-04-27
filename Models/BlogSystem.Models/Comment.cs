@@ -1,5 +1,6 @@
 ﻿namespace BlogSystem.Models
 {
+    using System;
     using System.Collections.Generic;
 
     public class Comment
@@ -21,9 +22,15 @@
 
         public int Likes { get; set; }
 
+        public int SubCommentsCount { get; set; }
+
         public int PostId { get; set; }
 
         public virtual Post Post { get; set; }
+
+        public DateTime CreatedOn { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         public virtual ICollection<CommentLiker> CommentLikers
         {

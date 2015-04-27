@@ -1,23 +1,14 @@
-﻿@using BlogSystem.Web.Areas.Posts.Models
+﻿<div class="progress" id="loading" style="display: none;">
+    <div class=" progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+        <span class="sr-only">90% Complete (danger)</span>
+    </div>
+</div>
 
-@model PostInputModel
-
-@{
-    ViewBag.Title = "Posts";
-}
-
-@if (TempData["success"] != null)
-{
-    @TempDataHelpers.TempMessage("SUCCESS", "success")
-}
-
-@Html.EditorForModel(@Model)
-
-
+<div id="postForm">    
+    @Html.Action("InsertPostForm", "Home", new { area = "Posts" })
+</div>  
 
 @* CLIENT VALIDATION *@
-
-@section Scripts {
+@section scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
-

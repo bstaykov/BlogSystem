@@ -4,7 +4,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Post
+    using BlogSystem.Common.Models;
+
+    public class Post : DeletableEntity
     {
         private ICollection<PostLiker> postLikers;
         private ICollection<Comment> comments;
@@ -25,8 +27,6 @@
         public string Content { get; set; }
 
         public PostCategory Category { get; set; }
-
-        public DateTime DateTimePosted { get; set; }
 
         public string UserId { get; set; }
 
