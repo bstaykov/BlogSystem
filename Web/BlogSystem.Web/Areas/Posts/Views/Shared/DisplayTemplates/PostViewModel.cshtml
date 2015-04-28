@@ -73,70 +73,73 @@
             </span>
         </span>
         <h4 class="media-body">@Model.Content</h4>
-        <div id="@postCommentsId">
-            @{
-                var commentLinkIcon = "<span class='glyphicon glyphicon-comment' aria-hidden='true'></span>";
-                if (@Model.CommentsCount == 0)
-                {
-                    commentLinkIcon = "First one to comment..." + commentLinkIcon;
+        @if (User.Identity.IsAuthenticated)
+        {            
+            <div id="@postCommentsId">
+                @{
+                    var commentLinkIcon = "<span class='glyphicon glyphicon-comment' aria-hidden='true'></span>";
+                    if (@Model.CommentsCount == 0)
+                    {
+                        commentLinkIcon = "First one to comment..." + commentLinkIcon;
+                    }
                 }
-            }
-            @Ajax.RawActionLink(commentLinkIcon, "GetCommentForm", "Comments", new { id = @Model.Id, area = "Posts" },
+
+                @LoadingElementHelper.ProgressBar(id: "commenting", width: 90, alertType: "info")
+
+                @Ajax.RawActionLink(commentLinkIcon, "GetCommentForm", "Comments", new { postId = @Model.Id, area = "Posts" },
                 new AjaxOptions
                 {
                     InsertionMode = InsertionMode.Replace,
                     UpdateTargetId = "commentForm",
                     LoadingElementId = "commenting",
+                    HttpMethod = "Post",
                 },
                 null)
-        </div>
+            </div>
+        }
     </div>
 </div>
+@if (User.Identity.IsAuthenticated)
+{    
+    <div id="commentForm">
 
-<div class="progress" id="commenting" style="display: none;">
-    <div class=" progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-        <span class="sr-only">100% Complete (danger)</span>
     </div>
-</div>
-<div id="commentForm">
+}
+    @*<ul class="media-list">
+            <li class="media">
+                <div class="media-left">
 
-</div>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">Media heading</h4>
+                    ...
+                </div>
+            </li>
+            <li class="media">
+                <div class="media-left">
 
-@*<ul class="media-list">
-        <li class="media">
-            <div class="media-left">
+                </div>
+                <div class="media-body">
+                    <ul class="media-list">
+                        <li class="media">
+                            <div class="media-left">
 
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading">Media heading</h4>
-                ...
-            </div>
-        </li>
-        <li class="media">
-            <div class="media-left">
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">Media heading</h4>
+                                ...
+                            </div>
+                        </li>
+                        <li class="media">
+                            <div class="media-left">
 
-            </div>
-            <div class="media-body">
-                <ul class="media-list">
-                    <li class="media">
-                        <div class="media-left">
-
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Media heading</h4>
-                            ...
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Media heading</h4>
-                            ...
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </li>
-    </ul>*@
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">Media heading</h4>
+                                ...
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>*@

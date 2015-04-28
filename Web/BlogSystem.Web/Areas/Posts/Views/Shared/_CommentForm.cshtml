@@ -4,7 +4,8 @@
 
 @Html.EditorForModel(@Model)
 
-@* CLIENT VALIDATION *@
-@section scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<script>
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse("#commentPostForm");
+    });
+</script>

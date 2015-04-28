@@ -3,7 +3,9 @@
     using System;
     using System.Collections.Generic;
 
-    public class Comment
+    using BlogSystem.Common.Models;
+
+    public class Comment : DeletableEntity
     {
         private ICollection<CommentLiker> commentLikers;
         private ICollection<Comment> subComments;
@@ -16,7 +18,7 @@
 
         public int Id { get; set; }
 
-        public int UserName { get; set; }
+        public string UserName { get; set; }
 
         public string Content { get; set; }
 
@@ -27,10 +29,6 @@
         public int PostId { get; set; }
 
         public virtual Post Post { get; set; }
-
-        public DateTime CreatedOn { get; set; }
-
-        public bool IsDeleted { get; set; }
 
         public virtual ICollection<CommentLiker> CommentLikers
         {

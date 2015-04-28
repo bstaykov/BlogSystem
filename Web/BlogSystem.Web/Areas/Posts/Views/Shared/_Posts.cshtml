@@ -3,9 +3,9 @@
 
 @model PostsPagingViewModel
 
-@foreach (var item in @Model.Posts)
+@foreach (var post in @Model.Posts)
 {
-    @Html.DisplayFor(m => item)
+    @Html.DisplayFor(model => post)
 }
 
 @Html.Partial("_Pagination", @Model.Pagination)

@@ -39,6 +39,11 @@
 
         private void SaveLogToDb(ControllerContext filterContext, LogStatus status)
         {
+            if (filterContext.HttpContext.User.Identity.IsAuthenticated == false)
+            {
+                return;
+            }
+
             var userName = filterContext.HttpContext.User.Identity.Name;
             var userId = this.data.Users.All().Where(user => user.UserName == userName).Select(user => user.Id).FirstOrDefault();
             var url = filterContext.HttpContext.Request.RawUrl;
