@@ -224,6 +224,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\ViewenginesConfiguration.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
+    <Compile Include="Areas\Administration\Controllers\LogsController.cs" />
     <Compile Include="Areas\Likes\Controllers\HomeController.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -335,6 +337,7 @@
     <Content Include="Areas\Posts\Views\Shared\EditorTemplates\CommentInputModel.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_CommentForm.cshtml" />
     <Content Include="App_Code\LoadingElementHelper.cshtml" />
+    <Content Include="Areas\Administration\Views\web.config" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -425,6 +428,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Administration\Models\" />
+    <Folder Include="Areas\Administration\Views\Logs\" />
+    <Folder Include="Areas\Administration\Views\Shared\" />
     <Folder Include="Areas\Likes\Models\" />
     <Folder Include="Areas\Likes\Views\Home\" />
     <Folder Include="Areas\Posts\Views\Comments\" />

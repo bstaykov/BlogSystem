@@ -9,5 +9,7 @@
         public virtual User User { get; set; }
 
         public string Url { get; set; }
+
+        public LogStatus Status { get; set; }
     }
 }
