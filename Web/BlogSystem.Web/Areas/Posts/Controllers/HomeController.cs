@@ -128,14 +128,14 @@
                     {
                         this.TempData["success"] = "Post was added!";
 
-                        return this.PartialView("_InsertPostForm", new PostInputModel());
+                        return this.RedirectToAction("InsertPostForm");
                     }
 
                     this.TempData["error"] = "Post was not added!";
                 }
                 catch (System.Data.Entity.Infrastructure.DbUpdateException)
                 {
-                    this.TempData["error"] = "Post was not added!";
+                    this.TempData["error"] = "Error! Post was not added!";
                 }
             }
 

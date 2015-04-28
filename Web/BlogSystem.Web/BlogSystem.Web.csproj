@@ -332,6 +332,9 @@
     <Content Include="Areas\Posts\Views\Shared\_MyPostsPartial.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_DisplayPost.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\CommentViewModel.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\EditorTemplates\CommentInputModel.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\_CommentForm.cshtml" />
+    <Content Include="App_Code\LoadingElementHelper.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -418,6 +421,7 @@
     <Content Include="Views\Shared\_TestLinks.cshtml" />
     <Content Include="Views\Home\UserInfo.cshtml" />
     <Content Include="Views\Shared\_Pagination.cshtml" />
+    <Content Include="Views\Shared\_Message.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

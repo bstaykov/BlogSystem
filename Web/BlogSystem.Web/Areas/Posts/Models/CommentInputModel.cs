@@ -9,8 +9,8 @@
             this.Content = "Write your comment here...";
         }
 
-        [Required(ErrorMessage = "Category is required!")]
-        [StringLength(100, ErrorMessage = "Maximum 100 symbols.")]
+        [Required(ErrorMessage = "Required!")]
+        [StringLength(100, ErrorMessage = "Maximum 100 symbols.", MinimumLength = 1)]
         public string Content { get; set; }
     }
 }

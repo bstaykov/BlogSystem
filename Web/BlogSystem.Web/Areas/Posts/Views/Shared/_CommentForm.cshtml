@@ -1,0 +1,10 @@
+﻿@using BlogSystem.Web.Areas.Posts.Models
+
+@model CommentInputModel
+
+@Html.EditorForModel(@Model)
+
+@* CLIENT VALIDATION *@
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

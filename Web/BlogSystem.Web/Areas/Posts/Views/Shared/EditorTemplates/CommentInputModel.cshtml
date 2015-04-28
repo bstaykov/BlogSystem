@@ -1,0 +1,42 @@
+﻿@using BlogSystem.Web.Areas.Posts.Models
+@using BlogSystem.Web.Helpers
+
+@model CommentInputModel
+
+<div class="jumbotron">
+    @using (Ajax.BeginForm("CommentPost", "Comments", new { area = "Posts" },
+            new AjaxOptions
+            {
+                UpdateTargetId = "commentForm",
+                InsertionMode = InsertionMode.Replace,
+                LoadingElementId = "commenting",
+                HttpMethod = "POST"
+            },
+            new { id = "commentPostForm" }))
+    {
+        @Html.AntiForgeryToken()
+
+        // excludes properties errors
+        @Html.ValidationSummary(true)
+
+        <div class="row">
+            <div class="form-group">
+                <div class="col-lg-12">
+                    @Html.TextAreaFor(comment => comment.Content, new { htmlAttributes = new { @class = "form-control" } })
+                    @*@Html.EditorFor(comment => comment.Content, new { htmlAttributes = new { @class = "form-control", rows = 3} })*@
+                    @Html.ValidationMessageFor(post => post.Content, null, new { @class = "alert-warning" })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            @Html.Submit("Comment", new { @class = "btn col-lg-1" })
+        </div>
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse("#commentPostForm");
+    });
+</script>

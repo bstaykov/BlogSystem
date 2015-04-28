@@ -28,7 +28,7 @@
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Post, PostListViewModel>()
-                .ForMember(post => post.Content, options => options.MapFrom(post => post.Content.Substring(0, 100)));
+                .ForMember(post => post.Content, options => options.MapFrom(post => post.Content.Substring(0, 20) + "..."));
             configuration.CreateMap<Post, PostListViewModel>()
                 .ForMember(post => post.Author, options => options.MapFrom(post => post.User.UserName));
         }
