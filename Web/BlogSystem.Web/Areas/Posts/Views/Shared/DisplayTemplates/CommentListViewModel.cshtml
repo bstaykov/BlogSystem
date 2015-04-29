@@ -9,10 +9,44 @@
     var deleteIconId = "delete" + @Model.Id;
     var editIconId = "edit" + @Model.Id;
     var contetnId = "content" + @Model.Id;
+    var likedId = "liked" + @Model.Id;
+    var likeLoadingId = "likedLoading" + @Model.Id;
 }
 
 <div class="row" id="@commentId">
-    <div class="col-sm-12">
+    @if (User.Identity.IsAuthenticated)
+    {
+        var commentVotingId = "commentVoting" + @Model.Id;
+        var feedBackMessageId = "feedbackMessage" + @Model.Id;
+        
+        <div id="@feedBackMessageId"></div>
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-default btn-sm">
+                @Ajax.ActionLink(" ", "VoteComment", "Home", new { id = @Model.Id, vote = true, area = "Likes" },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = @feedBackMessageId,
+                            LoadingElementId = @commentVotingId,
+                            HttpMethod = "Post",
+                        },
+                        htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-up", Title = "Vote Up" })
+            </button>
+            <button type="button" class="btn btn-default btn-sm">
+                @Ajax.ActionLink(" ", "VoteComment", "Home", new { id = @Model.Id, vote = false, area = "Likes" },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = @feedBackMessageId,
+                            LoadingElementId = @commentVotingId,
+                            HttpMethod = "Post",
+                        },
+                        htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-down", Title = "Vote Down" })
+            </button>
+            @LoadingElementHelper.ProgressBar(id: @commentVotingId, width: 75, alertType: "info", maxValue: 10)
+        </div>
+    }
+    <div class="col-sm-11">
         <span class="label label-info">@Model.UserName @Model.CreatedOn</span>
         @{
             var likesCountId = "likes" + @Model.Id;

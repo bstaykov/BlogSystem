@@ -5,32 +5,36 @@
 @model PostViewModel
 
 <div class="row">
-    <div id="@Model.Id"></div>
     @if (User.Identity.IsAuthenticated)
     {
+        var postVotingId = "postVoting" + @Model.Id;
+        var feedBackMessageId = "feedbackMessage" + @Model.Id;
+        
+        <div id="@feedBackMessageId"></div>
         <div class="col-sm-1">
             <button type="button" class="btn btn-default btn-sm">
-                @Ajax.ActionLink(" ", "UpVoteById", "Home", new { id = @Model.Id, vote = "UP", area = "Likes" },
+                @Ajax.ActionLink(" ", "VotePost", "Home", new { id = @Model.Id, vote = true, area = "Likes" },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = @Model.Id.ToString(),
-                            LoadingElementId = "loading",
+                            UpdateTargetId = @feedBackMessageId,
+                            LoadingElementId = @postVotingId,
                             HttpMethod = "Post",
                         },
                         htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-up", Title = "Vote Up" })
             </button>
             <button type="button" class="btn btn-default btn-sm">
-                @Ajax.ActionLink(" ", "DownVoteById", "Home", new { id = @Model.Id, vote = "Down", area = "Likes" },
+                @Ajax.ActionLink(" ", "VotePost", "Home", new { id = @Model.Id, vote = false, area = "Likes" },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = @Model.Id.ToString(),
-                            LoadingElementId = "loading",
+                            UpdateTargetId = @feedBackMessageId,
+                            LoadingElementId = @postVotingId,
                             HttpMethod = "Post",
                         },
                         htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-down", Title = "Vote Down" })
-            </button>
+            </button>            
+            @LoadingElementHelper.ProgressBar(id: @postVotingId, width: 75, alertType: "info", maxValue: 10)
         </div>
     }
     <div class="col-sm-11">

@@ -12,25 +12,25 @@
     public class HomeController : BaseController
     {
         [HttpPost]
-        public ActionResult UpVoteById(int id)
+        public ActionResult VotePost(int id, bool vote)
         {
-            this.ActualVote(id, true);
+            this.ActualPostVote(id, vote);
 
             return this.PartialView("_LikingFeedbackMessage");
         }
 
         [HttpPost]
-        public ActionResult DownVoteById(int id)
+        public ActionResult VoteComment(int id, bool vote)
         {
-            this.ActualVote(id, false);
+            this.ActualCommentVote(id, vote);
 
             return this.PartialView("_LikingFeedbackMessage");
         }
 
         [NonAction]
-        private void ActualVote(int postId, bool isLiked)
+        private void ActualPostVote(int postId, bool isLiked)
         {
-            int postsLikeValue = isLiked ? 1 : -1;
+            int postLikeValue = isLiked ? 1 : -1;
             int inverseLikeValue = isLiked ? 2 : -2;
 
             var userId = this.User.Identity.GetUserId();
@@ -64,7 +64,7 @@
                 };
 
                 this.Data.PostLikers.Add(newPostLiker);
-                post.Likes = post.Likes + postsLikeValue;
+                post.Likes = post.Likes + postLikeValue;
                 this.Data.SaveChanges();
 
                 this.TempData["success"] = "Post voted successfully.";
@@ -77,6 +77,63 @@
             {
                 postLiker.IsLiked = isLiked;
                 post.Likes = post.Likes + inverseLikeValue;
+                this.Data.SaveChanges();
+                this.TempData["success"] = "Vote inversed successfully.";
+            }
+
+            return;
+        }
+
+        [NonAction]
+        private void ActualCommentVote(int commentId, bool isLiked)
+        {
+            int commentLikeValue = isLiked ? 1 : -1;
+            int inverseLikeValue = isLiked ? 2 : -2;
+
+            var userName = this.User.Identity.Name;
+
+            var comment = this.Data.Comments.GetById(commentId);
+
+            if (comment == null)
+            {
+                this.TempData["error"] = "Comment is missing!";
+
+                return;
+            }
+            else if (comment.UserName == userName)
+            {
+                this.TempData["error"] = "Cannot vote your comment!";
+
+                return;
+            }
+
+            var commentLiker = this.Data.CommentLikers.All()
+                .AsQueryable()
+                .FirstOrDefault(cl => cl.CommentId == commentId && cl.User.UserName == userName);
+
+            if (commentLiker == null)
+            {
+                var newCommentLiker = new CommentLiker()
+                {
+                    CommentId = commentId,
+                    UserId = this.User.Identity.GetUserId(),
+                    IsLiked = isLiked,
+                };
+
+                this.Data.CommentLikers.Add(newCommentLiker);
+                comment.Likes = comment.Likes + commentLikeValue;
+                this.Data.SaveChanges();
+
+                this.TempData["success"] = "Comment voted successfully.";
+            }
+            else if (commentLiker.IsLiked == isLiked)
+            {
+                this.TempData["error"] = "Comment already voted by you!";
+            }
+            else
+            {
+                commentLiker.IsLiked = isLiked;
+                comment.Likes = comment.Likes + inverseLikeValue;
                 this.Data.SaveChanges();
                 this.TempData["success"] = "Vote inversed successfully.";
             }
