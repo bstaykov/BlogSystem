@@ -5,11 +5,11 @@
     using BlogSystem.Models;
     using BlogSystem.Web.Infrastructure.Mapping;
 
-    public class CommentViewModel : IMapFrom<Comment>
+    public class CommentListViewModel : IMapFrom<Comment>
     {
         public int Id { get; set; }
 
-        public int UserName { get; set; }
+        public string UserName { get; set; }
 
         public string Content { get; set; }
 
@@ -20,7 +20,5 @@
         public int PostId { get; set; }
 
         public DateTime CreatedOn { get; set; }
-
-        public bool IsDeleted { get; set; }
     }
 }

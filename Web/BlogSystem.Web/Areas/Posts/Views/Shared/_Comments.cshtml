@@ -1,0 +1,11 @@
+﻿@using BlogSystem.Web.Areas.Posts.Models
+@using BlogSystem.Web.Helpers
+
+@model CommentsPagingViewModel
+
+@foreach (var comment in @Model.Comments)
+{
+    @Html.DisplayFor(model => comment)
+}
+
+@Html.Partial("_Pagination", @Model.Pagination)

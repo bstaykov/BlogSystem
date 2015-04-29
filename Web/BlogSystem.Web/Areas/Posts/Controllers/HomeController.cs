@@ -21,6 +21,50 @@
 
     public class HomeController : BaseController
     {
+        [NonAction]
+        public static void CheckParams(ref int pageNumber, ref int postsPerPage)
+        {
+            if (pageNumber <= 0)
+            {
+                pageNumber = 1;
+            }
+
+            if (postsPerPage <= 0 || 20 < postsPerPage)
+            {
+                postsPerPage = 2;
+            }
+        }
+
+        [NonAction]
+        public static void SetPagingParams(int postsCount, int postsPerPage, int pageNumber, out int availablePages, out int startPage, out int endPage)
+        {
+            startPage = 1;
+            endPage = 5;
+            availablePages = (int)Math.Ceiling((double)postsCount / postsPerPage);
+
+            if (availablePages <= 5)
+            {
+                startPage = 1;
+                endPage = availablePages;
+            }
+            else
+            {
+                startPage = pageNumber - 2;
+                endPage = pageNumber + 2;
+                while (startPage < 1)
+                {
+                    startPage++;
+                    endPage++;
+                }
+
+                while (endPage > availablePages)
+                {
+                    endPage--;
+                    startPage--;
+                }
+            }
+        }
+
         [HttpGet]
         [OutputCache(Duration = 1)]
         public ActionResult Index()
@@ -48,7 +92,7 @@
         [HttpGet]
         public ActionResult Posts(int pageNumber = 1, int postsPerPage = 2)
         {
-            this.CheckParams(ref pageNumber, ref postsPerPage);
+            CheckParams(ref pageNumber, ref postsPerPage);
 
             List<PostListViewModel> postsToDisplay = this.Data.Posts.All()
                 .AsQueryable()
@@ -76,7 +120,7 @@
             int endPage;
             int availablePages;
 
-            this.SetPagingParams(postsCount, postsPerPage, pageNumber, out availablePages, out startPage, out endPage);
+            SetPagingParams(postsCount, postsPerPage, pageNumber, out availablePages, out startPage, out endPage);
 
             var pagingModel = new PostsPagingViewModel()
             {
@@ -84,11 +128,12 @@
                 Pagination = new PaginationModel() 
                 {
                     AreaName = "Posts",
-                    ViewName = "Posts",
+                    ActionName = "Posts",
                     StartPage = startPage,
                     CurrentPage = pageNumber,
                     EndPage = endPage,
                     AvailablePages = availablePages,
+                    UpdateTarget = "postsShown"
                 },
             };
 
@@ -154,7 +199,7 @@
         [Authorize]
         public ActionResult MyPostsPartial(int pageNumber = 1, int postsPerPage = 3)
         {
-            this.CheckParams(ref pageNumber, ref postsPerPage);
+            CheckParams(ref pageNumber, ref postsPerPage);
 
             string userId = User.Identity.GetUserId();
             var postsToDisplay = this.Data.Posts.All()
@@ -184,7 +229,7 @@
             int endPage;
             int availablePages;
 
-            this.SetPagingParams(postsCount, postsPerPage, pageNumber, out availablePages, out startPage, out endPage);
+            SetPagingParams(postsCount, postsPerPage, pageNumber, out availablePages, out startPage, out endPage);
 
             var pagingModel = new MyPostsPagingViewModel()
             {
@@ -192,11 +237,12 @@
                 Pagination = new PaginationModel()
                 {
                     AreaName = "Posts",
-                    ViewName = "MyPostsPartial",
+                    ActionName = "MyPostsPartial",
                     StartPage = startPage,
                     CurrentPage = pageNumber,
                     EndPage = endPage,
                     AvailablePages = availablePages,
+                    UpdateTarget = "postsShown",
                 },
             };
 
@@ -253,50 +299,6 @@
             }
 
             return this.RedirectToAction("Index");
-        }
-
-        [NonAction]
-        private void CheckParams(ref int pageNumber, ref int postsPerPage)
-        {
-            if (pageNumber <= 0)
-            {
-                pageNumber = 1;
-            }
-
-            if (postsPerPage <= 0 || 20 < postsPerPage)
-            {
-                postsPerPage = 2;
-            }
-        }
-
-        [NonAction]
-        private void SetPagingParams(int postsCount, int postsPerPage, int pageNumber, out int availablePages, out int startPage, out int endPage)
-        {
-            startPage = 1;
-            endPage = 5;
-            availablePages = (int)Math.Ceiling((double)postsCount / postsPerPage);
-
-            if (availablePages <= 5)
-            {
-                startPage = 1;
-                endPage = availablePages;
-            }
-            else
-            {
-                startPage = pageNumber - 2;
-                endPage = pageNumber + 2;
-                while (startPage < 1)
-                {
-                    startPage++;
-                    endPage++;
-                }
-
-                while (endPage > availablePages)
-                {
-                    endPage--;
-                    startPage--;
-                }
-            }
         }
     }
 }

@@ -233,7 +233,8 @@
     <Compile Include="Areas\Posts\Controllers\CommentsController.cs" />
     <Compile Include="Areas\Posts\Controllers\HomeController.cs" />
     <Compile Include="Areas\Posts\Models\CommentInputModel.cs" />
-    <Compile Include="Areas\Posts\Models\CommentViewModel.cs" />
+    <Compile Include="Areas\Posts\Models\CommentListViewModel.cs" />
+    <Compile Include="Areas\Posts\Models\CommentsPagingViewModel.cs" />
     <Compile Include="Areas\Posts\Models\MyPostsPagingViewModel.cs" />
     <Compile Include="Areas\Posts\Models\MyPostViewModel.cs" />
     <Compile Include="Areas\Posts\Models\PostInputModel.cs" />
@@ -333,11 +334,12 @@
     <Content Include="Areas\Likes\Views\Shared\_LikingFeedbackMessage.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_MyPostsPartial.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_DisplayPost.cshtml" />
-    <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\CommentViewModel.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\EditorTemplates\CommentInputModel.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_CommentForm.cshtml" />
     <Content Include="App_Code\LoadingElementHelper.cshtml" />
     <Content Include="Areas\Administration\Views\web.config" />
+    <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\CommentListViewModel.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\_Comments.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

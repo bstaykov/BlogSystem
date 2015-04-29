@@ -62,13 +62,13 @@
                 var postCommentsId = "post" + @Model.Id;
             }
             <span id="@commentsCountId">
-                @Ajax.ActionLink("Comments " + @Model.CommentsCount, "ViewComments", "Comments", new { postId = @Model.Id, area = "Posts" },
+                @Ajax.ActionLink("Comments " + @Model.CommentsCount, "ViewComments", "Comments", new { Id = @Model.Id, area = "Posts" },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = @Model.Id.ToString(),
-                            LoadingElementId = postCommentsId,
-                            HttpMethod = "Post",
+                            UpdateTargetId = "commentsListed",
+                            LoadingElementId = @postCommentsId,
+                            HttpMethod = "Get",
                         })
             </span>
         </span>
@@ -105,6 +105,10 @@
 
     </div>
 }
+@LoadingElementHelper.ProgressBar(id: @postCommentsId, width: 90, alertType: "info")
+<div id="commentsListed">
+
+</div>
     @*<ul class="media-list">
             <li class="media">
                 <div class="media-left">

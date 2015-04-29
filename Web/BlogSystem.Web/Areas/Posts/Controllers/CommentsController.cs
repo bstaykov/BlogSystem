@@ -1,13 +1,18 @@
 ﻿namespace BlogSystem.Web.Areas.Posts.Controllers
 {
-    using System.Web.Mvc;
+    using System;
+    using System.Collections.Generic;
     using System.Data.Entity.Infrastructure;
+    using System.Linq;
+    using System.Web.Mvc;
 
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+
+    using BlogSystem.Models;
     using BlogSystem.Web.Areas.Posts.Models;
     using BlogSystem.Web.Controllers;
-    using BlogSystem.Models;
-    using AutoMapper;
-    using System;
+    using BlogSystem.Web.ViewModels;
 
     [Authorize]
     public class CommentsController : BaseController
@@ -15,13 +20,63 @@
         [HttpPost]
         public ActionResult GetCommentForm(int postId)
         {
-            return this.PartialView("_CommentForm", new CommentInputModel() { PostId = postId});
+            return this.PartialView("_CommentForm", new CommentInputModel() { PostId = postId });
         }
 
+        [HttpGet]
         [AllowAnonymous]
-        public ActionResult Index()
+        public ActionResult ViewComments(int id, int pageNumber = 1, int commentsPerPage = 5)
         {
-            return this.View();
+            BlogSystem.Web.Areas.Posts.Controllers.HomeController.CheckParams(ref pageNumber, ref commentsPerPage);
+
+            List<CommentListViewModel> commentsToDisplay = this.Data.Comments.All()
+                .AsQueryable()
+                .Where(comment => comment.PostId == id)
+                .Project().To<CommentListViewModel>()
+                .OrderBy(comment => comment.CreatedOn)
+                .Skip((pageNumber - 1) * commentsPerPage)
+                .Take(commentsPerPage)
+                .ToList();
+
+            int commentsCount = this.Data.Comments.All()
+                .Where(comment => comment.PostId == id)
+                .Count();
+
+            if (commentsToDisplay == null)
+            {
+                this.TempData["error"] = "Error while loading comments!";
+                return this.PartialView("Error");
+            }
+
+            if (commentsCount == 0)
+            {
+                this.TempData["error"] = "No comments yet!";
+                return this.PartialView("Error");
+            }
+
+            int startPage;
+            int endPage;
+            int availablePages;
+
+            BlogSystem.Web.Areas.Posts.Controllers.HomeController.SetPagingParams(commentsCount, commentsPerPage, pageNumber, out availablePages, out startPage, out endPage);
+
+            var pagingModel = new CommentsPagingViewModel()
+            {
+                Comments = commentsToDisplay,
+                Pagination = new PaginationModel() 
+                {
+                    AreaName = "Posts",
+                    ActionName = "ViewComments",
+                    StartPage = startPage,
+                    CurrentPage = pageNumber,
+                    EndPage = endPage,
+                    AvailablePages = availablePages,
+                    Id = id,
+                    UpdateTarget = "commentsListed",
+                },
+            };
+
+            return this.PartialView("_Comments", pagingModel);
         }
 
         [HttpPost]

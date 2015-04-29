@@ -4,27 +4,30 @@
 
 <nav id="paggingMenu">
     <ul class="pagination">
+        @{
+            var loadElementId = "load" + @Model.Id;
+        }
         @if (@Model.CurrentPage > 1)
         {
             var previousPage = (@Model.CurrentPage - 1);
             <li>
-                @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&laquo;&laquo;</span>"), @Model.ViewName, @Model.ControllerName, new { pageNumber = 1, area = @Model.AreaName },
+                @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&laquo;&laquo;</span>"), @Model.ActionName, @Model.ControllerName, new { pageNumber = 1, area = @Model.AreaName, Id = @Model.Id, },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = "postsShown",
-                            LoadingElementId = "loading",
+                            UpdateTargetId = @Model.UpdateTarget,
+                            LoadingElementId = loadElementId,
                             HttpMethod = "Get",
                         },
                         new { aria_label = "First" })
             </li>
             <li>
-                @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&laquo;</span>"), @Model.ViewName, @Model.ControllerName, new { pageNumber = @previousPage, area = @Model.AreaName },
+                @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&laquo;</span>"), @Model.ActionName, @Model.ControllerName, new { pageNumber = @previousPage, area = @Model.AreaName, Id = @Model.Id, },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = "postsShown",
-                            LoadingElementId = "loading",
+                            UpdateTargetId = @Model.UpdateTarget,
+                            LoadingElementId = loadElementId,
                             HttpMethod = "Get",
                         },
                         new { aria_label = "Previous" })
@@ -53,12 +56,12 @@
             else
             {
                 <li>
-                    @Ajax.ActionLink(i.ToString(), @Model.ViewName, @Model.ControllerName, new { pageNumber = i, area = @Model.AreaName },
+                    @Ajax.ActionLink(i.ToString(), @Model.ActionName, @Model.ControllerName, new { pageNumber = i, area = @Model.AreaName, Id = @Model.Id, },
                             new AjaxOptions
                             {
                                 InsertionMode = InsertionMode.Replace,
-                                UpdateTargetId = "postsShown",
-                                LoadingElementId = "loading",
+                                UpdateTargetId = @Model.UpdateTarget,
+                                LoadingElementId = loadElementId,
                                 HttpMethod = "Get",
                             })
                 </li>
@@ -68,23 +71,23 @@
         {
             var nextPage = (@Model.CurrentPage + 1);
             <li>
-                @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&raquo;</span>"), @Model.ViewName, @Model.ControllerName, new { pageNumber = @nextPage, area = @Model.AreaName },
+                @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&raquo;</span>"), @Model.ActionName, @Model.ControllerName, new { pageNumber = @nextPage, area = @Model.AreaName, Id = @Model.Id, },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = "postsShown",
-                            LoadingElementId = "loading",
+                            UpdateTargetId = @Model.UpdateTarget,
+                            LoadingElementId = loadElementId,
                             HttpMethod = "Get",
                         },
                         new { aria_label = "Next" })
             </li>
             <li>
-                @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&raquo;&raquo;</span>"), @Model.ViewName, @Model.ControllerName, new { pageNumber = @Model.AvailablePages, area = @Model.AreaName },
+                @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&raquo;&raquo;</span>"), @Model.ActionName, @Model.ControllerName, new { pageNumber = @Model.AvailablePages, area = @Model.AreaName, Id = @Model.Id, },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = "postsShown",
-                            LoadingElementId = "loading",
+                            UpdateTargetId = @Model.UpdateTarget,
+                            LoadingElementId = loadElementId,
                             HttpMethod = "Get",
                         },
                         new { aria_label = "Last" })
@@ -103,5 +106,10 @@
                 </a>
             </li>
         }
+        <li id="@loadElementId" style="display:none">
+            <button type="button" class="btn btn-default btn-warning" aria-label="Left Align">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </button>
+        </li>
     </ul>
 </nav>

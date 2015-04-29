@@ -1,0 +1,29 @@
+﻿@using BlogSystem.Web.Areas.Posts.Models
+@using Microsoft.AspNet.Identity
+
+@model CommentListViewModel
+
+<div class="row">
+    <div class="col-sm-10">
+        <span class="label label-info">@Model.UserName @Model.CreatedOn</span>
+        @{
+            var likesCountId = "likes" + @Model.Id;
+            var commentsCountId = "comments" + @Model.Id;
+            var labelClass = "label-success";
+        }
+        @if (@Model.Likes < 0)
+        {
+            labelClass = "label-danger";
+        }
+        <span class="label @labelClass">Likes <span id="@likesCountId">@Model.Likes</span></span>
+        <span class="label label-info">
+            @{
+                var postCommentsId = "post" + @Model.Id;
+            }
+            <span id="@commentsCountId">
+                Replies @Model.SubCommentsCount
+            </span>
+        </span>
+        <div class="well well-lg">@Model.Content</div>
+    </div>
+</div>
