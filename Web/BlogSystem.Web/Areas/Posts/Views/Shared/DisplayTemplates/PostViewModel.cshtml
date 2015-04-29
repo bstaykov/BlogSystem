@@ -18,7 +18,7 @@
                             LoadingElementId = "loading",
                             HttpMethod = "Post",
                         },
-                        htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-up" , Title = "Vote Up"})
+                        htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-up", Title = "Vote Up" })
             </button>
             <button type="button" class="btn btn-default btn-sm">
                 @Ajax.ActionLink(" ", "DownVoteById", "Home", new { id = @Model.Id, vote = "Down", area = "Likes" },
@@ -76,8 +76,8 @@
         </span>
         <h4 class="media-body">@Model.Content</h4>
         @if (User.Identity.IsAuthenticated)
-        {            
-            <div id="@postCommentsId">
+        {
+            <div>
                 @{
                     var commentLinkIcon = "<span class='glyphicon glyphicon-comment' aria-hidden='true'></span>";
                     if (@Model.CommentsCount == 0)
@@ -88,21 +88,23 @@
 
                 @LoadingElementHelper.ProgressBar(id: "commenting", width: 90, alertType: "info")
 
-                @Ajax.RawActionLink(commentLinkIcon, "GetCommentForm", "Comments", new { postId = @Model.Id, area = "Posts" },
-                new AjaxOptions
-                {
-                    InsertionMode = InsertionMode.Replace,
-                    UpdateTargetId = "commentForm",
-                    LoadingElementId = "commenting",
-                    HttpMethod = "Post",
-                },
-                new { Title = "Comment"})
+                <div>
+                    @Ajax.RawActionLink(commentLinkIcon, "GetCommentForm", "Comments", new { postId = @Model.Id, area = "Posts" },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "commentForm",
+                            LoadingElementId = "commenting",
+                            HttpMethod = "Post",
+                        },
+                        new { Title = "Comment" })
+                </div>
             </div>
         }
     </div>
 </div>
 @if (User.Identity.IsAuthenticated)
-{    
+{
     <div id="commentForm">
 
     </div>
@@ -111,41 +113,41 @@
 <div id="commentsListed">
 
 </div>
-    @*<ul class="media-list">
-            <li class="media">
-                <div class="media-left">
+@*<ul class="media-list">
+        <li class="media">
+            <div class="media-left">
 
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Media heading</h4>
-                    ...
-                </div>
-            </li>
-            <li class="media">
-                <div class="media-left">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">Media heading</h4>
+                ...
+            </div>
+        </li>
+        <li class="media">
+            <div class="media-left">
 
-                </div>
-                <div class="media-body">
-                    <ul class="media-list">
-                        <li class="media">
-                            <div class="media-left">
+            </div>
+            <div class="media-body">
+                <ul class="media-list">
+                    <li class="media">
+                        <div class="media-left">
 
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">Media heading</h4>
-                                ...
-                            </div>
-                        </li>
-                        <li class="media">
-                            <div class="media-left">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Media heading</h4>
+                            ...
+                        </div>
+                    </li>
+                    <li class="media">
+                        <div class="media-left">
 
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">Media heading</h4>
-                                ...
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-        </ul>*@
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Media heading</h4>
+                            ...
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>*@
