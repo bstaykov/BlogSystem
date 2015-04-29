@@ -1,0 +1,11 @@
+﻿@using BlogSystem.Web.Areas.Posts.Models
+
+@model CommentUpdateModel
+
+@Html.EditorForModel(@Model)
+
+<script>
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse("#commentPostForm");
+    });
+</script>

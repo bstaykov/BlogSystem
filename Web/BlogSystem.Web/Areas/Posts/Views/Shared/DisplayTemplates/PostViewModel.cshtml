@@ -18,7 +18,7 @@
                             LoadingElementId = "loading",
                             HttpMethod = "Post",
                         },
-                        htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-up" })
+                        htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-up" , Title = "Vote Up"})
             </button>
             <button type="button" class="btn btn-default btn-sm">
                 @Ajax.ActionLink(" ", "DownVoteById", "Home", new { id = @Model.Id, vote = "Down", area = "Likes" },
@@ -29,7 +29,7 @@
                             LoadingElementId = "loading",
                             HttpMethod = "Post",
                         },
-                        htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-down" })
+                        htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-down", Title = "Vote Down" })
             </button>
         </div>
     }
@@ -42,7 +42,8 @@
                             UpdateTargetId = "displayedPost",
                             LoadingElementId = "loading",
                             HttpMethod = "Post",
-                        })
+                        },
+                        new { Title = "Read Post" })
         </h2>
         <span class="label label-primary">@Model.Category</span>
         <span class="label label-success">@Model.Author</span>
@@ -69,7 +70,8 @@
                             UpdateTargetId = "commentsListed",
                             LoadingElementId = @postCommentsId,
                             HttpMethod = "Get",
-                        })
+                        },
+                        new { Title = "View Comments" })
             </span>
         </span>
         <h4 class="media-body">@Model.Content</h4>
@@ -94,7 +96,7 @@
                     LoadingElementId = "commenting",
                     HttpMethod = "Post",
                 },
-                null)
+                new { Title = "Comment"})
             </div>
         }
     </div>

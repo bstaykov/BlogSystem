@@ -120,14 +120,69 @@
             return this.View();
         }
 
-        public ActionResult Delete()
+        [HttpDelete]
+        public ActionResult Delete(int id)
         {
-            return this.View();
+            var comment = this.Data.Comments.GetById(id);
+
+            if (comment.UserName == User.Identity.Name)
+            {
+                try
+                {
+                    this.Data.Comments.Delete(comment);
+                    this.Data.Posts.GetById(comment.PostId).CommentsCount -= 1;
+                    this.Data.SaveChanges();
+                    this.TempData["success"] = "Comment deleted.";
+                }
+                catch (DbUpdateException)
+                {
+                    this.TempData["error"] = "Error while saving comment!";
+                }
+            }
+
+            return this.PartialView("_Message");
         }
 
-        public ActionResult Update()
+        [HttpGet]
+        public ActionResult Update(int id)
         {
-            return this.View();
+            var comment = this.Data.Comments.GetById(id);
+            Mapper.CreateMap<Comment, CommentUpdateModel>();
+            CommentUpdateModel commentToBeEdited = Mapper.Map<CommentUpdateModel>(comment);
+            return this.PartialView("_CommentUpdateForm", commentToBeEdited);
+        }
+
+        [HttpPut]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(CommentUpdateModel model)
+        {
+            var comment = this.Data.Comments.GetById(model.Id);
+            if (comment.PostId != model.PostId || comment.UserName != User.Identity.Name)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid data!");
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                this.TempData["error"] = "Invalid data!";
+                return this.PartialView("_Message");
+            }
+
+            comment.ModifiedOn = DateTime.Now;
+            comment.Content = model.Content;
+            try
+            {
+                this.Data.Comments.SaveChanges();
+                this.TempData["success"] = "Thanks! Contribution is important!";
+
+                return this.PartialView("_CommentUpdateResult", model.Content);
+            }
+            catch (DbUpdateException)
+            {
+                this.TempData["error"] = "Error while editing comment!";
+            }
+
+            return this.PartialView("_Message");
         }
     }
 }

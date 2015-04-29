@@ -19,7 +19,7 @@
                             LoadingElementId = loadElementId,
                             HttpMethod = "Get",
                         },
-                        new { aria_label = "First" })
+                        new { aria_label = "First", Title = "First Page" })
             </li>
             <li>
                 @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&laquo;</span>"), @Model.ActionName, @Model.ControllerName, new { pageNumber = @previousPage, area = @Model.AreaName, Id = @Model.Id, },
@@ -30,7 +30,7 @@
                             LoadingElementId = loadElementId,
                             HttpMethod = "Get",
                         },
-                        new { aria_label = "Previous" })
+                        new { aria_label = "Previous", Title = "Previous Page" })
             </li>
         }
         else
@@ -63,7 +63,8 @@
                                 UpdateTargetId = @Model.UpdateTarget,
                                 LoadingElementId = loadElementId,
                                 HttpMethod = "Get",
-                            })
+                            },
+                            new { Title = "Page " + i })
                 </li>
             }
         }
@@ -79,7 +80,7 @@
                             LoadingElementId = loadElementId,
                             HttpMethod = "Get",
                         },
-                        new { aria_label = "Next" })
+                        new { aria_label = "Next", Title = "Next Page" })
             </li>
             <li>
                 @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&raquo;&raquo;</span>"), @Model.ActionName, @Model.ControllerName, new { pageNumber = @Model.AvailablePages, area = @Model.AreaName, Id = @Model.Id, },
@@ -90,7 +91,7 @@
                             LoadingElementId = loadElementId,
                             HttpMethod = "Get",
                         },
-                        new { aria_label = "Last" })
+                        new { aria_label = "Last", Title = "Last Page" })
             </li>
         }
         else

@@ -1,10 +1,18 @@
 ﻿@using BlogSystem.Web.Areas.Posts.Models
+@using BlogSystem.Web.Helpers
 @using Microsoft.AspNet.Identity
 
 @model CommentListViewModel
 
-<div class="row">
-    <div class="col-sm-10">
+@{
+    var commentId = "comment" + @Model.Id;
+    var deleteIconId = "delete" + @Model.Id;
+    var editIconId = "edit" + @Model.Id;
+    var contetnId = "content" + @Model.Id;
+}
+
+<div class="row" id="@commentId">
+    <div class="col-sm-12">
         <span class="label label-info">@Model.UserName @Model.CreatedOn</span>
         @{
             var likesCountId = "likes" + @Model.Id;
@@ -24,6 +32,34 @@
                 Replies @Model.SubCommentsCount
             </span>
         </span>
-        <div class="well well-lg">@Model.Content</div>
+
+        @if(User.Identity.IsAuthenticated && User.Identity.Name == @Model.UserName)
+        {
+            @Ajax.RawActionLink("<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>", "Delete", "Comments", new { id = @Model.Id, area = "Posts" },
+                new AjaxOptions
+                {
+                    InsertionMode = InsertionMode.ReplaceWith,
+                    UpdateTargetId = @commentId,
+                    LoadingElementId = @deleteIconId,
+                    HttpMethod = "Delete",
+                },
+                new { Title = "Delete" })
+            @Ajax.RawActionLink("<span class='glyphicon glyphicon-edit' aria-hidden='true'></span>", "Update", "Comments", new { id = @Model.Id, area = "Posts" },
+                new AjaxOptions
+                {
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = @contetnId,
+                    LoadingElementId = @editIconId,
+                    HttpMethod = "Get",
+                },
+                new { Title = "Edit" })
+            <span id="@deleteIconId" class="label label-danger" style="display:none">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            </span>
+            <span id="@editIconId" class="label label-info" style="display:none">
+                <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+            </span>
+            <div id="@contetnId" class="well well-lg">@Model.Content</div>
+        }
     </div>
 </div>

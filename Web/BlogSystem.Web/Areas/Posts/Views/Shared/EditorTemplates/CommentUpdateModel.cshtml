@@ -1,0 +1,31 @@
+﻿@using BlogSystem.Web.Areas.Posts.Models
+@using BlogSystem.Web.Helpers
+
+@model CommentUpdateModel
+
+@using (Ajax.BeginForm("Update", "Comments", new { area = "Posts", postId = @Model.PostId },
+            new AjaxOptions
+            {
+                UpdateTargetId = "content" + @Model.Id,
+                InsertionMode = InsertionMode.Replace,
+                LoadingElementId = "edit" + @Model.Id,
+                HttpMethod = "PUT"
+            }))
+{
+    @Html.AntiForgeryToken()
+
+    // excludes properties errors
+    @Html.ValidationSummary(true)
+
+    <div class="row">
+        <div class="form-group">
+            <div>
+                @Html.TextAreaFor(comment => comment.Content, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(post => post.Content, null, new { @class = "alert-warning" })
+            </div>
+            <div>
+                @Html.Submit("Save", new { @class = "btn col-sm-1" })
+            </div>
+        </div>
+    </div>
+}

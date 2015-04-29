@@ -235,6 +235,7 @@
     <Compile Include="Areas\Posts\Models\CommentInputModel.cs" />
     <Compile Include="Areas\Posts\Models\CommentListViewModel.cs" />
     <Compile Include="Areas\Posts\Models\CommentsPagingViewModel.cs" />
+    <Compile Include="Areas\Posts\Models\CommentUpdateModel.cs" />
     <Compile Include="Areas\Posts\Models\MyPostsPagingViewModel.cs" />
     <Compile Include="Areas\Posts\Models\MyPostViewModel.cs" />
     <Compile Include="Areas\Posts\Models\PostInputModel.cs" />
@@ -283,6 +284,9 @@
     <Content Include="Areas\Posts\Views\Home\Index.cshtml" />
     <Content Include="Areas\Posts\Views\Home\InsertPost.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\PostListViewModel.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\EditorTemplates\CommentUpdateModel.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Areas\Posts\Views\Shared\EditorTemplates\PostInputModel.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -340,6 +344,8 @@
     <Content Include="Areas\Administration\Views\web.config" />
     <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\CommentListViewModel.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_Comments.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\_CommentUpdateForm.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\_CommentUpdateResult.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
