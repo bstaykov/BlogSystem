@@ -12,7 +12,10 @@
     using BlogSystem.Models;
     using BlogSystem.Web.Areas.Posts.Models;
     using BlogSystem.Web.Controllers;
+    using BlogSystem.Web.Infrastructure.Pagging;
     using BlogSystem.Web.ViewModels;
+
+    using Microsoft.AspNet.Identity;
 
     [Authorize]
     public class CommentsController : BaseController
@@ -27,7 +30,7 @@
         [AllowAnonymous]
         public ActionResult ViewComments(int id, int pageNumber = 1, int commentsPerPage = 5)
         {
-            BlogSystem.Web.Areas.Posts.Controllers.HomeController.CheckParams(ref pageNumber, ref commentsPerPage);
+            PagingHelper.CheckParams(ref pageNumber, ref commentsPerPage);
 
             List<CommentListViewModel> commentsToDisplay = this.Data.Comments.All()
                 .AsQueryable()
@@ -58,7 +61,7 @@
             int endPage;
             int availablePages;
 
-            BlogSystem.Web.Areas.Posts.Controllers.HomeController.SetPagingParams(commentsCount, commentsPerPage, pageNumber, out availablePages, out startPage, out endPage);
+            PagingHelper.SetPagingParams(commentsCount, commentsPerPage, pageNumber, out availablePages, out startPage, out endPage);
 
             var pagingModel = new CommentsPagingViewModel()
             {
@@ -97,7 +100,7 @@
 
             Mapper.CreateMap<CommentInputModel, Comment>();
             Comment newComment = Mapper.Map<Comment>(model);
-            newComment.UserName = User.Identity.Name;
+            newComment.UserId = this.User.Identity.GetUserId();
             newComment.CreatedOn = DateTime.Now;
             this.Data.Comments.Add(newComment);
             try
@@ -125,7 +128,7 @@
         {
             var comment = this.Data.Comments.GetById(id);
 
-            if (comment.UserName == User.Identity.Name)
+            if (comment.User.UserName == User.Identity.Name)
             {
                 try
                 {
@@ -157,7 +160,7 @@
         public ActionResult Update(CommentUpdateModel model)
         {
             var comment = this.Data.Comments.GetById(model.Id);
-            if (comment.PostId != model.PostId || comment.UserName != User.Identity.Name)
+            if (comment.PostId != model.PostId || comment.UserId != this.User.Identity.GetUserId())
             {
                 ModelState.AddModelError(string.Empty, "Invalid data!");
             }

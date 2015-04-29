@@ -13,6 +13,7 @@
         private ICollection<Log> logs;
         private ICollection<PostLiker> postLikers;
         private ICollection<CommentLiker> commentLikers;
+        private ICollection<Comment> comments;
 
         public User()
         {
@@ -20,6 +21,7 @@
             this.Logs = new HashSet<Log>();
             this.PostLikers = new HashSet<PostLiker>();
             this.CommentLikers = new HashSet<CommentLiker>();
+            this.Comments = new HashSet<Comment>();
         }
 
         public string ImageUrl { get; set; }
@@ -75,6 +77,19 @@
             set
             {
                 this.commentLikers = value;
+            }
+        }
+
+        public virtual ICollection<Comment> Comments
+        {
+            get
+            {
+                return this.comments;
+            }
+
+            set
+            {
+                this.comments = value;
             }
         }
 

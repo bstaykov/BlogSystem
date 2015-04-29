@@ -6,6 +6,7 @@
 
     using BlogSystem.Models;
     using BlogSystem.Web.Controllers;
+
     using Microsoft.AspNet.Identity;
 
     [Authorize]
@@ -90,7 +91,7 @@
             int commentLikeValue = isLiked ? 1 : -1;
             int inverseLikeValue = isLiked ? 2 : -2;
 
-            var userName = this.User.Identity.Name;
+            var userId = this.User.Identity.GetUserId();
 
             var comment = this.Data.Comments.GetById(commentId);
 
@@ -100,7 +101,7 @@
 
                 return;
             }
-            else if (comment.UserName == userName)
+            else if (comment.UserId == userId)
             {
                 this.TempData["error"] = "Cannot vote your comment!";
 
@@ -109,7 +110,7 @@
 
             var commentLiker = this.Data.CommentLikers.All()
                 .AsQueryable()
-                .FirstOrDefault(cl => cl.CommentId == commentId && cl.User.UserName == userName);
+                .FirstOrDefault(cl => cl.CommentId == commentId && cl.UserId == userId);
 
             if (commentLiker == null)
             {

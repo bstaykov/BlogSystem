@@ -3,7 +3,7 @@
 
 @model CommentUpdateModel
 
-@using (Ajax.BeginForm("Update", "Comments", new { area = "Posts", postId = @Model.PostId },
+@using (Ajax.BeginForm("Update", "Comments", new { area = "Posts"@*, postId = @Model.PostId*@ },
             new AjaxOptions
             {
                 UpdateTargetId = "content" + @Model.Id,

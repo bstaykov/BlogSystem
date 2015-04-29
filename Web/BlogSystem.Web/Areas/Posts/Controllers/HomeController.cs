@@ -15,56 +15,13 @@
     using BlogSystem.Web.Areas.Posts.Models;
     using BlogSystem.Web.Controllers;
     using BlogSystem.Web.Infrastructure.Filters;
+    using BlogSystem.Web.Infrastructure.Pagging;
     using BlogSystem.Web.ViewModels;
 
     using Microsoft.AspNet.Identity;
 
     public class HomeController : BaseController
     {
-        [NonAction]
-        public static void CheckParams(ref int pageNumber, ref int postsPerPage)
-        {
-            if (pageNumber <= 0)
-            {
-                pageNumber = 1;
-            }
-
-            if (postsPerPage <= 0 || 20 < postsPerPage)
-            {
-                postsPerPage = 2;
-            }
-        }
-
-        [NonAction]
-        public static void SetPagingParams(int postsCount, int postsPerPage, int pageNumber, out int availablePages, out int startPage, out int endPage)
-        {
-            startPage = 1;
-            endPage = 5;
-            availablePages = (int)Math.Ceiling((double)postsCount / postsPerPage);
-
-            if (availablePages <= 5)
-            {
-                startPage = 1;
-                endPage = availablePages;
-            }
-            else
-            {
-                startPage = pageNumber - 2;
-                endPage = pageNumber + 2;
-                while (startPage < 1)
-                {
-                    startPage++;
-                    endPage++;
-                }
-
-                while (endPage > availablePages)
-                {
-                    endPage--;
-                    startPage--;
-                }
-            }
-        }
-
         [HttpGet]
         [OutputCache(Duration = 1)]
         public ActionResult Index()
@@ -78,8 +35,7 @@
             var post = this.Data.Posts.All()
                 .AsQueryable()
                 .Project().To<PostViewModel>()
-                .Where(p => p.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefault(p => p.Id == id);
 
             if (post == null)
             {
@@ -92,7 +48,7 @@
         [HttpGet]
         public ActionResult Posts(int pageNumber = 1, int postsPerPage = 2)
         {
-            CheckParams(ref pageNumber, ref postsPerPage);
+            PagingHelper.CheckParams(ref pageNumber, ref postsPerPage);
 
             List<PostListViewModel> postsToDisplay = this.Data.Posts.All()
                 .AsQueryable()
@@ -120,7 +76,7 @@
             int endPage;
             int availablePages;
 
-            SetPagingParams(postsCount, postsPerPage, pageNumber, out availablePages, out startPage, out endPage);
+            PagingHelper.SetPagingParams(postsCount, postsPerPage, pageNumber, out availablePages, out startPage, out endPage);
 
             var pagingModel = new PostsPagingViewModel()
             {
@@ -199,9 +155,9 @@
         [Authorize]
         public ActionResult MyPostsPartial(int pageNumber = 1, int postsPerPage = 3)
         {
-            CheckParams(ref pageNumber, ref postsPerPage);
+            PagingHelper.CheckParams(ref pageNumber, ref postsPerPage);
 
-            string userId = User.Identity.GetUserId();
+            var userId = User.Identity.GetUserId();
             var postsToDisplay = this.Data.Posts.All()
                 .AsQueryable()
                 .Where(post => post.UserId == userId)
@@ -229,7 +185,7 @@
             int endPage;
             int availablePages;
 
-            SetPagingParams(postsCount, postsPerPage, pageNumber, out availablePages, out startPage, out endPage);
+            PagingHelper.SetPagingParams(postsCount, postsPerPage, pageNumber, out availablePages, out startPage, out endPage);
 
             var pagingModel = new MyPostsPagingViewModel()
             {
@@ -253,9 +209,6 @@
         [Authorize]
         public ActionResult DeletePost(int id)
         {
-            // TODO DELETE Sleep
-            Thread.Sleep(2000);
-
             var userId = this.User.Identity.GetUserId();
 
             var postToDelete = this.Data.Posts.GetById(id);
@@ -280,7 +233,6 @@
         public ActionResult DeleteAllPost()
         {
             var userId = this.User.Identity.GetUserId();
-
             var posts = this.Data.Posts.All().Where(post => post.UserId == userId);
 
             if (posts == null)

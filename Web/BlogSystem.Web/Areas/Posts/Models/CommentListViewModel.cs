@@ -2,10 +2,12 @@
 {
     using System;
 
+    using AutoMapper;
+
     using BlogSystem.Models;
     using BlogSystem.Web.Infrastructure.Mapping;
 
-    public class CommentListViewModel : IMapFrom<Comment>
+    public class CommentListViewModel : IMapFrom<Comment>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -20,5 +22,11 @@
         public int PostId { get; set; }
 
         public DateTime CreatedOn { get; set; }
+
+        public void CreateMappings(IConfiguration configuration)
+        {
+            configuration.CreateMap<Comment, CommentListViewModel>()
+                .ForMember(comment => comment.UserName, options => options.MapFrom(comment => comment.User.UserName));
+        }
     }
 }

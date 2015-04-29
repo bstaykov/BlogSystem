@@ -21,7 +21,7 @@ else if (TempData["error"] != null)
                 LoadingElementId = "loading",
                 HttpMethod = "POST"
             },
-            new { id = "insertPostForm" }))
+            new { id = "insertPostForm", @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
 

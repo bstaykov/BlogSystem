@@ -2,11 +2,11 @@
     ViewBag.Title = "Posts Home Page";
 }
 
-@LoadingElementHelper.ProgressBar(id: "loading", width: 90, alertType: "info")
-
 <div id="postsShown">
     @Html.Action("Posts", "Home", new { area = "Posts" })
 </div>
+
+@LoadingElementHelper.ProgressBar(id: "loading", width: 90, alertType: "info")
 
 <div id="displayedPost">
 
