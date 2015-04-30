@@ -13,7 +13,7 @@
         public Comment()
         {
             this.CommentLikers = new HashSet<CommentLiker>();
-            this.SubComments = new HashSet<Comment>();
+            this.ReplyComments = new HashSet<Comment>();
         }
 
         public int Id { get; set; }
@@ -22,11 +22,15 @@
 
         public virtual User User { get; set; }
 
+        public int? ParentCommentId { get; set; }
+
+        public virtual Comment ParentComment { get; set; }
+
         public string Content { get; set; }
 
         public int Likes { get; set; }
 
-        public int SubCommentsCount { get; set; }
+        public int ReplyCommentsCount { get; set; }
 
         public int PostId { get; set; }
 
@@ -45,7 +49,7 @@
             }
         }
 
-        public virtual ICollection<Comment> SubComments
+        public virtual ICollection<Comment> ReplyComments
         {
             get
             {
