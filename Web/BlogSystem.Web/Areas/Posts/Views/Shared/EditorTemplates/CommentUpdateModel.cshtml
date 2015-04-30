@@ -3,7 +3,7 @@
 
 @model CommentUpdateModel
 
-@using (Ajax.BeginForm("Update", "Comments", new { area = "Posts"@*, postId = @Model.PostId*@ },
+@using (Ajax.BeginForm("Update", "Comments", new { area = "Posts" },
             new AjaxOptions
             {
                 UpdateTargetId = "content" + @Model.Id,
@@ -19,6 +19,7 @@
 
     <div class="row">
         <div class="form-group">
+            @Html.HiddenFor(comment => comment.PostId)
             <div>
                 @Html.TextAreaFor(comment => comment.Content, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(post => post.Content, null, new { @class = "alert-warning" })

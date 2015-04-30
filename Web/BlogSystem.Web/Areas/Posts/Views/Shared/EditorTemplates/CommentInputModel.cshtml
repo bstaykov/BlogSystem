@@ -4,7 +4,7 @@
 @model CommentInputModel
 
 <div class="jumbotron">
-    @using (Ajax.BeginForm("CommentPost", "Comments", new { area = "Posts", postId = @Model.PostId },
+    @using (Ajax.BeginForm("CommentPost", "Comments", new { area = "Posts"},
             new AjaxOptions
             {
                 UpdateTargetId = "commentForm",
@@ -21,6 +21,11 @@
 
         <div class="row">
             <div class="form-group">
+                @Html.HiddenFor(comment => comment.PostId)
+                @if(@Model.ParentCommentId != null)
+                {
+                    @Html.HiddenFor(comment => comment.ParentCommentId)
+                }
                 <div>
                     @Html.TextAreaFor(comment => comment.Content, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(post => post.Content, null, new { @class = "alert-warning" })

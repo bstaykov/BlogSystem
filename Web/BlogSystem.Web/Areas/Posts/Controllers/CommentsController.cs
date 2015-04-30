@@ -21,40 +21,43 @@
     public class CommentsController : BaseController
     {
         [HttpPost]
-        public ActionResult GetCommentForm(int postId)
+        public ActionResult GetCommentForm(int postId, int? parentCommentId)
         {
-            return this.PartialView("_CommentForm", new CommentInputModel() { PostId = postId });
+            return this.PartialView("_CommentForm", new CommentInputModel() { PostId = postId, ParentCommentId = parentCommentId });
         }
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ViewComments(int id, int pageNumber = 1, int commentsPerPage = 5)
+        public ActionResult ViewComments(int id, int? commentId = null, int pageNumber = 1, int commentsPerPage = 5)
         {
             PagingHelper.CheckParams(ref pageNumber, ref commentsPerPage);
 
             List<CommentListViewModel> commentsToDisplay = this.Data.Comments.All()
                 .AsQueryable()
-                .Where(comment => comment.PostId == id)
+                .Where(comment => comment.PostId == id && comment.IsDeleted == false && comment.ParentCommentId == commentId)
                 .Project().To<CommentListViewModel>()
                 .OrderBy(comment => comment.CreatedOn)
                 .Skip((pageNumber - 1) * commentsPerPage)
                 .Take(commentsPerPage)
                 .ToList();
 
-            int commentsCount = this.Data.Comments.All()
-                .Where(comment => comment.PostId == id)
-                .Count();
+            int commentsCount = this.Data.Comments.All().Where(comment => comment.PostId == id && comment.IsDeleted == false && comment.ParentCommentId == commentId).Count();
 
             if (commentsToDisplay == null)
             {
                 this.TempData["error"] = "Error while loading comments!";
+
                 return this.PartialView("Error");
+
+                // return this.PartialView("_Message");
             }
 
             if (commentsCount == 0)
             {
                 this.TempData["error"] = "No comments yet!";
                 return this.PartialView("Error");
+
+                // return this.PartialView("_Message");
             }
 
             int startPage;
@@ -86,10 +89,21 @@
         [ValidateAntiForgeryToken]
         public ActionResult CommentPost(CommentInputModel model)
         {
-            var postId = this.Data.Posts.GetById(model.PostId);
-            if (postId == null)
+            var post = this.Data.Posts.GetById(model.PostId);
+            if (post == null)
             {
                 ModelState.AddModelError(string.Empty, "Invalid post!");
+            }
+
+            Comment parentComment = null;
+            if (model.ParentCommentId != null)
+            {
+                int parentCommentId = (int)model.ParentCommentId;
+                parentComment = this.Data.Comments.GetById(parentCommentId);
+                if (parentComment != null && parentComment.PostId != post.Id) 
+                {
+                    ModelState.AddModelError(string.Empty, "PostId/CommentId mismatched!");
+                }
             }
 
             if (ModelState.IsValid == false)
@@ -105,6 +119,11 @@
             this.Data.Comments.Add(newComment);
             try
             {
+                if (parentComment != null)
+                {
+                    parentComment.ReplyCommentsCount += 1;
+                }
+
                 this.Data.Comments.SaveChanges();
                 this.Data.Posts.GetById(model.PostId).CommentsCount += 1;
                 this.Data.Posts.SaveChanges();
@@ -116,11 +135,6 @@
             }
 
             return this.PartialView("_Message");
-        }
-
-        public ActionResult ReplyToComment()
-        {
-            return this.View();
         }
 
         [HttpDelete]
@@ -186,6 +200,41 @@
             }
 
             return this.PartialView("_Message");
+        }
+
+        public ActionResult ReplyToComment()
+        {
+            return this.View();
+        }
+
+        // TODO Delete Me
+        public ActionResult DeleteAllCommentsTemp()
+        {
+            var comments = this.Data.Comments.All();
+
+            foreach (var coment in comments)
+            {
+                this.Data.Comments.Delete(coment);
+            }
+
+            this.Data.SaveChanges();
+
+            return null;
+        }
+
+        // TODO Delete Me
+        public ActionResult DeleteAllLogsTemp()
+        {
+            var logs = this.Data.Logs.All();
+
+            foreach (var log in logs)
+            {
+                this.Data.Logs.Delete(log);
+            }
+
+            this.Data.SaveChanges();
+
+            return null;
         }
     }
 }

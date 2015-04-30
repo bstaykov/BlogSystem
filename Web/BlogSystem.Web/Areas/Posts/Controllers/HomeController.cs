@@ -252,5 +252,20 @@
 
             return this.RedirectToAction("Index");
         }
+
+        // TODO Delete Me
+        public ActionResult DeleteAllPostTemp()
+        {
+            var posts = this.Data.Posts.All();
+
+            foreach (var post in posts)
+            {
+                this.Data.Posts.Delete(post);
+            }
+
+            this.Data.SaveChanges();
+
+            return null;
+        }
     }
 }

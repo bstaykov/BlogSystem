@@ -9,7 +9,7 @@
     {
         var postVotingId = "postVoting" + @Model.Id;
         var feedBackMessageId = "feedbackMessage" + @Model.Id;
-        
+
         <div id="@feedBackMessageId"></div>
         <div class="col-sm-1">
             <button type="button" class="btn btn-default btn-sm">
@@ -33,7 +33,7 @@
                             HttpMethod = "Post",
                         },
                         htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-down", Title = "Vote Down" })
-            </button>            
+            </button>
             @LoadingElementHelper.ProgressBar(id: @postVotingId, width: 75, alertType: "info", maxValue: 10)
         </div>
     }
@@ -62,12 +62,14 @@
             labelClass = "label-danger";
         }
         <span class="label @labelClass">Likes <span id="@likesCountId">@Model.Likes</span></span>
-        <span class="label label-info">
-            @{
-                var postCommentsId = "post" + @Model.Id;
-            }
-            <span id="@commentsCountId">
-                @Ajax.ActionLink("Comments " + @Model.CommentsCount, "ViewComments", "Comments", new { Id = @Model.Id, area = "Posts" },
+        @{
+            var postCommentsId = "post" + @Model.Id;
+        }
+        @if (@Model.CommentsCount > 0)
+        {
+            <span class="label label-info">
+                <span id="@commentsCountId">
+                    @Ajax.ActionLink("Comments " + @Model.CommentsCount, "ViewComments", "Comments", new { Id = @Model.Id, area = "Posts" },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
@@ -76,18 +78,26 @@
                             HttpMethod = "Get",
                         },
                         new { Title = "View Comments" })
+                </span>
             </span>
-        </span>
+        }
+        else
+        {
+            <span class="label label-info">
+                <span id="@commentsCountId">Comments @Model.CommentsCount</span>
+            </span>
+        }
+
         <h4 class="media-body">@Model.Content</h4>
         @if (User.Identity.IsAuthenticated)
         {
             <div>
                 @{
-                    var commentLinkIcon = "<span class='glyphicon glyphicon-comment' aria-hidden='true'></span>";
-                    if (@Model.CommentsCount == 0)
-                    {
-                        commentLinkIcon = "First one to comment..." + commentLinkIcon;
-                    }
+            var commentLinkIcon = "<span class='glyphicon glyphicon-comment' aria-hidden='true'></span>";
+            if (@Model.CommentsCount == 0)
+            {
+                commentLinkIcon = "First one to comment..." + commentLinkIcon;
+            }
                 }
 
                 @LoadingElementHelper.ProgressBar(id: "commenting", width: 90, alertType: "info")
@@ -114,44 +124,5 @@
     </div>
 }
 @LoadingElementHelper.ProgressBar(id: @postCommentsId, width: 90, alertType: "info")
-<div id="commentsListed">
-
-</div>
-@*<ul class="media-list">
-        <li class="media">
-            <div class="media-left">
-
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading">Media heading</h4>
-                ...
-            </div>
-        </li>
-        <li class="media">
-            <div class="media-left">
-
-            </div>
-            <div class="media-body">
-                <ul class="media-list">
-                    <li class="media">
-                        <div class="media-left">
-
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Media heading</h4>
-                            ...
-                        </div>
-                    </li>
-                    <li class="media">
-                        <div class="media-left">
-
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">Media heading</h4>
-                            ...
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </li>
-    </ul>*@
+<ul class="media-list" id="commentsListed">    
+</ul>

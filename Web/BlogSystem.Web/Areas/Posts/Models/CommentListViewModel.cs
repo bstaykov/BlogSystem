@@ -17,11 +17,15 @@
 
         public int Likes { get; set; }
 
-        public int SubCommentsCount { get; set; }
+        public int ReplyCommentsCount { get; set; }
 
         public int PostId { get; set; }
 
+        public int? ParentCommentId { get; set; }
+
         public DateTime CreatedOn { get; set; }
+
+        public DateTime? ModifiedOn { get; set; }
 
         public void CreateMappings(IConfiguration configuration)
         {

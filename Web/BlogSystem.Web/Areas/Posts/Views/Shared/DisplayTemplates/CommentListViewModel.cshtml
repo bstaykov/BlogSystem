@@ -8,21 +8,30 @@
     var commentId = "comment" + @Model.Id;
     var deleteIconId = "delete" + @Model.Id;
     var editIconId = "edit" + @Model.Id;
-    var contetnId = "content" + @Model.Id;
+    var contentId = "content" + @Model.Id;
     var likedId = "liked" + @Model.Id;
     var likeLoadingId = "likedLoading" + @Model.Id;
+    var subCommentsId = "subComments" + @Model.Id;
+    var subCommentLoadId = "subCommentLoad" + @Model.Id;
+    var replyForm = "replyForm" + @Model.Id;
+    var replyLoadId = "replyLoad" + @Model.Id;
 }
 
-<div class="row" id="@commentId">
-    @if (User.Identity.IsAuthenticated)
-    {
-        var commentVotingId = "commentVoting" + @Model.Id;
-        var feedBackMessageId = "feedbackMessage" + @Model.Id;
-        
-        <div id="@feedBackMessageId"></div>
-        <div class="col-sm-1">
-            <button type="button" class="btn btn-default btn-sm">
-                @Ajax.ActionLink(" ", "VoteComment", "Home", new { id = @Model.Id, vote = true, area = "Likes" },
+<li class="media">
+    <div class="media-left">
+
+    </div>
+    <div class="media-body">
+        <div class="row" id="@commentId">
+            @if (User.Identity.IsAuthenticated)
+            {
+                var commentVotingId = "commentVoting" + @Model.Id;
+                var feedBackMessageId = "feedbackMessage" + @Model.Id;
+
+                <div id="@feedBackMessageId"></div>
+                <div class="col-sm-1">
+                    <button type="button" class="btn btn-default btn-sm">
+                        @Ajax.ActionLink(" ", "VoteComment", "Home", new { id = @Model.Id, vote = true, area = "Likes" },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
@@ -31,9 +40,9 @@
                             HttpMethod = "Post",
                         },
                         htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-up", Title = "Vote Up" })
-            </button>
-            <button type="button" class="btn btn-default btn-sm">
-                @Ajax.ActionLink(" ", "VoteComment", "Home", new { id = @Model.Id, vote = false, area = "Likes" },
+                    </button>
+                    <button type="button" class="btn btn-default btn-sm">
+                        @Ajax.ActionLink(" ", "VoteComment", "Home", new { id = @Model.Id, vote = false, area = "Likes" },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
@@ -42,34 +51,58 @@
                             HttpMethod = "Post",
                         },
                         htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-down", Title = "Vote Down" })
-            </button>
-            @LoadingElementHelper.ProgressBar(id: @commentVotingId, width: 75, alertType: "info", maxValue: 10)
-        </div>
-    }
-    <div class="col-sm-11">
-        <span class="label label-info">@Model.UserName @Model.CreatedOn</span>
-        @{
-            var likesCountId = "likes" + @Model.Id;
-            var commentsCountId = "comments" + @Model.Id;
-            var labelClass = "label-success";
-        }
-        @if (@Model.Likes < 0)
-        {
-            labelClass = "label-danger";
-        }
-        <span class="label @labelClass">Likes <span id="@likesCountId">@Model.Likes</span></span>
-        <span class="label label-info">
-            @{
-                var postCommentsId = "post" + @Model.Id;
+                    </button>
+                    @LoadingElementHelper.ProgressBar(id: @commentVotingId, width: 75, alertType: "info", maxValue: 10)
+                </div>
             }
-            <span id="@commentsCountId">
-                Replies @Model.SubCommentsCount
-            </span>
-        </span>
+            <div class="col-sm-11">
+                <span class="label label-info">@Model.UserName @Model.CreatedOn</span>
+                @if (@Model.ModifiedOn != null)
+                {
+                    <span class="label label-warning">Edited @Model.ModifiedOn</span>
+                }
+                @{
+                    var likesCountId = "likes" + @Model.Id;
+                    var commentsCountId = "comments" + @Model.Id;
+                    var labelClass = "label-success";
+                }
+                @if (@Model.Likes < 0)
+                {
+                    labelClass = "label-danger";
+                }
+                <span class="label @labelClass">Likes <span id="@likesCountId">@Model.Likes</span></span>
 
-        @if (User.Identity.IsAuthenticated && User.Identity.Name == @Model.UserName)
-        {
-            @Ajax.RawActionLink("<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>", "Delete", "Comments", new { id = @Model.Id, area = "Posts" },
+                @if (@Model.ReplyCommentsCount == 0)
+                {
+                    <span class="label label-info">
+                        <span id="@commentsCountId">
+                            Replies @Model.ReplyCommentsCount
+                        </span>
+                    </span>
+
+                }
+                else
+                {
+                    <span class="label label-info">
+                        <span id="@commentsCountId">
+                            @Ajax.ActionLink("Replies " + @Model.ReplyCommentsCount, "ViewComments", "Comments", new { Id = @Model.PostId, commentId = @Model.Id, area = "Posts" },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = @subCommentsId,
+                            LoadingElementId = @subCommentLoadId,
+                            HttpMethod = "Get",
+                        },
+                        new { Title = "View Replies" })
+                        </span>
+                    </span>
+                }
+
+                @LoadingElementHelper.ProgressBar(id: @subCommentLoadId, width: 75, alertType: "info", maxValue: 10)
+
+                @if (User.Identity.IsAuthenticated && User.Identity.Name == @Model.UserName)
+                {
+                    @Ajax.RawActionLink("<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>", "Delete", "Comments", new { id = @Model.Id, area = "Posts" },
                 new AjaxOptions
                 {
                     InsertionMode = InsertionMode.ReplaceWith,
@@ -78,22 +111,55 @@
                     HttpMethod = "Delete",
                 },
                 new { Title = "Delete" })
-            @Ajax.RawActionLink("<span class='glyphicon glyphicon-edit' aria-hidden='true'></span>", "Update", "Comments", new { id = @Model.Id, area = "Posts" },
+                    @Ajax.RawActionLink("<span class='glyphicon glyphicon-edit' aria-hidden='true'></span>", "Update", "Comments", new { id = @Model.Id, area = "Posts" },
                 new AjaxOptions
                 {
                     InsertionMode = InsertionMode.Replace,
-                    UpdateTargetId = @contetnId,
+                    UpdateTargetId = @contentId,
                     LoadingElementId = @editIconId,
                     HttpMethod = "Get",
                 },
                 new { Title = "Edit" })
-            <span id="@deleteIconId" class="label label-danger" style="display:none">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-            </span>
-            <span id="@editIconId" class="label label-info" style="display:none">
-                <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-            </span>
+                    <span id="@deleteIconId" class="label label-danger" style="display:none">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </span>
+                    <span id="@editIconId" class="label label-info" style="display:none">
+                        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+                    </span>
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <span>
+                        @LoadingElementHelper.ProgressBar(id: @replyLoadId, width: 90, alertType: "info")
+                        @Ajax.RawActionLink("<span class='glyphicon glyphicon-comment' aria-hidden='true'></span>", "GetCommentForm", "Comments", new { postId = @Model.PostId, parentCommentId = @Model.Id, area = "Posts" },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = @replyForm,
+                            LoadingElementId = @replyLoadId,
+                            HttpMethod = "Post",
+                        },
+                        new { Title = "Reply" })
+                    </span>
+                }
+                <div id="@contentId" class="well well-lg">@Model.Content CommentId: @Model.Id Post: @Model.PostId ParentComment: @Model.ParentCommentId</div>
+            </div>
+        </div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div id="@replyForm">
+
+            </div>
         }
-        <div id="@contetnId" class="well well-lg">@Model.Content</div>
+        @*<div id="@subCommentsId"></div>*@
     </div>
-</div>
+</li>
+<li class="media">
+    <div class="media-left">
+
+    </div>
+    <div class="media-body">
+        <ul class="media-list" id="@subCommentsId">
+        </ul>
+    </div>
+</li>
