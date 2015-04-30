@@ -7,7 +7,7 @@
     using BlogSystem.Models;
     using BlogSystem.Web.Infrastructure.Mapping;
 
-    public class CommentListViewModel : IMapFrom<Comment>, IHaveCustomMappings
+    public class CommentViewModel : IMapFrom<Comment>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -29,7 +29,7 @@
 
         public void CreateMappings(IConfiguration configuration)
         {
-            configuration.CreateMap<Comment, CommentListViewModel>()
+            configuration.CreateMap<Comment, CommentViewModel>()
                 .ForMember(comment => comment.UserName, options => options.MapFrom(comment => comment.User.UserName));
         }
     }

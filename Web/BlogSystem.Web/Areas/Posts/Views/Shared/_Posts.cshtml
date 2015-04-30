@@ -3,6 +3,8 @@
 
 @model PostsPagingViewModel
 
+@Html.Partial("_Pagination", @Model.Pagination)
+
 @foreach (var post in @Model.Posts)
 {
     @Html.DisplayFor(model => post)

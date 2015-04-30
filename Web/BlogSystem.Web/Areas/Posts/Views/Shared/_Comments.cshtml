@@ -3,9 +3,9 @@
 
 @model CommentsPagingViewModel
 
+@Html.Partial("_Pagination", @Model.Pagination)
+
 @foreach (var comment in @Model.Comments)
 {
     @Html.DisplayFor(model => comment)
 }
-
-@Html.Partial("_Pagination", @Model.Pagination)

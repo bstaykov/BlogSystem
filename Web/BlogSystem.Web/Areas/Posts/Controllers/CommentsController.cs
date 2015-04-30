@@ -28,20 +28,20 @@
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ViewComments(int id, int? commentId = null, int pageNumber = 1, int commentsPerPage = 5)
+        public ActionResult ViewComments(int postId, int? parentCommentId = null, int pageNumber = 1, int commentsPerPage = 5)
         {
             PagingHelper.CheckParams(ref pageNumber, ref commentsPerPage);
 
-            List<CommentListViewModel> commentsToDisplay = this.Data.Comments.All()
+            List<CommentViewModel> commentsToDisplay = this.Data.Comments.All()
                 .AsQueryable()
-                .Where(comment => comment.PostId == id && comment.IsDeleted == false && comment.ParentCommentId == commentId)
-                .Project().To<CommentListViewModel>()
+                .Where(comment => comment.PostId == postId && comment.IsDeleted == false && comment.ParentCommentId == parentCommentId)
+                .Project().To<CommentViewModel>()
                 .OrderBy(comment => comment.CreatedOn)
                 .Skip((pageNumber - 1) * commentsPerPage)
                 .Take(commentsPerPage)
                 .ToList();
 
-            int commentsCount = this.Data.Comments.All().Where(comment => comment.PostId == id && comment.IsDeleted == false && comment.ParentCommentId == commentId).Count();
+            int commentsCount = this.Data.Comments.All().Where(comment => comment.PostId == postId && comment.IsDeleted == false && comment.ParentCommentId == parentCommentId).Count();
 
             if (commentsToDisplay == null)
             {
@@ -77,8 +77,9 @@
                     CurrentPage = pageNumber,
                     EndPage = endPage,
                     AvailablePages = availablePages,
-                    Id = id,
-                    UpdateTarget = "commentsListed",
+                    PostId = postId,
+                    ParentCommentId = parentCommentId,
+                    UpdateTarget = "p" + postId + "pc" + parentCommentId,
                 },
             };
 
@@ -200,11 +201,6 @@
             }
 
             return this.PartialView("_Message");
-        }
-
-        public ActionResult ReplyToComment()
-        {
-            return this.View();
         }
 
         // TODO Delete Me

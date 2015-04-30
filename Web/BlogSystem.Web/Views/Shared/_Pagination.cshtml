@@ -7,13 +7,13 @@
     <nav id="paggingMenu">
         <ul class="pagination">
             @{
-                var loadElementId = "load" + @Model.Id;
+                var loadElementId = "load" + @Model.PostId + @Model.ParentCommentId;
             }
             @if (@Model.CurrentPage > 1)
             {
                 var previousPage = (@Model.CurrentPage - 1);
                 <li>
-                    @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&laquo;&laquo;</span>"), @Model.ActionName, @Model.ControllerName, new { pageNumber = 1, area = @Model.AreaName, Id = @Model.Id, },
+                    @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&laquo;&laquo;</span>"), @Model.ActionName, @Model.ControllerName, new { pageNumber = 1, area = @Model.AreaName, PostId = @Model.PostId, ParentCommentId = @Model.ParentCommentId },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
@@ -24,7 +24,7 @@
                         new { aria_label = "First", Title = "First Page" })
                 </li>
                 <li>
-                    @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&laquo;</span>"), @Model.ActionName, @Model.ControllerName, new { pageNumber = @previousPage, area = @Model.AreaName, Id = @Model.Id, },
+                    @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&laquo;</span>"), @Model.ActionName, @Model.ControllerName, new { pageNumber = @previousPage, area = @Model.AreaName, PostId = @Model.PostId, ParentCommentId = @Model.ParentCommentId },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
@@ -58,7 +58,7 @@
                 else
                 {
                     <li>
-                        @Ajax.ActionLink(i.ToString(), @Model.ActionName, @Model.ControllerName, new { pageNumber = i, area = @Model.AreaName, Id = @Model.Id, },
+                        @Ajax.ActionLink(i.ToString(), @Model.ActionName, @Model.ControllerName, new { pageNumber = i, area = @Model.AreaName, PostId = @Model.PostId, ParentCommentId = @Model.ParentCommentId },
                             new AjaxOptions
                             {
                                 InsertionMode = InsertionMode.Replace,
@@ -74,7 +74,7 @@
             {
                 var nextPage = (@Model.CurrentPage + 1);
                 <li>
-                    @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&raquo;</span>"), @Model.ActionName, @Model.ControllerName, new { pageNumber = @nextPage, area = @Model.AreaName, Id = @Model.Id, },
+                    @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&raquo;</span>"), @Model.ActionName, @Model.ControllerName, new { pageNumber = @nextPage, area = @Model.AreaName, PostId = @Model.PostId, commentId = @Model.ParentCommentId },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
@@ -85,7 +85,7 @@
                         new { aria_label = "Next", Title = "Next Page" })
                 </li>
                 <li>
-                    @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&raquo;&raquo;</span>"), @Model.ActionName, @Model.ControllerName, new { pageNumber = @Model.AvailablePages, area = @Model.AreaName, Id = @Model.Id, },
+                    @Ajax.RawActionLink(string.Format("<span aria-hidden='true'>&raquo;&raquo;</span>"), @Model.ActionName, @Model.ControllerName, new { pageNumber = @Model.AvailablePages, area = @Model.AreaName, PostId = @Model.PostId, ParentCommentId = @Model.ParentCommentId },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,

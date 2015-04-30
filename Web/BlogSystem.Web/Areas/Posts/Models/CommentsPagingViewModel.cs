@@ -6,7 +6,7 @@
 
     public class CommentsPagingViewModel
     {
-        public IEnumerable<CommentListViewModel> Comments { get; set; }
+        public IEnumerable<CommentViewModel> Comments { get; set; }
 
         public PaginationModel Pagination { get; set; }
     }

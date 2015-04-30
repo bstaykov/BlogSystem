@@ -4,6 +4,12 @@
 
 @model PostViewModel
 
+@{
+    var pagingUpdateTarget = "p" + @Model.Id + "pc";
+    var commentFormId = "commentFormId";
+    var commentLoadingId = "commentLoadingId";
+}
+
 <div class="row">
     @if (User.Identity.IsAuthenticated)
     {
@@ -38,8 +44,11 @@
         </div>
     }
     <div class="col-sm-11">
-        <h2 class="media-heading">
-            @Ajax.ActionLink(@Model.Title, "DisplayPost", "Home", new { id = @Model.Id, area = "Posts" },
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4>
+                    @Model.Title
+                    @*@Ajax.ActionLink(@Model.Title, "DisplayPost", "Home", new { id = @Model.Id, area = "Posts" },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
@@ -47,48 +56,53 @@
                             LoadingElementId = "loading",
                             HttpMethod = "Post",
                         },
-                        new { Title = "Read Post" })
-        </h2>
-        <span class="label label-primary">@Model.Category</span>
-        <span class="label label-success">@Model.Author</span>
-        <span class="label label-info">@Model.CreatedOn</span>
-        @{
-            var likesCountId = "likes" + @Model.Id;
-            var commentsCountId = "comments" + @Model.Id;
-            var labelClass = "label-success";
-        }
-        @if (@Model.Likes < 0)
-        {
-            labelClass = "label-danger";
-        }
-        <span class="label @labelClass">Likes <span id="@likesCountId">@Model.Likes</span></span>
-        @{
-            var postCommentsId = "post" + @Model.Id;
-        }
-        @if (@Model.CommentsCount > 0)
-        {
-            <span class="label label-info">
-                <span id="@commentsCountId">
-                    @Ajax.ActionLink("Comments " + @Model.CommentsCount, "ViewComments", "Comments", new { Id = @Model.Id, area = "Posts" },
+                        new { Title = "Read Post" })*@
+                </h4>
+            </div>
+
+            <span class="label label-primary">@Model.Category</span>
+            <span class="label label-success">@Model.Author</span>
+            <span class="label label-info">@Model.CreatedOn</span>
+            @{
+                var likesCountId = "likes" + @Model.Id;
+                var commentsCountId = "comments" + @Model.Id;
+                var labelClass = "label-success";
+            }
+            @if (@Model.Likes < 0)
+            {
+                labelClass = "label-danger";
+            }
+            <span class="label @labelClass">Likes <span id="@likesCountId">@Model.Likes</span></span>
+            @{
+                var postCommentsId = "post" + @Model.Id;
+            }
+            @if (@Model.CommentsCount > 0)
+            {
+                <span class="label label-info">
+                    <span id="@commentsCountId">
+                        @Ajax.ActionLink("Comments " + @Model.CommentsCount, "ViewComments", "Comments", new { PostId = @Model.Id, area = "Posts" },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = "commentsListed",
+                            UpdateTargetId = @pagingUpdateTarget,
                             LoadingElementId = @postCommentsId,
                             HttpMethod = "Get",
                         },
                         new { Title = "View Comments" })
+                    </span>
                 </span>
-            </span>
-        }
-        else
-        {
-            <span class="label label-info">
-                <span id="@commentsCountId">Comments @Model.CommentsCount</span>
-            </span>
-        }
+            }
+            else
+            {
+                <span class="label label-info">
+                    <span id="@commentsCountId">Comments @Model.CommentsCount</span>
+                </span>
+            }
 
-        <h4 class="media-body">@Model.Content</h4>
+            <div class="panel-body">
+                <h5>@Model.Content</h5>
+            </div>
+        </div>
         @if (User.Identity.IsAuthenticated)
         {
             <div>
@@ -100,15 +114,15 @@
             }
                 }
 
-                @LoadingElementHelper.ProgressBar(id: "commenting", width: 90, alertType: "info")
+                @LoadingElementHelper.ProgressBar(id: @commentLoadingId, width: 90, alertType: "info")
 
                 <div>
-                    @Ajax.RawActionLink(commentLinkIcon, "GetCommentForm", "Comments", new { postId = @Model.Id, area = "Posts" },
+                    @Ajax.RawActionLink(commentLinkIcon, "GetCommentForm", "Comments", new { PostId = @Model.Id, area = "Posts" },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = "commentForm",
-                            LoadingElementId = "commenting",
+                            UpdateTargetId = @commentFormId,
+                            LoadingElementId = @commentLoadingId,
                             HttpMethod = "Post",
                         },
                         new { Title = "Comment" })
@@ -119,10 +133,13 @@
 </div>
 @if (User.Identity.IsAuthenticated)
 {
-    <div id="commentForm">
+    <div id="@commentFormId">
 
     </div>
 }
 @LoadingElementHelper.ProgressBar(id: @postCommentsId, width: 90, alertType: "info")
-<ul class="media-list" id="commentsListed">    
+
+<ul class="media-list">
+    <li class="media" id="@pagingUpdateTarget">
+    </li>
 </ul>

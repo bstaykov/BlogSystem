@@ -19,7 +19,9 @@
 
         public int AvailablePages { get; set; }
 
-        public int Id { get; set; }
+        public int PostId { get; set; }
+
+        public int? ParentCommentId { get; set; }
 
         public string UpdateTarget { get; set; }
     }
