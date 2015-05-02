@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     using BlogSystem.Common.Models;
 
@@ -22,6 +23,7 @@
         public int Id { get; set; }
 
         [MaxLength(50)]
+        [Index("UniqueTitle", 1, IsUnique = true)]
         public string Title { get; set; }
 
         public string Content { get; set; }

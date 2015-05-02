@@ -55,17 +55,13 @@
     <Compile Include="BlogSystemData.cs" />
     <Compile Include="BlogSystemDbContext.cs" />
     <Compile Include="IBlogSystemData.cs" />
-    <Compile Include="Migrations\201504082055336_LogUserId.cs" />
-    <Compile Include="Migrations\201504082055336_LogUserId.Designer.cs">
-      <DependentUpon>201504082055336_LogUserId.cs</DependentUpon>
+    <Compile Include="Migrations\201505020900205_Initial.cs" />
+    <Compile Include="Migrations\201505020900205_Initial.Designer.cs">
+      <DependentUpon>201505020900205_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201504082057362_LogUserName.cs" />
-    <Compile Include="Migrations\201504082057362_LogUserName.Designer.cs">
-      <DependentUpon>201504082057362_LogUserName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201504082252426_PostTitleIndex.cs" />
-    <Compile Include="Migrations\201504082252426_PostTitleIndex.Designer.cs">
-      <DependentUpon>201504082252426_PostTitleIndex.cs</DependentUpon>
+    <Compile Include="Migrations\201505020922238_TitleLength50.cs" />
+    <Compile Include="Migrations\201505020922238_TitleLength50.Designer.cs">
+      <DependentUpon>201505020922238_TitleLength50.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,14 +83,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201504082055336_LogUserId.resx">
-      <DependentUpon>201504082055336_LogUserId.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201505020900205_Initial.resx">
+      <DependentUpon>201505020900205_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201504082057362_LogUserName.resx">
-      <DependentUpon>201504082057362_LogUserName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201504082252426_PostTitleIndex.resx">
-      <DependentUpon>201504082252426_PostTitleIndex.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201505020922238_TitleLength50.resx">
+      <DependentUpon>201505020922238_TitleLength50.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

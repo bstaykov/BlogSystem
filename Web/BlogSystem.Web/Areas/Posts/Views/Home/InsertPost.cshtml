@@ -1,8 +1,8 @@
-﻿@LoadingElementHelper.ProgressBar(id: "loading", width: 90, alertType: "danger")
-
-<div id="postForm">    
+﻿<div id="postForm">    
     @Html.Action("InsertPostForm", "Home", new { area = "Posts" })
 </div>  
+
+@LoadingElementHelper.ProgressBar(id: "loading", width: 90, alertType: "danger")
 
 @* CLIENT VALIDATION *@
 @section scripts {

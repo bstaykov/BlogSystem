@@ -1,7 +1,18 @@
-﻿@helper TempMessage(string message = "Success", string alertType = "success")
+﻿@using System.Web.Mvc.Ajax
+@using BlogSystem.Web.Helpers
+
+@helper TempMessage(string message = "Success", string alertType = "success")
 {
     <div data-dismiss="alert" class="alert alert-dismissable alert-@alertType">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <strong><a href="#" class="alert-link">@message</a></strong>
+    </div>
+}
+
+@helper TempMessageLink(string link, string message = "Success", string alertType = "success")
+{
+    <div class="alert alert-@alertType alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <a href="@link" class="alert-link">@message</a>
     </div>
 }

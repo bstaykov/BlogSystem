@@ -29,7 +29,7 @@
             return this.View();
         }
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult DisplayPost(int id)
         {
             var post = this.Data.Posts.All()
@@ -127,16 +127,32 @@
                     int result = this.Data.Posts.SaveChanges();
                     if (result == 1)
                     {
-                        this.TempData["success"] = "Post was added!";
+                        this.TempData["id"] = newPost.Id;
 
                         return this.RedirectToAction("InsertPostForm");
                     }
 
                     this.TempData["error"] = "Post was not added!";
                 }
-                catch (System.Data.Entity.Infrastructure.DbUpdateException)
+                catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
                 {
-                    this.TempData["error"] = "Error! Post was not added!";
+                    if (ex.InnerException.InnerException is System.Data.SqlClient.SqlException)
+                    {
+                        var sqlException = ex.InnerException.InnerException as System.Data.SqlClient.SqlException;
+
+                        if (sqlException.Number == 2601)
+                        {
+                            this.TempData["error"] = "Error! Post title duplicates!";
+                        }
+                        else
+                        {
+                            this.TempData["error"] = "Error! Post was not added!";
+                        }
+                    }
+                    else
+                    {
+                        this.TempData["error"] = "Error! Post was not added!";
+                    }
                 }
             }
 
