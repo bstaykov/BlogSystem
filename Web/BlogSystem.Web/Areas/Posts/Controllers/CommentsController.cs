@@ -147,7 +147,7 @@
             {
                 try
                 {
-                    this.Data.Comments.Delete(comment);
+                    comment.IsDeleted = true;
                     this.Data.Posts.GetById(comment.PostId).CommentsCount -= 1;
                     this.Data.SaveChanges();
                     this.TempData["success"] = "Comment deleted.";

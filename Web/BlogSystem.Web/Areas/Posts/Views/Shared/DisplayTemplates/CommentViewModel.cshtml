@@ -26,24 +26,26 @@
 
             <div id="@feedBackMessageId"></div>
             <div class="col-sm-1">
-                <button type="button" class="btn btn-default btn-sm">
+                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#layoutModal">
                     @Ajax.ActionLink(" ", "VoteComment", "Home", new { id = @Model.Id, vote = true, area = "Likes" },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = @feedBackMessageId,
-                            LoadingElementId = @commentVotingId,
+                            UpdateTargetId = "modalContentElement",
+                            LoadingElementId = "modalLoadingElement",
+                            OnBegin = "$('#modalContentElement').empty()",
                             HttpMethod = "Post",
                         },
                         htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-up", Title = "Vote Up" })
                 </button>
-                <button type="button" class="btn btn-default btn-sm">
+                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#layoutModal">
                     @Ajax.ActionLink(" ", "VoteComment", "Home", new { id = @Model.Id, vote = false, area = "Likes" },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = @feedBackMessageId,
-                            LoadingElementId = @commentVotingId,
+                            UpdateTargetId = "modalContentElement",
+                            LoadingElementId = "modalLoadingElement",
+                            OnBegin = "$('#modalContentElement').empty()",
                             HttpMethod = "Post",
                         },
                         htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-down", Title = "Vote Down" })
@@ -98,8 +100,6 @@
                 </span>
             }
 
-            @LoadingElementHelper.ProgressBar(id: @subCommentLoadId, width: 75, alertType: "info", maxValue: 10)
-
             @if (User.Identity.IsAuthenticated && User.Identity.Name == @Model.UserName)
             {
                 @Ajax.RawActionLink("<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>", "Delete", "Comments", new { id = @Model.Id, area = "Posts" },
@@ -130,17 +130,18 @@
             @if (User.Identity.IsAuthenticated)
             {
                 <span>
-                    @LoadingElementHelper.ProgressBar(id: @replyLoadId, width: 90, alertType: "info")
                     @Ajax.RawActionLink("<span class='glyphicon glyphicon-comment' aria-hidden='true'></span>", "GetCommentForm", "Comments", new { PostId = @Model.PostId, ParentCommentId = @Model.Id, area = "Posts" },
                         new AjaxOptions
-                        {
-                            InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = @replyForm,
-                            LoadingElementId = @replyLoadId,
-                            HttpMethod = "Post",
-                        },
-                        new { Title = "Reply" })
+                     {
+                         InsertionMode = InsertionMode.Replace,
+                         UpdateTargetId = "modalContentElement",
+                         LoadingElementId = "modalLoadingElement",
+                         OnBegin = "$('#modalContentElement').empty()",
+                         HttpMethod = "Post",
+                     },
+                  new { Title = "Reply", data_toggle = "modal", data_target = "#layoutModal" })
                 </span>
+                @*@LoadingElementHelper.ProgressBar(id: @replyLoadId, width: 90, alertType: "info")*@
             }
             <div id="@contentId" class="well well-lg">@Model.Content CommentId: @Model.Id Post: @Model.PostId ParentComment: @Model.ParentCommentId</div>
         </div>
@@ -152,12 +153,13 @@
         </div>
     }
     <div class="media" id="@pagingUpdateTarget">
-    </div>
+    </div>    
+    @LoadingElementHelper.ProgressBar(id: @subCommentLoadId, width: 75, alertType: "info", maxValue: 10)
 </div>
 
 <div class="media">
     <div class="media-left">
     </div>
-    <div class="media-body"> 
+    <div class="media-body">
     </div>
 </div>

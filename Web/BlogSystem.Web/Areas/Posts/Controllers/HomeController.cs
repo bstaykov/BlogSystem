@@ -46,6 +46,7 @@
         }
 
         [HttpGet]
+        [OutputCache(Duration = 1, VaryByParam = "pageNumber")]
         public ActionResult Posts(int pageNumber = 1, int postsPerPage = 2)
         {
             PagingHelper.CheckParams(ref pageNumber, ref postsPerPage);
@@ -127,9 +128,11 @@
                     int result = this.Data.Posts.SaveChanges();
                     if (result == 1)
                     {
-                        this.TempData["id"] = newPost.Id;
+                        return this.RedirectToAction("DisplayPost", new { id = newPost.Id });
 
-                        return this.RedirectToAction("InsertPostForm");
+                        // this.TempData["id"] = newPost.Id;
+
+                        // return this.RedirectToAction("InsertPostForm");
                     }
 
                     this.TempData["error"] = "Post was not added!";

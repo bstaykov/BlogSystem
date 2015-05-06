@@ -16,3 +16,26 @@
         <a href="@link" class="alert-link">@message</a>
     </div>
 }
+
+@helper ModalScreen(string contentId, string loadingElementId, string modalId, string size = "lg") 
+{
+    <div id="@modalId" class="modal fade bs-example-modal-@size" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-@size">
+            <div id="@contentId"></div>
+            @LoadingElementHelper.ProgressBar(id: @loadingElementId, width: 75, alertType: "info", maxValue: 10)
+        </div>
+    </div>
+}
+
+@*@helper FormModal(string contentId, string loadingElementId, string modalId, string size = "sm")
+{
+    <div id="@modalId" class="modal fade bs-example-modal-@size" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-@size">
+            <div class="modal-content">
+                <div id="@contentId">
+                </div>
+                @LoadingElementHelper.ProgressBar(id: @loadingElementId, width: 75, alertType: "info", maxValue: 10)
+            </div>
+        </div>
+    </div>
+}*@

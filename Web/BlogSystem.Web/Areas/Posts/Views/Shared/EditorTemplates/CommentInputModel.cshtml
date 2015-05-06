@@ -3,26 +3,30 @@
 
 @model CommentInputModel
 
-<div class="jumbotron">
-    @using (Ajax.BeginForm("CommentPost", "Comments", new { area = "Posts"},
+@using (Ajax.BeginForm("CommentPost", "Comments", new { area = "Posts" },
             new AjaxOptions
             {
-                UpdateTargetId = "commentForm",
                 InsertionMode = InsertionMode.Replace,
-                LoadingElementId = "commenting",
+                UpdateTargetId = "modalContentElement",
+                LoadingElementId = "modalLoadingElement",
                 HttpMethod = "POST"
             },
             new { id = "commentPostForm" }))
-    {
-        @Html.AntiForgeryToken()
+{
+    @Html.AntiForgeryToken()
 
-        // excludes properties errors
-        @Html.ValidationSummary(true)
+    // excludes properties errors
+    @Html.ValidationSummary(true)
 
-        <div class="row">
-            <div class="form-group">
+    <div class="form-group">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Comment:</h4>
+            </div>
+            <div class="modal-body">
                 @Html.HiddenFor(comment => comment.PostId)
-                @if(@Model.ParentCommentId != null)
+                @if (@Model.ParentCommentId != null)
                 {
                     @Html.HiddenFor(comment => comment.ParentCommentId)
                 }
@@ -30,10 +34,11 @@
                     @Html.TextAreaFor(comment => comment.Content, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(post => post.Content, null, new { @class = "alert-warning" })
                 </div>
-                <div>
-                    @Html.Submit("Save", new { @class = "btn col-sm-1" })
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                @Html.Submit("Save", new { @class = "btn" })
             </div>
         </div>
-    }
-</div>
+    </div>
+}

@@ -34,6 +34,7 @@
         <div id="content">
             @RenderBody()
         </div>
+        @TempDataHelpers.ModalScreen("modalContentElement", "modalLoadingElement", "layoutModal")
         <hr />
         @Html.Action("ChatContent", "Home", new { area = "" })
         <footer>
