@@ -46,7 +46,7 @@
         </div>
     }
     <div class="col-sm-11">
-        <h4>
+        <h2>
             @*@Model.Title*@
             @Ajax.ActionLink(@Model.Title, "DisplayPost", "Home", new { id = @Model.Id, area = "Posts" },
                         new AjaxOptions
@@ -57,7 +57,7 @@
                             HttpMethod = "Get",
                         },
                         new { Title = "Read Post" })
-        </h4>
+        </h2>
 
         <span class="label label-primary">@Model.Category</span>
         <span class="label label-success">@Model.Author</span>

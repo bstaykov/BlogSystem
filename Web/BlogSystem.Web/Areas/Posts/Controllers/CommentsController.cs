@@ -148,7 +148,18 @@
                 try
                 {
                     comment.IsDeleted = true;
-                    this.Data.Posts.GetById(comment.PostId).CommentsCount -= 1;
+                    var post = this.Data.Posts.GetById(comment.PostId);
+                    post.CommentsCount -= 1;
+                    if (comment.ParentCommentId != null)
+                    {
+                        comment.ParentComment.ReplyCommentsCount -= 1;
+                    }
+
+                    if (comment.ReplyCommentsCount > 0)
+                    {
+                        this.DeleteSubComment(comment, post);
+                    }
+
                     this.Data.SaveChanges();
                     this.TempData["success"] = "Comment deleted.";
                 }
@@ -177,7 +188,7 @@
             var comment = this.Data.Comments.GetById(model.Id);
             if (comment.PostId != model.PostId || comment.UserId != this.User.Identity.GetUserId())
             {
-                ModelState.AddModelError(string.Empty, "Invalid data!");
+                ModelState.AddModelError(string.Empty, "Invalid data! (User)");
             }
 
             if (ModelState.IsValid == false)
@@ -201,6 +212,21 @@
             }
 
             return this.PartialView("_Message");
+        }
+
+        [NonAction]
+        public void DeleteSubComment(Comment comment, Post post)
+        {
+            foreach (var reply in comment.ReplyComments)
+            {
+                reply.IsDeleted = true;
+                if (reply.ReplyCommentsCount > 0)
+                {
+                    this.DeleteSubComment(reply, post);
+                }
+            }
+
+            post.CommentsCount -= comment.ReplyCommentsCount;
         }
 
         // TODO Delete Me
