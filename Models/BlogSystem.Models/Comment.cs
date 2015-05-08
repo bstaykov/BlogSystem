@@ -36,6 +36,8 @@
 
         public virtual Post Post { get; set; }
 
+        public bool IsReadByAuthor { get; set; }
+
         public virtual ICollection<CommentLiker> CommentLikers
         {
             get

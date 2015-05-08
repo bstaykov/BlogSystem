@@ -4,28 +4,52 @@
     using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
-        
+
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a href="#" id="onlineUsers" data-toggle="modal" data-target=".bs-example-modal-sm">
+                <a href="#" id="onlineUsers" data-toggle="modal" data-target="#layoutModal">
                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                     (<span id="usersOnline">0</span>)
                 </a>
 
-                <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                @*<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-sm">
                         <div class="modal-content">
                             <div id="listOfOnlineUsers"></div>
                         </div>
                     </div>
-                </div>
+                </div>*@
             </li>
+            <li>
+                @Ajax.RawActionLink("<span id='globalMessegesCount' class='smallMessageCounter badge'></span>", "PostCommentedMesseges", "Comments", new { page = 1, area = "Posts" },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "modalContentElement",
+                            LoadingElementId = "modalLoadingElement",
+                            OnBegin = "$('#modalContentElement').empty()",
+                            HttpMethod = "Get",
+                        },
+                        htmlAttributes: new { @class = "glyphicon glyphicon-globe largerGlyphicon", id = "globalMesseges", Title = "Comments of your posts.", data_toggle = "modal", data_target = "#layoutModal" })
 
+                @*<a id="commentsLink" tabindex="0" class="" role="button" data-toggle="popover" data-container="body" data-placement="bottom" data-trigger="focus" title="Recent user interactions..." data-content="Links should apear here!">
+                    <span id="globalMesseges" class="glyphicon glyphicon-globe largerGlyphicon" aria-hidden="true">
+                    </span>
+                    <span id="globalMessegesCount" class="smallMessageCounter badge"></span>
+                </a>*@
+            </li>
+            <li>
+                <a tabindex="0" class="" role="button" data-toggle="popover" data-container="body" data-placement="bottom" data-trigger="focus" title="Last messages..." data-content="Messages should apear here!">
+                    <span id="globalAlerts" class="glyphicon glyphicon-comment largerGlyphicon text-info" aria-hidden="true">
+                    </span>
+                    <span id="globalAlertsCount" class="smallMessageCounter badge">77</span>
+                </a>
+            </li>
             <li>
                 @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", new { area = "" }, htmlAttributes: new { title = "Manage" })
             </li>
             <li>
-                @Html.Action("GetUserInfo", "Home", new { area = "" })    
+                @Html.Action("GetUserInfo", "Home", new { area = "" })
             </li>
             <li><a id="logOutButton" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>

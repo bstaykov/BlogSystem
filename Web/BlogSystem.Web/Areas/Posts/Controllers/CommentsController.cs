@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data.Entity.Infrastructure;
+    using System.Data.SqlClient;
     using System.Linq;
     using System.Web.Mvc;
 
@@ -228,6 +229,104 @@
 
             post.CommentsCount -= comment.ReplyCommentsCount;
         }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult PostCommentedMesseges(int page = 1)
+        {
+            if (page < 1)
+            {
+                page = 1;
+            }
+
+            var userName = this.User.Identity.Name;
+            var comments = this.Data.Comments.All().Where(comment => comment.User.UserName != userName && comment.Post.User.UserName == userName && comment.IsDeleted == false)
+                .Project().To<LastCommentViewModel>()
+                .OrderByDescending(comment => comment.CreatedOn)
+                .Skip((page - 1) * 5)
+                .Take(5)
+                .ToList();
+
+            var model = new LastCommentsPageViewModel()
+            {
+                Page = page + 1,
+                Comments = comments,
+            };
+
+            return this.PartialView("_PostCommentedMesseges", model);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult ReadComments(int postId)
+        {
+            var userName = this.User.Identity.Name;
+
+            var currentPost = this.Data.Posts.All().Project().To<PostViewModel>()
+                .FirstOrDefault(post => post.Author == userName && post.Id == postId);
+
+            if (currentPost == null)
+            {
+                this.TempData["error"] = "Post not found.";
+                return this.PartialView("Error");
+            }
+
+            var comments = this.Data.Comments.All().Where(comment => comment.IsReadByAuthor == false && comment.PostId == postId);
+
+            foreach (var comment in comments)
+            {
+                comment.IsReadByAuthor = true;
+            }
+
+            this.Data.SaveChanges();
+
+            return this.PartialView("_DisplayPost", currentPost);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult MarkAllCommentsAsRead()
+        {
+            var userId = this.User.Identity.GetUserId();
+
+            var comments = this.Data.Comments.All().Where(comment => comment.Post.UserId == userId && comment.IsReadByAuthor == false);
+
+            foreach (var comment in comments)
+            {
+                comment.IsReadByAuthor = true;
+            }
+
+            this.Data.SaveChanges();
+
+            this.TempData["success"] = "All comments marked as read.";
+
+            return this.PartialView("_Message");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult LastComments()
+        {
+            SqlCommand command = new SqlCommand();
+            SqlDependency dependancy = new SqlDependency(command);
+
+            var userId = this.User.Identity.GetUserId();
+
+            var info = this.Data.Comments.All().Where(comment => comment.IsReadByAuthor == false && comment.UserId == userId).ToList();
+
+            foreach (var comment in info)
+            {
+                comment.IsReadByAuthor = true;
+            }
+
+            this.Data.SaveChanges();
+
+            return this.Json(info, JsonRequestBehavior.AllowGet);
+        }
+
+        // private void dependency_OnChange(object sender, SqlNotificationEventArgs e)
+        // {            
+        // }
 
         // TODO Delete Me
         public ActionResult DeleteAllCommentsTemp()

@@ -1,0 +1,52 @@
+﻿@using BlogSystem.Web.Areas.Posts.Models
+
+@model  LastCommentsPageViewModel
+
+@{
+    var className = string.Empty;
+    if (@Model.Page == 2)
+    {
+        className = "modal-content";
+    }
+}
+
+<div class="@className">
+    @if (@Model.Page == 2)
+    {
+        <div class="modal-header">
+            @Ajax.ActionLink("Mark all as read", "MarkAllCommentsAsRead", "Comments", new { area = "Posts" },
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.ReplaceWith,
+                UpdateTargetId = "modalContentElement",
+                LoadingElementId = "modalLoadingElement",
+                OnSuccess = "$('#modalContentElement').empty();",
+                HttpMethod = "Get",
+            },
+              htmlAttributes: new { Title = "Mark all comments as read" })
+        </div>
+    }
+
+    @foreach (var comment in @Model.Comments)
+    {
+        @Html.DisplayFor(model => comment)
+    }
+
+    @{
+        var pageId = "pageId" + @Model.Page;
+    }
+    @if (@Model.Comments.Count() == 5)
+    {
+        <div class="well well-sm" id="@pageId">
+            @Ajax.ActionLink(" Load more...", "PostCommentedMesseges", "Comments", new { page = @Model.Page, area = "Posts" },
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.ReplaceWith,
+                UpdateTargetId = @pageId,
+                LoadingElementId = "modalLoadingElement",
+                HttpMethod = "Get",
+            },
+              htmlAttributes: new { Title = "Load more comments...", @class = "glyphicon glyphicon-refresh" })
+        </div>
+    }
+</div>

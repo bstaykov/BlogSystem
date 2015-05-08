@@ -43,11 +43,60 @@ $(document).ready(function () {
         chat.server.getOnlineUsers();
     });
 
+    $('#globalMesseges').click(function () {
+        //chat.server.getListOfComments();
+        chat.server.getNewCommentsCount();
+    });
+
     chat.client.addMessage = addMessage;
     chat.client.joinRoom = joinRoom;
     chat.client.updateOnlineUsersCount = updateUsersOnline;
     chat.client.listOfUsersOnline = showListOfOnlineUsers;
+
+    chat.client.updateCommentsCounter = newCommentsCounter;
+    chat.client.displayListOfComments = displayListOfComments;
 });
+
+function displayListOfComments(comments) {
+    console.log('c');
+    $ul = $('<ul></ul>');
+    $ul.attr("id", "listId");
+    for (var i = 0; i < comments.length; i++) {
+        var href = '/Posts/Home/DisplayPost?id=' + comments[i].PostId;
+        $a = $('<a></a>');
+        $a.attr('href', href);
+        
+        $img = $('<img>');
+        $img.attr('src', comments[i].PictureUrl);
+        $img.attr('class', 'img-rounded img-responsive commentsUrl');
+        $img.attr('alt', 'user pic');
+
+        $span = $('<span></span>');
+        $span.text(comments[i].IsReadByAuthor);
+
+        $a.append($img)
+        $a.append($span)
+
+        $li = $('<li></li>');
+        $li.html($a);
+        $ul.append($li)
+    }
+    // TODO Dropdown ul
+    $link = $("#commentsLink");
+    $link.attr('data-content', $ul);
+
+    $testUl = $("#testUl");
+    $testUl.append($ul);
+    console.log($ul);
+}
+
+function newCommentsCounter(commentsCount) {
+    if (commentsCount > 0) {
+        $counter = $('#globalMessegesCount');
+        $counter.html(commentsCount);
+        $counter.attr("style", "display: initial");
+    }
+}
 
 function showListOfOnlineUsers(onlineUsers) {
     $ul = $("<ul></ul>");
@@ -67,7 +116,11 @@ function showListOfOnlineUsers(onlineUsers) {
         $li.html($a);
         $ul.append($li)
     }
-    $('#listOfOnlineUsers').html($ul);
+
+    $div = $('<div></div>');
+    $div.attr('class', 'modal-content');
+    $div.append($ul);
+    $('#modalContentElement').html($div);
 }
 
 function updateUsersOnline(usersCount) {
@@ -175,11 +228,18 @@ function joinRoom(room) {
 
             getOnlineUsers: function (message, rooms) {
                 return proxies['chat'].invoke.apply(proxies['chat'], $.merge(["GetOnlineUsers"], $.makeArray(arguments)));
-            }
-            ,
+            },
 
             sendAnonymousMessage: function (message, rooms) {
                 return proxies['chat'].invoke.apply(proxies['chat'], $.merge(["SendAnonymousMessage"], $.makeArray(arguments)));
+            },
+
+            getNewCommentsCount: function () {
+                return proxies['chat'].invoke.apply(proxies['chat'], $.merge(["GetNewCommentsCount"], $.makeArray(arguments)));
+            },
+
+            getListOfComments: function () {
+                return proxies['chat'].invoke.apply(proxies['chat'], $.merge(["GetListOfComments"], $.makeArray(arguments)));
             }
         };
 

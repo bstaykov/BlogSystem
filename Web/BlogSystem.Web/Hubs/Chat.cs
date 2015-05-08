@@ -2,11 +2,18 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Data.SqlClient;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web;
 
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+
+    using BlogSystem.Data;
+    using BlogSystem.Models;
     using BlogSystem.Web.Hubs.ChatHelpersClasses;
+    using BlogSystem.Web.Hubs.ViewModels;
 
     using Microsoft.AspNet.SignalR;
 
@@ -15,6 +22,17 @@
         private static PublicChatRoom publicChatRoom = new PublicChatRoom();
         private static HashSet<string> connectedIds = new HashSet<string>();
         private static Dictionary<string, int> conectedUsers = new Dictionary<string, int>();
+        private readonly IBlogSystemData data;
+
+        public Chat()
+            : this(new BlogSystemData(new BlogSystemDbContext()))
+        {
+        }
+
+        public Chat(IBlogSystemData data)
+        {
+            this.data = data;
+        } 
 
         public void SendMessage(string message)
         {
@@ -52,6 +70,8 @@
 
             this.UpdateOnlineUsersCount();
 
+            this.GetNewCommentsCount();
+
             return base.OnConnected();
         }
 
@@ -60,6 +80,8 @@
             this.AddUserToCount();
 
             this.UpdateOnlineUsersCount();
+
+            this.GetNewCommentsCount();
 
             return base.OnReconnected();
         }
@@ -101,26 +123,26 @@
             Clients.Caller.ListOfUsersOnline(onlineUsers);
         }
 
-        // public void AddToUserCount()
-        // {
-        // var userName = Context.User.Identity.Name;
-        // var isUserLoged = userName != string.Empty;
-        // var isUserCounted = !(UserHandler.ConectedUsers.ContainsKey(userName));
-        // if (isUserLoged && isUserCounted)
-        // {
-        // UserHandler.ConnectedUsers.Add(userName);
-        // SendOnlineUsersCount();
-        // }
-        // }
-        // public void RemoveFromUserCount()
-        // {
-        // var userName = Context.User.Identity.Name;
-        // if (userName != string.Empty && UserHandler.ConnectedUsers.Contains(userName))
-        // {
-        // UserHandler.ConnectedUsers.Remove(userName);
-        // SendOnlineUsersCount();
-        // }
-        // }
+        public void GetNewCommentsCount()
+        {
+            var userName = Context.User.Identity.Name;
+            var commentsCount = this.data.Comments.All().Where(comment => comment.IsReadByAuthor == false && comment.IsDeleted == false && comment.User.UserName != userName && comment.Post.User.UserName == userName).Count();
+            Clients.Caller.UpdateCommentsCounter(commentsCount);
+        }
+
+        public void GetListOfComments()
+        {
+            var userName = Context.User.Identity.Name;
+            var comments = this.data.Comments.All().Where(comment => comment.User.UserName != userName && comment.Post.User.UserName == userName && comment.IsDeleted == false)
+                .Project().To<LastCommentViewModel>()
+                .OrderBy(comment => comment.CreatedOn)
+
+                // .Skip((pageNumber - 1) * commentsPerPage)
+                .Take(10)
+                .ToList();
+            Clients.Caller.DisplayListOfComments(comments);
+        }
+
         private void RemoveUserFromCount()
         {
             var userName = Context.User.Identity.Name;

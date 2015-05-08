@@ -5,7 +5,7 @@
     using BlogSystem.Data;
     using BlogSystem.Web.Infrastructure.Filters;
 
-    [Log]
+    // [Log]
     public abstract class BaseController : Controller
     {
         protected readonly IBlogSystemData Data;

@@ -15,39 +15,29 @@
     {
         var postVotingId = "postVoting" + @Model.Id;
         var feedBackMessageId = "feedbackMessage" + @Model.Id;
-
-        <div id="@feedBackMessageId"></div>
-        <div class="col-sm-1">
-            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#layoutModal">
-                @Ajax.ActionLink(" ", "VotePost", "Home", new { id = @Model.Id, vote = true, area = "Likes" },
-                        new AjaxOptions
-                        {
-                            InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = "modalContentElement",
-                            LoadingElementId = "modalLoadingElement",
-                            OnBegin = "$('#modalContentElement').empty()",
-                            HttpMethod = "Post",
-                        },
-                        htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-up", Title = "Vote Up" })
-            </button>
-            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#layoutModal">
-                @Ajax.ActionLink(" ", "VotePost", "Home", new { id = @Model.Id, vote = false, area = "Likes" },
-                        new AjaxOptions
-                        {
-                            InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = "modalContentElement",
-                            LoadingElementId = "modalLoadingElement",
-                            OnBegin = "$('#modalContentElement').empty()",
-                            HttpMethod = "Post",
-                        },
-                     htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-down", Title = "Vote Down" })
-            </button>
-            @LoadingElementHelper.ProgressBar(id: @postVotingId, width: 75, alertType: "info", maxValue: 10)
-        </div>
     }
-    <div class="col-sm-11">
+    <div class="col-sm-12">
         <h2>
-            @*@Model.Title*@
+            @Ajax.ActionLink(" ", "VotePost", "Home", new { id = @Model.Id, vote = true, area = "Likes" },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "modalContentElement",
+                            LoadingElementId = "modalLoadingElement",
+                            OnBegin = "$('#modalContentElement').empty()",
+                            HttpMethod = "Post",
+                        },
+                                  htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-up", Title = "Vote Up", data_toggle = "modal", data_target = "#layoutModal" })
+            @Ajax.ActionLink(" ", "VotePost", "Home", new { id = @Model.Id, vote = false, area = "Likes" },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "modalContentElement",
+                            LoadingElementId = "modalLoadingElement",
+                            OnBegin = "$('#modalContentElement').empty()",
+                            HttpMethod = "Post",
+                        },
+                            htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-down", Title = "Vote Down", data_toggle = "modal", data_target = "#layoutModal" })
             @Ajax.ActionLink(@Model.Title, "DisplayPost", "Home", new { id = @Model.Id, area = "Posts" },
                         new AjaxOptions
                         {
