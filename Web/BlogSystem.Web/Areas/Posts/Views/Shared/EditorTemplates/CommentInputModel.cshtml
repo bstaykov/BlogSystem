@@ -9,8 +9,7 @@
                 InsertionMode = InsertionMode.Replace,
                 UpdateTargetId = "modalContentElement",
                 LoadingElementId = "modalLoadingElement",
-                // OnComplete = "$('#globalMesseges').trigger('customRefreshEvent');",
-                OnBegin = "$('#globalMesseges').trigger('customRefreshEvent');",
+                OnComplete = "$('#globalMesseges').trigger('customRefreshEvent', [" + @Model.PostId + "]);",
                 HttpMethod = "POST"
             },
             new { id = "commentPostForm" }))

@@ -49,8 +49,8 @@ $(document).ready(function () {
     });
 
     // Get postId before modal window changes
-    $('#globalMesseges').on("customRefreshEvent", function () {
-        var postId = $('#postRefreshId').val();
+    $('#globalMesseges').on("customRefreshEvent", function (event, postId) {
+        console.log(postId);
         chat.server.refreshCommentsCount(postId);
     });
 
@@ -97,10 +97,13 @@ function displayListOfComments(comments) {
 }
 
 function newCommentsCounter(commentsCount) {
+    $counter = $('#globalMessegesCount');
     if (commentsCount > 0) {
-        $counter = $('#globalMessegesCount');
         $counter.html(commentsCount);
         $counter.attr("style", "display: initial");
+    } else {
+        $counter.empty();
+        $counter.attr("style", "display: none");
     }
 }
 

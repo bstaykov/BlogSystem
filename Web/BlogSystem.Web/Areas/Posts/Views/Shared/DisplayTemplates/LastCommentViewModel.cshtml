@@ -5,19 +5,21 @@
 <div class="well well-sm">
     <img src="@Url.Content(@Model.PictureUrl)" class="img-rounded img-responsive profilePic" alt="picture">
     <span class="label label-primary">@Model.CreatedOn</span>
+
+
+
     @Ajax.ActionLink(@Model.UserName + " commented on your post.", "ReadComments", "Comments", new { postId = @Model.PostId, area = "Posts" },
             new AjaxOptions
             {
                 InsertionMode = InsertionMode.Replace,
                 UpdateTargetId = "content",
                 LoadingElementId = "modalLoadingElement",
-                OnSuccess = "$('.modal').hide();",
+                OnComplete = "$('#globalMesseges').trigger('customRefreshEvent', [" + @Model.PostId + "]); $('.modal').hide();",
                 HttpMethod = "Get",
             },
-             htmlAttributes: new { Title = "Read comment..." })
+             htmlAttributes: new { Title = "Read comment...", id = "readCommentId" })
     @if (@Model.IsReadByAuthor == false)
     {
         <span class="glyphicon glyphicon-bell"></span>
     }
-    @*TODO CLOSE MODAL ON SUCCESS*@
 </div>

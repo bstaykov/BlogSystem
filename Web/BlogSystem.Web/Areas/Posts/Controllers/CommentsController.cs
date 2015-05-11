@@ -231,7 +231,6 @@
         }
 
         [HttpGet]
-        [Authorize]
         public ActionResult PostCommentedMesseges(int page = 1)
         {
             if (page < 1)
@@ -257,7 +256,6 @@
         }
 
         [HttpGet]
-        [Authorize]
         public ActionResult ReadComments(int postId)
         {
             var userName = this.User.Identity.Name;
@@ -273,18 +271,21 @@
 
             var comments = this.Data.Comments.All().Where(comment => comment.IsReadByAuthor == false && comment.PostId == postId);
 
-            foreach (var comment in comments)
+            if (comments.Count() != 0)
             {
-                comment.IsReadByAuthor = true;
+                foreach (var comment in comments)
+                {
+                    comment.IsReadByAuthor = true;
+                }
+
+                this.Data.SaveChanges();
             }
+            //return this.RedirectToAction();
 
-            this.Data.SaveChanges();
-
-            return this.PartialView("_DisplayPost", currentPost);
+            return this.PartialView("Post", currentPost);
         }
 
         [HttpGet]
-        [Authorize]
         public ActionResult MarkAllCommentsAsRead()
         {
             var userId = this.User.Identity.GetUserId();
@@ -304,7 +305,6 @@
         }
 
         [HttpGet]
-        [Authorize]
         public ActionResult LastComments()
         {
             SqlCommand command = new SqlCommand();
