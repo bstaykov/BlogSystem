@@ -48,6 +48,12 @@ $(document).ready(function () {
         chat.server.getNewCommentsCount();
     });
 
+    // Get postId before modal window changes
+    $('#globalMesseges').on("customRefreshEvent", function () {
+        var postId = $('#postRefreshId').val();
+        chat.server.refreshCommentsCount(postId);
+    });
+
     chat.client.addMessage = addMessage;
     chat.client.joinRoom = joinRoom;
     chat.client.updateOnlineUsersCount = updateUsersOnline;
@@ -240,7 +246,11 @@ function joinRoom(room) {
 
             getListOfComments: function () {
                 return proxies['chat'].invoke.apply(proxies['chat'], $.merge(["GetListOfComments"], $.makeArray(arguments)));
-            }
+            },
+
+            refreshCommentsCount: function (postId) {
+                return proxies['chat'].invoke.apply(proxies['chat'], $.merge(["RefreshCommentsCount"], $.makeArray(arguments)));
+            },
         };
 
         return proxies;

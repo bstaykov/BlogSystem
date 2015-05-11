@@ -20,8 +20,8 @@
     public class Chat : Hub
     {
         private static PublicChatRoom publicChatRoom = new PublicChatRoom();
-        private static HashSet<string> connectedIds = new HashSet<string>();
         private static Dictionary<string, int> conectedUsers = new Dictionary<string, int>();
+        private static Dictionary<string, string> connectedIds = new Dictionary<string, string>();
         private readonly IBlogSystemData data;
 
         public Chat()
@@ -66,6 +66,8 @@
 
         public override Task OnConnected()
         {
+            this.AddConnectionId();
+
             this.AddUserToCount();
 
             this.UpdateOnlineUsersCount();
@@ -77,6 +79,8 @@
 
         public override Task OnReconnected()
         {
+            this.AddConnectionId();
+
             this.AddUserToCount();
 
             this.UpdateOnlineUsersCount();
@@ -88,6 +92,8 @@
 
         public override Task OnDisconnected(bool stopCalled)
         {
+            this.RemoveConnectionId();
+
             this.RemoveUserFromCount();
 
             this.UpdateOnlineUsersCount();
@@ -143,6 +149,17 @@
             Clients.Caller.DisplayListOfComments(comments);
         }
 
+        public void RefreshCommentsCount(int postId)
+        {
+            var userName = this.data.Posts.GetById(postId).User.UserName;
+
+            if (connectedIds.ContainsKey(userName) == true)
+            {
+                var commentsCount = this.data.Comments.All().Where(comment => comment.IsReadByAuthor == false && comment.IsDeleted == false && comment.User.UserName != userName && comment.Post.User.UserName == userName).Count();
+                Clients.Client(connectedIds[userName]).UpdateCommentsCounter(commentsCount);
+            }
+        }
+
         private void RemoveUserFromCount()
         {
             var userName = Context.User.Identity.Name;
@@ -178,6 +195,26 @@
                 }
 
                 Chat.conectedUsers[userName] += 1;
+            }
+        }
+
+        private void AddConnectionId()
+        {
+            var userName = Context.User.Identity.Name;
+
+            if (userName != null && connectedIds.ContainsKey(userName) == false)
+            {
+                connectedIds[userName] = Context.ConnectionId;
+            }
+        }
+
+        private void RemoveConnectionId()
+        {
+            var userName = Context.User.Identity.Name;
+
+            if (userName != null && connectedIds.ContainsKey(userName) == true)
+            {
+                connectedIds.Remove(userName);
             }
         }
     }

@@ -353,6 +353,7 @@
     <Content Include="Areas\Posts\Views\Shared\_CommentUpdateResult.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_PostCommentedMesseges.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\LastCommentViewModel.cshtml" />
+    <Content Include="Areas\Posts\Views\Home\Post.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

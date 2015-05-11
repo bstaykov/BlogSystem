@@ -9,6 +9,8 @@
                 InsertionMode = InsertionMode.Replace,
                 UpdateTargetId = "modalContentElement",
                 LoadingElementId = "modalLoadingElement",
+                // OnComplete = "$('#globalMesseges').trigger('customRefreshEvent');",
+                OnBegin = "$('#globalMesseges').trigger('customRefreshEvent');",
                 HttpMethod = "POST"
             },
             new { id = "commentPostForm" }))
@@ -25,7 +27,7 @@
                 <h4 class="modal-title" id="myModalLabel">Comment:</h4>
             </div>
             <div class="modal-body">
-                @Html.HiddenFor(comment => comment.PostId)
+                @Html.HiddenFor(comment => comment.PostId, htmlAttributes: new { id = "postRefreshId" })
                 @if (@Model.ParentCommentId != null)
                 {
                     @Html.HiddenFor(comment => comment.ParentCommentId)

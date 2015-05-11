@@ -30,7 +30,7 @@
     </div>
     @*<div>@Html.Action("Breadcrumbs")</div>*@
     <div class="container body-content">
-        @*<button data-toggle="popover" data-content="Link: <a href='http://google.com'>GOOGLE</a>" data-html="true"> CLICK </button>*@
+        @LoadingElementHelper.ProgressBar(id: "mainLoadingElement", width: 90, alertType: "info")  
         <div id="content">
             @RenderBody()
         </div>

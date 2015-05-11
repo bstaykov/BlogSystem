@@ -30,6 +30,22 @@
         }
 
         [HttpGet]
+        public ActionResult Post(int id)
+        {
+            var post = this.Data.Posts.All()
+                .AsQueryable()
+                .Project().To<PostViewModel>()
+                .FirstOrDefault(p => p.Id == id);
+
+            if (post == null)
+            {
+                return null;
+            }
+
+            return this.View("Post", post);
+        }
+
+        [HttpGet]
         public ActionResult DisplayPost(int id)
         {
             var post = this.Data.Posts.All()

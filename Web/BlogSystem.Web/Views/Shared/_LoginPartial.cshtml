@@ -28,6 +28,7 @@
                             UpdateTargetId = "modalContentElement",
                             LoadingElementId = "modalLoadingElement",
                             OnBegin = "$('#modalContentElement').empty()",
+                            OnSuccess = "$('#send-message').trigger('click')",
                             HttpMethod = "Get",
                         },
                         htmlAttributes: new { @class = "glyphicon glyphicon-globe largerGlyphicon", id = "globalMesseges", Title = "Comments of your posts.", data_toggle = "modal", data_target = "#layoutModal" })
