@@ -30,11 +30,11 @@
     </div>
     @*<div>@Html.Action("Breadcrumbs")</div>*@
     <div class="container body-content">
-        @LoadingElementHelper.ProgressBar(id: "mainLoadingElement", width: 90, alertType: "info")  
+        @TempDataHelpers.ModalScreen("modalContentElement", "modalLoadingElement", "layoutModal")
+        @LoadingElementHelper.ProgressBar(id: "mainLoadingElement", width: 90, alertType: "info")
         <div id="content">
             @RenderBody()
         </div>
-        @TempDataHelpers.ModalScreen("modalContentElement", "modalLoadingElement", "layoutModal")
         <hr />
         @Html.Action("ChatContent", "Home", new { area = "" })
         <footer>

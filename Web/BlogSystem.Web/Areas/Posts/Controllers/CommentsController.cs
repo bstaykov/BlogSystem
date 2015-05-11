@@ -21,12 +21,6 @@
     [Authorize]
     public class CommentsController : BaseController
     {
-        [HttpPost]
-        public ActionResult GetCommentForm(int postId, int? parentCommentId)
-        {
-            return this.PartialView("_CommentForm", new CommentInputModel() { PostId = postId, ParentCommentId = parentCommentId });
-        }
-
         [HttpGet]
         [AllowAnonymous]
         public ActionResult ViewComments(int postId, int? parentCommentId = null, int pageNumber = 1, int commentsPerPage = 5)
@@ -85,6 +79,12 @@
             };
 
             return this.PartialView("_Comments", pagingModel);
+        }
+        
+        [HttpGet]
+        public ActionResult CommentPost(int postId, int? parentCommentId)
+        {
+            return this.PartialView("_CommentForm", new CommentInputModel() { PostId = postId, ParentCommentId = parentCommentId });
         }
 
         [HttpPost]

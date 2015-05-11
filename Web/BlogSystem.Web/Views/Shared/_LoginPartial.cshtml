@@ -11,14 +11,6 @@
                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                     (<span id="usersOnline">0</span>)
                 </a>
-
-                @*<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                            <div id="listOfOnlineUsers"></div>
-                        </div>
-                    </div>
-                </div>*@
             </li>
             <li>
                 @Ajax.RawActionLink("<span id='globalMessegesCount' class='smallMessageCounter badge'></span>", "PostCommentedMesseges", "Comments", new { page = 1, area = "Posts" },

@@ -7,7 +7,6 @@
 @{
     var pagingUpdateTarget = "p" + @Model.Id + "pc";
     var commentFormId = "commentFormId";
-    var commentLoadingId = "commentLoadingId";
 }
 
 <div class="row" id="@Model.Id">
@@ -38,12 +37,13 @@
                             HttpMethod = "Post",
                         },
                             htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-down", Title = "Vote Down", data_toggle = "modal", data_target = "#layoutModal" })
+
             @Ajax.ActionLink(@Model.Title, "DisplayPost", "Home", new { id = @Model.Id, area = "Posts" },
                         new AjaxOptions
                         {
-                            InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = "postsShown",
-                            LoadingElementId = "loading",
+                            InsertionMode = InsertionMode.ReplaceWith,
+                            UpdateTargetId = "postContainer",
+                            LoadingElementId = "mainLoadingElement",
                             HttpMethod = "Get",
                         },
                         new { Title = "Read Post" })
@@ -107,26 +107,23 @@
         {
             <div>
                 @{
-            var commentLinkIcon = "<span class='glyphicon glyphicon-comment' aria-hidden='true'></span>";
-            if (@Model.CommentsCount == 0)
-            {
-                commentLinkIcon = "First one to comment..." + commentLinkIcon;
-            }
+                    var commentLinkIcon = "<span class='glyphicon glyphicon-comment' aria-hidden='true'></span>";
+                    if (@Model.CommentsCount == 0)
+                    {
+                        commentLinkIcon = "First one to comment..." + commentLinkIcon;
+                    }
                 }
-
-                @LoadingElementHelper.ProgressBar(id: @commentLoadingId, width: 90, alertType: "info")
-
                 <div>
-                    @Ajax.RawActionLink(commentLinkIcon, "GetCommentForm", "Comments", new { PostId = @Model.Id, area = "Posts" },
+                    @Ajax.RawActionLink(commentLinkIcon, "CommentPost", "Comments", new { PostId = @Model.Id, area = "Posts" },
                         new AjaxOptions
                      {
                          InsertionMode = InsertionMode.Replace,
                          UpdateTargetId = "modalContentElement",
                          LoadingElementId = "modalLoadingElement",
                          OnBegin = "$('#modalContentElement').empty()",
-                         HttpMethod = "Post",
+                         HttpMethod = "Get",
                      },
-                     new { Title = "Comment", data_toggle = "modal", data_target = "#layoutModal" })
+                  htmlAttributes: new { Title = "Comment", data_toggle = "modal", data_target = "#layoutModal", id = "commentPostsLink" })
                 </div>
             </div>
         }

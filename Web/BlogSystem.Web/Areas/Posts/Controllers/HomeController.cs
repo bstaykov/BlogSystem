@@ -58,7 +58,7 @@
                 return null;
             }
 
-            return this.PartialView("_DisplayPost", post);
+            return this.PartialView("Post", post);
         }
 
         [HttpGet]

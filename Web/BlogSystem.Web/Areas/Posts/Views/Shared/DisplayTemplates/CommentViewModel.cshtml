@@ -122,14 +122,14 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <span>
-                        @Ajax.RawActionLink("<span class='glyphicon glyphicon-comment' aria-hidden='true'></span>", "GetCommentForm", "Comments", new { PostId = @Model.PostId, ParentCommentId = @Model.Id, area = "Posts" },
+                        @Ajax.RawActionLink("<span class='glyphicon glyphicon-comment' aria-hidden='true'></span>", "CommentPost", "Comments", new { PostId = @Model.PostId, ParentCommentId = @Model.Id, area = "Posts" },
                         new AjaxOptions
                      {
                          InsertionMode = InsertionMode.Replace,
                          UpdateTargetId = "modalContentElement",
                          LoadingElementId = "modalLoadingElement",
                          OnBegin = "$('#modalContentElement').empty()",
-                         HttpMethod = "Post",
+                         HttpMethod = "Get",
                      },
                   new { Title = "Reply", data_toggle = "modal", data_target = "#layoutModal" })
                     </span>

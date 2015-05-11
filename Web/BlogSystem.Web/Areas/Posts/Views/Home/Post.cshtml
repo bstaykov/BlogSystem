@@ -1,1 +1,16 @@
-﻿
+﻿@using BlogSystem.Web.Areas.Posts.Models
+
+@model PostViewModel
+
+@{
+    ViewBag.Title = @Model.Title;
+}
+
+<div id="postContainer"> 
+    @Html.DisplayForModel()
+</div>
+
+@* CLIENT VALIDATION *@
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

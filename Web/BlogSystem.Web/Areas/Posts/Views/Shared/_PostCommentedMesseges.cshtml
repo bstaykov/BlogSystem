@@ -17,10 +17,9 @@
             @Ajax.ActionLink("Mark all as read", "MarkAllCommentsAsRead", "Comments", new { area = "Posts" },
             new AjaxOptions
             {
-                InsertionMode = InsertionMode.ReplaceWith,
+                InsertionMode = InsertionMode.Replace,
                 UpdateTargetId = "modalContentElement",
                 LoadingElementId = "modalLoadingElement",
-                OnSuccess = "$('#modalContentElement').empty();",
                 HttpMethod = "Get",
             },
               htmlAttributes: new { Title = "Mark all comments as read" })

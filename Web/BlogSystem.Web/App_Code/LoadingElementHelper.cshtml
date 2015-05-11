@@ -1,7 +1,7 @@
 ﻿@helper ProgressBar(string id = "loading", int width = 50, string alertType = "success", int maxValue = 100)
 {
     <div class="progress progressBar" id="@id">
-        <div class="progress-bar progress-bar-@alertType progress-bar-striped active" role="progressbar" aria-valuenow=@width aria-valuemin="0" aria-valuemax=@maxValue style="width: @width%">
+        <div class="progress-bar progress-bar-@alertType progress-bar-striped active" role="progressbar" aria-valuenow="@width" aria-valuemin="0" aria-valuemax="@maxValue" style="width: @width%">
             <span class="sr-only">@width% Complete (@alertType)</span>
         </div>
     </div>
