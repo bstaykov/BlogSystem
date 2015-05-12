@@ -6,6 +6,13 @@
     ViewBag.Title = @Model.Title;
 }
 
+@if (TempData["success"] != null)
+{
+    <p>
+        @TempDataHelpers.TempMessage(TempData["success"].ToString())
+    </p>
+}
+
 <div id="postContainer"> 
     @Html.DisplayForModel()
 </div>

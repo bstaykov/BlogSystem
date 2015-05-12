@@ -97,16 +97,7 @@
 
         @if (User.Identity.IsAuthenticated && @Model.Author == User.Identity.Name)
         {
-            @Ajax.ActionLink("Delete", "DeletePost", "Home", new { id = @Model.Id, area = "Posts" },
-        new AjaxOptions
-        {
-            InsertionMode = InsertionMode.Replace,
-            UpdateTargetId = @Model.Id.ToString(),
-            LoadingElementId = "loading",
-            Confirm = "Delete?",
-            HttpMethod = "Post",
-        },
-        htmlAttributes: new { @class = "glyphicon glyphicon-trash" })
+            @Html.Partial("_EditDeleteLinks", @Model.Id)
         }
 
         <h5>@Model.Content</h5>

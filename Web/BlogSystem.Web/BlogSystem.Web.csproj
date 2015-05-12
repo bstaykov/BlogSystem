@@ -241,6 +241,7 @@
     <Compile Include="Areas\Posts\Models\LastCommentViewModel.cs" />
     <Compile Include="Areas\Posts\Models\MyPostsPagingViewModel.cs" />
     <Compile Include="Areas\Posts\Models\MyPostViewModel.cs" />
+    <Compile Include="Areas\Posts\Models\PostEditModel.cs" />
     <Compile Include="Areas\Posts\Models\PostInputModel.cs" />
     <Compile Include="Areas\Posts\Models\PostListViewModel.cs" />
     <Compile Include="Areas\Posts\Models\PostsPagingViewModel.cs" />
@@ -354,6 +355,9 @@
     <Content Include="Areas\Posts\Views\Shared\_PostCommentedMesseges.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\LastCommentViewModel.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\Post.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\_EditPostForm.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\EditorTemplates\PostEditModel.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\_EditDeleteLinks.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

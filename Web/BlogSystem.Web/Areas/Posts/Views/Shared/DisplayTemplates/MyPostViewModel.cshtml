@@ -1,10 +1,10 @@
 ﻿@using BlogSystem.Web.Areas.Posts.Models
 @using BlogSystem.Web.Helpers
+@using Microsoft.AspNet.Identity
 
 @model MyPostViewModel
-
-<div class="col-lg-12" id="@Model.Id">
-    <p>
+<p>
+    <div class="col-lg-12" id="@Model.Id">
         <h2 class="media-heading">
             @Html.ActionLink(@Model.Title, "Post", "Home", new { id = @Model.Id, area = "Posts" }, htmlAttributes: null)
         </h2>
@@ -17,16 +17,6 @@
         <span class="label label-info">@Model.CreatedOn</span>
         <span class="label label-info">@Model.Info</span>
 
-        @Ajax.ActionLink("Delete", "DeletePost", "Home", new { id = @Model.Id, area = "Posts" },
-        new AjaxOptions
-        {
-            InsertionMode = InsertionMode.Replace,
-            UpdateTargetId = @Model.Id.ToString(),
-            LoadingElementId = "loading",
-            Confirm = "Delete?",
-            HttpMethod = "Post",
-        },
-        htmlAttributes: new { @class = "glyphicon glyphicon-trash" })
-    </p>
-</div>
-
+        @Html.Partial("_EditDeleteLinks", @Model.Id)
+    </div>
+</p>

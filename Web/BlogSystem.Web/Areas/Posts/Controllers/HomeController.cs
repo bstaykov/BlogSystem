@@ -130,12 +130,12 @@
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public ActionResult InsertPostForm(PostInputModel post)
+        public ActionResult InsertPostForm(PostInputModel postModel)
         {
             if (ModelState.IsValid)
             {
                 Mapper.CreateMap<PostInputModel, Post>();
-                Post newPost = Mapper.Map<Post>(post);
+                Post newPost = Mapper.Map<Post>(postModel);
                 newPost.CreatedOn = DateTime.Now;
                 newPost.UserId = User.Identity.GetUserId();
                 this.Data.Posts.Add(newPost);
@@ -175,7 +175,7 @@
                 }
             }
 
-            return this.PartialView("_InsertPostForm", post);
+            return this.PartialView("_InsertPostForm", postModel);
         }
 
         [HttpGet]
@@ -286,6 +286,70 @@
             }
 
             return this.RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult EditPost(int id)
+        {
+            var post = this.Data.Posts.GetById(id);
+            Mapper.CreateMap<Post, PostEditModel>();
+            PostEditModel postToBeEdited = Mapper.Map<PostEditModel>(post);
+            return this.PartialView("_EditPostForm", postToBeEdited);
+        }
+
+        [HttpPut]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditPost(PostEditModel model)
+        {
+            var post = this.Data.Posts.GetById(model.Id);
+            if (post.Id != model.Id || post.UserId != this.User.Identity.GetUserId())
+            {
+                ModelState.AddModelError(string.Empty, "Invalid data! (User)");
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                this.TempData["error"] = "Invalid data!";
+                return this.PartialView("_Message");
+            }
+
+            post.ModifiedOn = DateTime.Now;
+            post.Content = model.Content;
+            post.Title = model.Title;
+            post.Category = model.Category;
+            try
+            {
+                this.Data.Posts.SaveChanges();
+                this.TempData["success"] = "Post updated!";
+                Mapper.CreateMap<Post, PostViewModel>();
+                PostViewModel editedPost = Mapper.Map<PostViewModel>(post);
+
+                return this.PartialView("Post", editedPost);
+            }
+            catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+            {
+                if (ex.InnerException.InnerException is System.Data.SqlClient.SqlException)
+                {
+                    var sqlException = ex.InnerException.InnerException as System.Data.SqlClient.SqlException;
+
+                    if (sqlException.Number == 2601)
+                    {
+                        this.TempData["error"] = "Error! Post title duplicates!";
+                    }
+                    else
+                    {
+                        this.TempData["error"] = "Error! Post was not edited!";
+                    }
+                }
+                else
+                {
+                    this.TempData["error"] = "Error! Post was not edited!";
+                }
+
+                return this.PartialView("_EditPostForm", model);
+            }
         }
 
         // TODO Delete Me

@@ -1,0 +1,11 @@
+﻿@using BlogSystem.Web.Areas.Posts.Models
+
+@model PostEditModel
+
+@Html.EditorForModel(@Model)
+
+<script>
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse("#editPostForm");
+    });
+</script>
