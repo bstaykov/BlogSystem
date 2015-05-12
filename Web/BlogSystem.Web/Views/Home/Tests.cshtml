@@ -1,0 +1,30 @@
+﻿<span class="label label-info">
+    @Ajax.ActionLink("Delete Posts", "DeleteAllPostTemp", "Home", new { area = "Posts" },
+        new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            LoadingElementId = "delete",
+            HttpMethod = "Get",
+        })
+</span>
+
+<span class="label label-info">
+    @Ajax.ActionLink("Delete Comments", "DeleteAllCommentsTemp", "Comments", new { area = "Posts" },
+        new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            LoadingElementId = "delete",
+            HttpMethod = "Get",
+        })
+</span>
+
+<span class="label label-info">
+    @Ajax.ActionLink("Delete Logs", "DeleteAllLogsTemp", "Comments", new { area = "Posts" },
+        new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            LoadingElementId = "delete",
+            HttpMethod = "Get",
+        })
+</span>
+@LoadingElementHelper.ProgressBar(id: "delete", width: 10, alertType: "info", maxValue: 10)

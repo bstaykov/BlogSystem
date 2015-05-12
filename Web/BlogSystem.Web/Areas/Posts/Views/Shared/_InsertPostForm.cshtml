@@ -2,9 +2,9 @@
 @using BlogSystem.Web.Helpers
 
 @model PostInputModel
-
-<div class="jumbotron">
-    @using (Ajax.BeginForm("InsertPostForm", null,
+<p>
+    <div class="jumbotron">
+        @using (Ajax.BeginForm("InsertPostForm", null,
             new AjaxOptions
             {
                 UpdateTargetId = "postForm",
@@ -13,42 +13,42 @@
                 HttpMethod = "POST"
             },
             new { id = "insertPostForm", @class = "form-horizontal", role = "form" }))
-    {
-    @Html.AntiForgeryToken()
+        {
+            @Html.AntiForgeryToken()
 
-        // excludes properties errors
-    @Html.ValidationSummary(true)
+            // excludes properties errors
+            @Html.ValidationSummary(true)
 
-    <div class="row">
-        <div class="form-group">
-            @Html.LabelFor(post => post.Title, new { @class = "col-lg-1 control-label" })
-            <div class="col-lg-11">
-                @Html.EditorFor(post => post.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(post => post.Title, null, new { @class = "alert-warning" })
+            <div class="row">
+                <div class="form-group">
+                    @Html.LabelFor(post => post.Title, new { @class = "col-lg-1 control-label" })
+                    <div class="col-lg-11">
+                        @Html.EditorFor(post => post.Title, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(post => post.Title, null, new { @class = "alert-warning" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(post => post.Content, new { @class = "col-lg-1 control-label" })
+                    <div class="col-lg-11">
+                        @Html.EditorFor(post => post.Content, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(post => post.Content, null, new { @class = "alert-warning" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(post => post.Category, new { @class = "col-lg-1 control-label" })
+                    <div class="col-lg-11">
+                        @Html.EnumDropDownListFor(post => post.Category, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(post => post.Category)
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(post => post.Content, new { @class = "col-lg-1 control-label" })
-            <div class="col-lg-11">
-                @Html.EditorFor(post => post.Content, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(post => post.Content, null, new { @class = "alert-warning" })
+
+            <div class="row">
+                @Html.Submit("Save", new { @class = "btn col-lg-1", id = "submitId" })
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(post => post.Category, new { @class = "col-lg-1 control-label" })
-            <div class="col-lg-11">
-                @Html.EnumDropDownListFor(post => post.Category, new { @class = "form-control" })
-                @Html.ValidationMessageFor(post => post.Category)
-            </div>
-        </div>
+        }
     </div>
-
-    <div class="row">
-        @Html.Submit("Save", new { @class = "btn col-lg-1", id = "submitId" })
-    </div>
-    }
-</div>
-
+</p>
 @if (TempData["id"] != null)
 {
     <div class="alert alert-success alert-dismissible" role="alert">
@@ -80,7 +80,7 @@
         </strong>
         <span>added.</span>
     </div>
-    
+
     @TempDataHelpers.TempMessageLink("DisplayPost/" + TempData["id"], "Post added.")
 }
 else if (TempData["error"] != null)

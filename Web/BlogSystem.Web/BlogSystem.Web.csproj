@@ -441,6 +441,7 @@
     <Content Include="Views\Home\UserInfo.cshtml" />
     <Content Include="Views\Shared\_Pagination.cshtml" />
     <Content Include="Views\Shared\_Message.cshtml" />
+    <Content Include="Views\Home\Tests.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -280,7 +280,6 @@
 
                 this.Data.SaveChanges();
             }
-            //return this.RedirectToAction();
 
             return this.PartialView("Post", currentPost);
         }

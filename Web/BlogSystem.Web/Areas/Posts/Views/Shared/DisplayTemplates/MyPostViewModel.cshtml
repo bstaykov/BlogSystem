@@ -4,17 +4,20 @@
 @model MyPostViewModel
 
 <div class="col-lg-12" id="@Model.Id">
-    <h2 class="media-heading">@Model.Title</h2>
-    <h4 class="media-body">@Model.Content</h4>
-    @if (@Model.IsDeleted)
-    {
-        <span class="label label-danger">DELETED</span>
-    }
-    <span class="label label-primary">@Model.Category</span>
-    <span class="label label-info">@Model.CreatedOn</span>
-    <span class="label label-info">@Model.Info</span>
+    <p>
+        <h2 class="media-heading">
+            @Html.ActionLink(@Model.Title, "Post", "Home", new { id = @Model.Id, area = "Posts" }, htmlAttributes: null)
+        </h2>
+        <h4 class="media-body">@Model.Content</h4>
+        @if (@Model.IsDeleted)
+        {
+            <span class="label label-danger">DELETED</span>
+        }
+        <span class="label label-primary">@Model.Category</span>
+        <span class="label label-info">@Model.CreatedOn</span>
+        <span class="label label-info">@Model.Info</span>
 
-    @Ajax.ActionLink("Delete", "DeletePost", "Home", new { id = @Model.Id, area = "Posts"}, 
+        @Ajax.ActionLink("Delete", "DeletePost", "Home", new { id = @Model.Id, area = "Posts" },
         new AjaxOptions
         {
             InsertionMode = InsertionMode.Replace,
@@ -24,5 +27,6 @@
             HttpMethod = "Post",
         },
         htmlAttributes: new { @class = "glyphicon glyphicon-trash" })
+    </p>
 </div>
 

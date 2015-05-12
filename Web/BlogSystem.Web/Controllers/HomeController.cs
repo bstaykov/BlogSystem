@@ -20,7 +20,9 @@
     {
         public ActionResult Index()
         {
-            return this.View();
+            // return this.View();
+            // return this.RedirectToActionPermanent("Index", "Home", new { area = "Posts" });
+            return this.RedirectToRoutePermanent("Posts_default");
         }
 
         [ChildActionOnly]
@@ -224,6 +226,12 @@
             this.TempData["error"] = "Invalid date!";
 
             return this.View(new DateTime());
+        }
+
+        [HttpGet]
+        public ActionResult Tests()
+        {
+            return this.View();
         }
     }
 }

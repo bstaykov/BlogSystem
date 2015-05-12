@@ -17,7 +17,10 @@
     }
     <div class="col-sm-12">
         <h2>
-            @Ajax.ActionLink(" ", "VotePost", "Home", new { id = @Model.Id, vote = true, area = "Likes" },
+            @if (User.Identity.IsAuthenticated)
+            {
+                <span>
+                    @Ajax.ActionLink(" ", "VotePost", "Home", new { id = @Model.Id, vote = true, area = "Likes" },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
@@ -27,7 +30,9 @@
                             HttpMethod = "Post",
                         },
                                   htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-up", Title = "Vote Up", data_toggle = "modal", data_target = "#layoutModal" })
-            @Ajax.ActionLink(" ", "VotePost", "Home", new { id = @Model.Id, vote = false, area = "Likes" },
+                </span>
+                <span>
+                    @Ajax.ActionLink(" ", "VotePost", "Home", new { id = @Model.Id, vote = false, area = "Likes" },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
@@ -38,6 +43,8 @@
                         },
                             htmlAttributes: new { @class = "glyphicon glyphicon-thumbs-down", Title = "Vote Down", data_toggle = "modal", data_target = "#layoutModal" })
 
+                </span>
+            }
             @Ajax.ActionLink(@Model.Title, "DisplayPost", "Home", new { id = @Model.Id, area = "Posts" },
                         new AjaxOptions
                         {
@@ -107,11 +114,11 @@
         {
             <div>
                 @{
-                    var commentLinkIcon = "<span class='glyphicon glyphicon-comment' aria-hidden='true'></span>";
-                    if (@Model.CommentsCount == 0)
-                    {
-                        commentLinkIcon = "First one to comment..." + commentLinkIcon;
-                    }
+            var commentLinkIcon = "<span class='glyphicon glyphicon-comment' aria-hidden='true'></span>";
+            if (@Model.CommentsCount == 0)
+            {
+                commentLinkIcon = "First one to comment..." + commentLinkIcon;
+            }
                 }
                 <div>
                     @Ajax.RawActionLink(commentLinkIcon, "CommentPost", "Comments", new { PostId = @Model.Id, area = "Posts" },
