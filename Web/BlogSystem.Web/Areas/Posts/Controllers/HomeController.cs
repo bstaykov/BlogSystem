@@ -240,7 +240,7 @@
             return this.PartialView("_MyPostsPartial", pagingModel);
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Authorize]
         public ActionResult DeletePost(int id)
         {

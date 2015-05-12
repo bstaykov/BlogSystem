@@ -4,8 +4,8 @@
         new AjaxOptions
         {
             InsertionMode = InsertionMode.Replace,
-            UpdateTargetId = @Model.ToString(),
-            LoadingElementId = "loading",
+            UpdateTargetId = "content",
+            LoadingElementId = "mainLoadingElement",
             HttpMethod = "Get",
         },
              htmlAttributes: new { @class = "glyphicon glyphicon-edit", Title = "Edit" })
@@ -14,8 +14,8 @@
         {
             InsertionMode = InsertionMode.Replace,
             UpdateTargetId = @Model.ToString(),
-            LoadingElementId = "loading",
+            LoadingElementId = "mainLoadingElement",
             Confirm = "Delete?",
-            HttpMethod = "Post",
+            HttpMethod = "Delete",
         },
         htmlAttributes: new { @class = "glyphicon glyphicon-trash", Title = "Delete" })

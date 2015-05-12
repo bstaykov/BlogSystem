@@ -10,7 +10,8 @@
                 InsertionMode = InsertionMode.Replace,
                 LoadingElementId = "edit" + @Model.Id,
                 HttpMethod = "PUT"
-            }))
+            },
+            new { id = "commentPostForm" }))
 {
     @Html.AntiForgeryToken()
 
