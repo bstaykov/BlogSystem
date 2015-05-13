@@ -31,6 +31,7 @@
     <div class="container body-content">
         @TempDataHelpers.ModalScreen("modalContentElement", "modalLoadingElement", "layoutModal")
         @LoadingElementHelper.ProgressBar(id: "mainLoadingElement", width: 90, alertType: "info")
+        <div id="newPostAlerts"></div>
         <div id="content">
             @RenderBody()
         </div>

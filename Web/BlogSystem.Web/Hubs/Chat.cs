@@ -160,6 +160,16 @@
             }
         }
 
+        public void SendNewPostAlert()
+        {
+            var lastPost = this.data.Posts.All()
+                .OrderByDescending(post => post.CreatedOn)
+                .First();
+                //.Select(post => new NewPostModel() { Author = post.User.UserName, Id = post.Id, });
+            //Clients.All.DisplayNewPostMessage(newPostModel);
+            Clients.AllExcept(connectedIds[lastPost.User.UserName]).DisplayNewPostMessage(lastPost.User.UserName, lastPost.Id, lastPost.Title.Substring(0, 5) + "...");
+        }
+
         private void RemoveUserFromCount()
         {
             var userName = Context.User.Identity.Name;
@@ -200,6 +210,11 @@
 
         private void AddConnectionId()
         {
+            if (Context.User.Identity.IsAuthenticated == false)
+            {
+                return;
+            }
+
             var userName = Context.User.Identity.Name;
 
             if (userName != null && connectedIds.ContainsKey(userName) == false)

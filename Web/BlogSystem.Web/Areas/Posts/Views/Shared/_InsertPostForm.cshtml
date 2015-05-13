@@ -10,6 +10,7 @@
                 UpdateTargetId = "postForm",
                 InsertionMode = InsertionMode.Replace,
                 LoadingElementId = "loading",
+                OnSuccess = "if($('.validation-summary-errors').length==0) { $('#newPostAlerts').trigger('refresh'); }",
                 HttpMethod = "POST"
             },
             new { id = "insertPostForm", @class = "form-horizontal", role = "form" }))
@@ -49,7 +50,7 @@
         }
     </div>
 </p>
-@if (TempData["id"] != null)
+@*@if (TempData["id"] != null)
 {
     <div class="alert alert-success alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -86,10 +87,10 @@
 else if (TempData["error"] != null)
 {
     @TempDataHelpers.TempMessage(TempData["error"].ToString(), "danger")
-}
+}*@
 
-<script>
+@*<script>
     $(document).ready(function () {
         $.validator.unobtrusive.parse("#insertPostForm");
     });
-</script>
+</script>*@

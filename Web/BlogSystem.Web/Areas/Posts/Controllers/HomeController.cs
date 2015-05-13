@@ -144,7 +144,7 @@
                     int result = this.Data.Posts.SaveChanges();
                     if (result == 1)
                     {
-                        return this.RedirectToAction("DisplayPost", new { id = newPost.Id });
+                        return this.RedirectToAction("DisplayPost", routeValues: new { id = newPost.Id });
 
                         // this.TempData["id"] = newPost.Id;
 
@@ -161,16 +161,19 @@
 
                         if (sqlException.Number == 2601)
                         {
-                            this.TempData["error"] = "Error! Post title duplicates!";
+                            // this.TempData["error"] = "Error! Post title duplicates!";
+                            ModelState.AddModelError("", "Error! Post title duplicates!");
                         }
                         else
                         {
-                            this.TempData["error"] = "Error! Post was not added!";
+                            // this.TempData["error"] = "Error! Post was not added!";
+                            ModelState.AddModelError("", "SQL error! Try again!");
                         }
                     }
                     else
                     {
-                        this.TempData["error"] = "Error! Post was not added!";
+                        // this.TempData["error"] = "Error! Post was not added!";
+                        ModelState.AddModelError("", "Error! Try again!");
                     }
                 }
             }

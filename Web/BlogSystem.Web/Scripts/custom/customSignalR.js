@@ -54,6 +54,12 @@ $(document).ready(function () {
         chat.server.refreshCommentsCount(postId);
     });
 
+    // Alert about New Posts
+    $('#newPostAlerts').on("refresh", function (event) {
+        console.log("REFRESHED");
+        chat.server.sendNewPostAlert();
+    });
+
     chat.client.addMessage = addMessage;
     chat.client.joinRoom = joinRoom;
     chat.client.updateOnlineUsersCount = updateUsersOnline;
@@ -61,7 +67,26 @@ $(document).ready(function () {
 
     chat.client.updateCommentsCounter = newCommentsCounter;
     chat.client.displayListOfComments = displayListOfComments;
+    chat.client.displayNewPostMessage = displayNewPostMessage;
 });
+
+function displayNewPostMessage(author, postId, title) {
+    var messageId = "messageId" + postId;
+    //$('#newPostAlerts').append("<div id='" + messageId + "' data-dismiss='alert' class='alert alert-dismissable alert-info hiddenMessage'><button type='button' class='close' data-dismiss='alert'>×</button><strong>" + author + " added new post: <a title='Read Post' data-ajax='true' data-ajax-loading='#mainLoadingElement' data-ajax-method='Get' data-ajax-mode='replace-with' data-ajax-update='#content' href='/Posts/Home/DisplayPost/" + postId + "' id='linkId" + postId + "'> post</a></strong></div>");
+
+    var href = '/Posts/Home/Post/' + postId
+    //$a = $('<a></a>');
+    //$a.attr('href', href);
+    //$a.text('post');
+
+    $('#newPostAlerts').append('<div id="' + messageId + '" class="alert alert-info alert-dismissible hiddenMessage" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + author + ' added new post <strong><a href="' + href + '">' + title + ' </a></strong></div>');
+
+    //$('#newPostAlerts').append('<div id="' + messageId + '" class="alert alert-info alert-dismissible hiddenMessage" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Added new <strong><a title="Read Post" data-ajax="true" data-ajax-loading="#mainLoadingElement" data-ajax-method="Get" data-ajax-mode="replace-with" data-ajax-update="#content" href="/Posts/Home/DisplayPost/' + postId + '" id="linkId' + postId + '"> post</a></strong></div>');
+
+    $('#' + messageId).slideDown(4000, function () {
+        //$('#' + messageId).slideUp(5000);
+    });
+}
 
 function displayListOfComments(comments) {
     console.log('c');
@@ -253,6 +278,10 @@ function joinRoom(room) {
 
             refreshCommentsCount: function (postId) {
                 return proxies['chat'].invoke.apply(proxies['chat'], $.merge(["RefreshCommentsCount"], $.makeArray(arguments)));
+            },
+
+            sendNewPostAlert: function () {
+                return proxies['chat'].invoke.apply(proxies['chat'], $.merge(["SendNewPostAlert"], $.makeArray(arguments)));
             },
         };
 
