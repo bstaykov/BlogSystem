@@ -165,8 +165,6 @@
             var lastPost = this.data.Posts.All()
                 .OrderByDescending(post => post.CreatedOn)
                 .First();
-                //.Select(post => new NewPostModel() { Author = post.User.UserName, Id = post.Id, });
-            //Clients.All.DisplayNewPostMessage(newPostModel);
             Clients.AllExcept(connectedIds[lastPost.User.UserName]).DisplayNewPostMessage(lastPost.User.UserName, lastPost.Id, lastPost.Title.Substring(0, 5) + "...");
         }
 

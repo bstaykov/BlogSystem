@@ -87,8 +87,8 @@ textarea {
 }
 
 .profilePic {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     margin: 10px;
     display: inline-block;
 }
@@ -100,3 +100,9 @@ textarea {
     width: 300px;
     z-index: 10;
 }
+
+#modalContentElement > .modal-content{
+    height: 560px;
+    overflow-y: scroll;
+}
+

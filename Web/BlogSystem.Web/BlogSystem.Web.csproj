@@ -359,6 +359,8 @@
     <Content Include="Areas\Posts\Views\Shared\_EditPostForm.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\EditorTemplates\PostEditModel.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_EditDeleteLinks.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\_RePostLink.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\_EditLinks.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

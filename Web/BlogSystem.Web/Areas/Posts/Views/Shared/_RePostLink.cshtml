@@ -1,0 +1,12 @@
+﻿@model int
+
+<span class="label label-danger">DELETED</span>
+@Ajax.ActionLink("Re-Post", "RePost", "Home", new { id = @Model, area = "Posts" },
+    new AjaxOptions
+    {
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "edit" + @Model,
+        LoadingElementId = "mainLoadingElement",
+        HttpMethod = "Put",
+    },
+    htmlAttributes: new { @class = "glyphicon glyphicon-retweet", Title = "Make post visible again." })

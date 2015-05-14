@@ -97,7 +97,10 @@
 
         @if (User.Identity.IsAuthenticated && @Model.Author == User.Identity.Name)
         {
-            @Html.Partial("_EditDeleteLinks", @Model.Id)
+            var editId = "edit" + @Model.Id;
+            <div id=@editId>
+                @Html.Partial("_EditLinks", @Model.Id)
+            </div>
         }
 
         <h5>@Model.Content</h5>

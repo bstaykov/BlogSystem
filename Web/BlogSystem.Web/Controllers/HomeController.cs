@@ -233,5 +233,12 @@
         {
             return this.View();
         }
+
+        [HttpGet]
+        public ActionResult Error()
+        {
+            this.TempData["error"] = "Smart boy!";
+            return this.View();
+        }
     }
 }

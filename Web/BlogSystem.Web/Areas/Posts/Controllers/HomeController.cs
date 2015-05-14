@@ -23,7 +23,7 @@
     public class HomeController : BaseController
     {
         [HttpGet]
-        [OutputCache(Duration = 1)]
+        [OutputCache(Duration = 60)]
         public ActionResult Index()
         {
             return this.View();
@@ -34,12 +34,13 @@
         {
             var post = this.Data.Posts.All()
                 .AsQueryable()
-                .Project().To<PostViewModel>()
-                .FirstOrDefault(p => p.Id == id);
+                .Where(p => p.Id == id && p.IsDeleted == false)
+                .Project().To<PostViewModel>().FirstOrDefault();
 
             if (post == null)
             {
-                return null;
+                this.TempData["error"] = "Error while loading post! (Repost)";
+                return this.View("Error");
             }
 
             return this.View("Post", post);
@@ -62,13 +63,14 @@
         }
 
         [HttpGet]
-        [OutputCache(Duration = 1, VaryByParam = "pageNumber")]
+        [OutputCache(Duration = 60, VaryByParam = "pageNumber")]
         public ActionResult Posts(int pageNumber = 1, int postsPerPage = 2)
         {
             PagingHelper.CheckParams(ref pageNumber, ref postsPerPage);
 
             List<PostListViewModel> postsToDisplay = this.Data.Posts.All()
                 .AsQueryable()
+                .Where(post => post.IsDeleted == false)
                 .Project().To<PostListViewModel>()
                 .OrderByDescending(post => post.CreatedOn)
                 .Skip((pageNumber - 1) * postsPerPage)
@@ -162,18 +164,18 @@
                         if (sqlException.Number == 2601)
                         {
                             // this.TempData["error"] = "Error! Post title duplicates!";
-                            ModelState.AddModelError("", "Error! Post title duplicates!");
+                            ModelState.AddModelError(string.Empty, "Error! Post title duplicates!");
                         }
                         else
                         {
                             // this.TempData["error"] = "Error! Post was not added!";
-                            ModelState.AddModelError("", "SQL error! Try again!");
+                            ModelState.AddModelError(string.Empty, "SQL error! Try again!");
                         }
                     }
                     else
                     {
                         // this.TempData["error"] = "Error! Post was not added!";
-                        ModelState.AddModelError("", "Error! Try again!");
+                        ModelState.AddModelError(string.Empty, "Error! Try again!");
                     }
                 }
             }
@@ -253,16 +255,38 @@
 
             if (postToDelete == null || postToDelete.UserId != userId)
             {
-                this.TempData["error"] = "Incorrect id (Cheater)!";
+                this.TempData["error"] = "Incorrect post id (Cheater)!";
+                return this.PartialView("Error");
             }
             else
             {
-                this.Data.Posts.Delete(postToDelete);
+                postToDelete.IsDeleted = true;
                 this.Data.SaveChanges();
-                this.TempData["success"] = "Post deleted successfully.";
             }
 
-            return this.PartialView("_DeletePost");
+            return this.PartialView("_RePostLink", id);
+        }
+
+        [HttpPut]
+        [Authorize]
+        public ActionResult RePost(int id)
+        {
+            var userId = this.User.Identity.GetUserId();
+
+            var postToRepost = this.Data.Posts.GetById(id);
+
+            if (postToRepost == null || postToRepost.UserId != userId)
+            {
+                this.TempData["error"] = "Incorrect post id (Cheater)!";
+                return this.PartialView("Error");
+            }
+            else
+            {
+                postToRepost.IsDeleted = false;
+                this.Data.SaveChanges();
+            }
+
+            return this.PartialView("_EditLinks", id);
         }
 
         [HttpPost]

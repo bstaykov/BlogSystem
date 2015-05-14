@@ -1,0 +1,21 @@
+﻿@model int
+
+@Ajax.ActionLink("Edit", "EditPost", "Home", new { id = @Model, area = "Posts" },
+        new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "content",
+            LoadingElementId = "mainLoadingElement",
+            HttpMethod = "Get",
+        },
+             htmlAttributes: new { @class = "glyphicon glyphicon-edit", Title = "Edit" })
+@Ajax.ActionLink("Delete", "DeletePost", "Home", new { id = @Model, area = "Posts" },
+        new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "edit" + @Model,
+            LoadingElementId = "mainLoadingElement",
+            Confirm = "Delete?",
+            HttpMethod = "Delete",
+        },
+        htmlAttributes: new { @class = "glyphicon glyphicon-trash", Title = "Delete" })

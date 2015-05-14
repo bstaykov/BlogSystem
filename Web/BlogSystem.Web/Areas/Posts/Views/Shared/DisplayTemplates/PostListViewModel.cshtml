@@ -31,10 +31,11 @@
                     Comments @Model.CommentsCount
                 </span>
             </span>
+            @* // Removed cause the cache
             @if (User.Identity.IsAuthenticated && @Model.Author == User.Identity.Name)
             {
                 @Html.Partial("_EditDeleteLinks", @Model.Id)
-            }
+            }*@
         </div>
     </p>
 </div>
