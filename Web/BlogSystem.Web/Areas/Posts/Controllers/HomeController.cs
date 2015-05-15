@@ -77,7 +77,8 @@
                 .Take(postsPerPage)
                 .ToList();
 
-            int postsCount = this.Data.Posts.All().Count();
+            int postsCount = this.Data.Posts.All()
+                .Where(post => post.IsDeleted == false).Count();
 
             if (postsToDisplay == null)
             {
