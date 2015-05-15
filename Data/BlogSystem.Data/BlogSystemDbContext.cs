@@ -28,6 +28,8 @@
 
         public IDbSet<PostLiker> PostLikers { get; set; }
 
+        public IDbSet<PostReader> PostReaders { get; set; }
+
         public IDbSet<CommentLiker> CommentLikers { get; set; }
 
         public override IDbSet<User> Users { get; set; }

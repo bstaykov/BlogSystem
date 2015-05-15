@@ -12,6 +12,7 @@
         private ICollection<Post> posts;
         private ICollection<Log> logs;
         private ICollection<PostLiker> postLikers;
+        private ICollection<PostReader> postReaders;
         private ICollection<CommentLiker> commentLikers;
         private ICollection<Comment> comments;
 
@@ -20,6 +21,7 @@
             this.Posts = new HashSet<Post>();
             this.Logs = new HashSet<Log>();
             this.PostLikers = new HashSet<PostLiker>();
+            this.PostReaders = new HashSet<PostReader>();
             this.CommentLikers = new HashSet<CommentLiker>();
             this.Comments = new HashSet<Comment>();
         }
@@ -64,6 +66,19 @@
             set
             {
                 this.postLikers = value;
+            }
+        }
+
+        public virtual ICollection<PostReader> PostReaders
+        {
+            get
+            {
+                return this.postReaders;
+            }
+
+            set
+            {
+                this.postReaders = value;
             }
         }
 

@@ -59,6 +59,7 @@
     <Compile Include="Post.cs" />
     <Compile Include="PostCategory.cs" />
     <Compile Include="PostLiker.cs" />
+    <Compile Include="PostReader.cs" />
     <Compile Include="Tag.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -33,9 +33,7 @@
         public ActionResult Post(int id)
         {
             var post = this.Data.Posts.All()
-                .AsQueryable()
-                .Where(p => p.Id == id && p.IsDeleted == false)
-                .Project().To<PostViewModel>().FirstOrDefault();
+                .Where(p => p.Id == id && p.IsDeleted == false);
 
             if (post == null)
             {
@@ -43,7 +41,14 @@
                 return this.View("Error");
             }
 
-            return this.View("Post", post);
+            this.UpdateReadersCount(post.FirstOrDefault());
+
+            var postModel = post.Project().To<PostViewModel>().FirstOrDefault();
+
+            // Mapper.CreateMap<Post, PostViewModel>();
+            // PostViewModel postModel = Mapper.Map<PostViewModel>(post);
+            // postModel.Author = post.User.UserName;
+            return this.View("Post", postModel);
         }
 
         [HttpGet]
@@ -51,8 +56,8 @@
         {
             var post = this.Data.Posts.All()
                 .AsQueryable()
-                .Project().To<PostViewModel>()
-                .FirstOrDefault(p => p.Id == id);
+                .Where(p => p.Id == id && p.IsDeleted == false)
+                .Project().To<PostViewModel>().FirstOrDefault();
 
             if (post == null)
             {
@@ -326,6 +331,17 @@
             return this.PartialView("_EditPostForm", postToBeEdited);
         }
 
+        [OutputCache(Duration = 1)]
+        public ActionResult MostReadPosts(int take = 3)
+        {
+            var topPosts = this.Data.Posts.All()
+                .OrderByDescending(post => post.TimesRead)
+                .Take(take)
+                .Project().To<TopPostViewModel>();
+
+            return this.PartialView("_MostReadPosts", topPosts);
+        }
+
         [HttpPut]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -393,6 +409,25 @@
             this.Data.SaveChanges();
 
             return null;
+        }
+
+        private void UpdateReadersCount(Post post)
+        {
+            var readerId = this.User.Identity.GetUserId();
+
+            if (readerId != null
+                && this.Data.PostReaders.All()
+                    .FirstOrDefault(pr => pr.PostId == post.Id && pr.UserId == readerId) == null)
+            {
+                var postReader = new PostReader()
+                {
+                    PostId = post.Id,
+                    UserId = readerId,
+                };
+                this.Data.PostReaders.Add(postReader);
+                post.TimesRead += 1;
+                this.Data.SaveChanges();
+            }
         }
     }
 }

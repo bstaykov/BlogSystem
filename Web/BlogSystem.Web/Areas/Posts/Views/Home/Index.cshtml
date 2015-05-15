@@ -7,7 +7,14 @@
 </div>
 
 <div id="postsShown">
-    @Html.Action("Posts", "Home", new { area = "Posts" })
+    <div class="row">
+        <div class="col-sm-9">
+            @Html.Action("Posts", "Home", new { area = "Posts" })
+        </div>
+        <div class="col-sm-3">
+            @Html.Action("MostReadPosts", "Home", new { area = "Posts" })
+        </div>
+    </div>
 </div>
 
 @LoadingElementHelper.ProgressBar(id: "loading", width: 90, alertType: "info")

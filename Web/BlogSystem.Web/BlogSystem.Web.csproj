@@ -246,6 +246,7 @@
     <Compile Include="Areas\Posts\Models\PostListViewModel.cs" />
     <Compile Include="Areas\Posts\Models\PostsPagingViewModel.cs" />
     <Compile Include="Areas\Posts\Models\PostViewModel.cs" />
+    <Compile Include="Areas\Posts\Models\TopPostViewModel.cs" />
     <Compile Include="Areas\Posts\PostsAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -291,6 +292,9 @@
     <Content Include="Areas\Posts\Views\Home\Index.cshtml" />
     <Content Include="Areas\Posts\Views\Home\InsertPost.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\PostListViewModel.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\TopPostViewModel.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Areas\Posts\Views\Shared\EditorTemplates\CommentUpdateModel.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -346,6 +350,7 @@
     <Content Include="Areas\Posts\Views\Shared\_EditDeleteLinks.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_RePostLink.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_EditLinks.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\_MostReadPosts.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

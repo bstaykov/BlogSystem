@@ -17,6 +17,8 @@
 
         IRepository<PostLiker> PostLikers { get; }
 
+        IRepository<PostReader> PostReaders { get; }
+
         IRepository<Tag> Tags { get; }
 
         int SaveChanges();

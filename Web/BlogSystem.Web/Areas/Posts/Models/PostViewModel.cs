@@ -46,6 +46,8 @@
 
         public int CommentsCount { get; set; }
 
+        public int TimesRead { get; set; }
+
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Post, PostViewModel>()

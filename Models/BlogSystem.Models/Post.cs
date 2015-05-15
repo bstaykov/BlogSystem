@@ -10,12 +10,14 @@
     public class Post : DeletableEntity
     {
         private ICollection<PostLiker> postLikers;
+        private ICollection<PostReader> postReaders;
         private ICollection<Comment> comments;
         private ICollection<Tag> tags;
 
         public Post()
         {
             this.PostLikers = new HashSet<PostLiker>();
+            this.PostReaders = new HashSet<PostReader>();
             this.Comments = new HashSet<Comment>();
             this.Tags = new HashSet<Tag>();
         }
@@ -37,6 +39,21 @@
         public int Likes { get; set; }
 
         public int CommentsCount { get; set; }
+
+        public int TimesRead { get; set; }
+
+        public virtual ICollection<PostReader> PostReaders
+        {
+            get
+            {
+                return this.postReaders;
+            }
+
+            set
+            {
+                this.postReaders = value;
+            }
+        }
 
         public virtual ICollection<PostLiker> PostLikers 
         {

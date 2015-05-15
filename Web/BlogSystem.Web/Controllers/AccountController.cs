@@ -452,7 +452,7 @@
             if (profilePic != null)
             {
                 string fileContentType = profilePic.ContentType.Substring(profilePic.ContentType.IndexOf('/') + 1);
-                if (IsValidExtension(fileContentType) && profilePic.ContentLength <= 2048000)
+                if (this.IsValidExtension(fileContentType) && profilePic.ContentLength <= 2048000)
                 {
                     Image image = Image.FromStream(profilePic.InputStream);
                     Image resizedImage = this.ResizeImage(image, new Size(350, 350));

@@ -48,6 +48,11 @@
             get { return this.GetRepository<PostLiker>(); }
         }
 
+        public IRepository<PostReader> PostReaders
+        {
+            get { return this.GetRepository<PostReader>(); }
+        }
+
         public IRepository<Tag> Tags
         {
             get { return this.GetRepository<Tag>(); }
