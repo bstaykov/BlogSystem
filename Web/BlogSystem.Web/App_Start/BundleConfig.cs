@@ -29,6 +29,7 @@
 
             bundles.Add(new ScriptBundle("~/bundles/customSignalR").Include(
                         "~/Scripts/custom/customSignalR.js",
+                        "~/Scripts/custom/custom.js",
                         "~/Scripts/custom/customSignalRPosts.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

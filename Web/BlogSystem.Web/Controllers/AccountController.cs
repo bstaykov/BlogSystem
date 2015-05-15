@@ -1,6 +1,7 @@
 ﻿namespace BlogSystem.Web.Controllers
 {
     using System;
+    using System.Drawing;
     using System.Globalization;
     using System.Linq;
     using System.Security.Claims;
@@ -447,23 +448,47 @@
 
         private string SavePic(HttpPostedFileBase profilePic)
         {
-            string picUrl;
-            string url;
+            string url = "/Files/Images/avatar.jpg";
             if (profilePic != null)
             {
                 string fileContentType = profilePic.ContentType.Substring(profilePic.ContentType.IndexOf('/') + 1);
-                string fileName = Guid.NewGuid().ToString();
-                string picName = string.Format("{0}.{1}", fileName, fileContentType);
-                picUrl = Server.MapPath("~/Files/Images/") + picName;
-                profilePic.SaveAs(picUrl);
-                url = "/Files/Images/" + picName;
-            }
-            else
-            {
-                url = "/Files/Images/avatar.jpg";
+                if (IsValidExtension(fileContentType) && profilePic.ContentLength <= 2048000)
+                {
+                    Image image = Image.FromStream(profilePic.InputStream);
+                    Image resizedImage = this.ResizeImage(image, new Size(350, 350));
+
+                    string fileName = Guid.NewGuid().ToString();
+                    string picName = string.Format("{0}.{1}", fileName, fileContentType);
+                    string picUrl = Server.MapPath("~/Files/Images/") + picName;
+                    resizedImage.Save(picUrl);
+                    url = "/Files/Images/" + picName;
+                }
             }
 
             return url;
+        }
+
+        private Image ResizeImage(Image imgToResize, Size size)
+        {
+            return (Image)(new Bitmap(imgToResize, size));
+        }
+
+        private bool IsValidExtension(string fileExtension)
+        {
+            var validFileExtensions = new string[] { "jpg", "jpeg", "bmp", "gif", "png" };
+            if (fileExtension.Length > 0)
+                {
+                    for (var j = 0; j < validFileExtensions.Length; j++)
+                    {
+                        var currentExtension = validFileExtensions[j];
+                        if (fileExtension.ToLower() == currentExtension.ToLower())
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+            return false;
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult
