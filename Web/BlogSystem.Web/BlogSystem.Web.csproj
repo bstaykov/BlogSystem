@@ -244,8 +244,10 @@
     <Compile Include="Areas\Posts\Models\PostEditModel.cs" />
     <Compile Include="Areas\Posts\Models\PostInputModel.cs" />
     <Compile Include="Areas\Posts\Models\PostListViewModel.cs" />
+    <Compile Include="Areas\Posts\Models\PostSearchCategory.cs" />
     <Compile Include="Areas\Posts\Models\PostsPagingViewModel.cs" />
     <Compile Include="Areas\Posts\Models\PostViewModel.cs" />
+    <Compile Include="Areas\Posts\Models\SearchInputModel.cs" />
     <Compile Include="Areas\Posts\Models\TopPostViewModel.cs" />
     <Compile Include="Areas\Posts\PostsAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />

@@ -23,7 +23,7 @@
     public class HomeController : BaseController
     {
         [HttpGet]
-        [OutputCache(Duration = 60)]
+        [OutputCache(Duration = 1)]
         public ActionResult Index()
         {
             return this.View();
@@ -68,8 +68,8 @@
         }
 
         [HttpGet]
-        [OutputCache(Duration = 60, VaryByParam = "pageNumber;searchContent")]
-        public ActionResult Posts(string searchContent = null, int pageNumber = 1, int postsPerPage = 5)
+        [OutputCache(Duration = 1, VaryByParam = "pageNumber;searchContent")]
+        public ActionResult Posts(PostSearchCategory? category = null, string searchContent = null, int pageNumber = 1, int postsPerPage = 5)
         {
             PagingHelper.CheckParams(ref pageNumber, ref postsPerPage);
 
@@ -77,8 +77,10 @@
                 .AsQueryable()
                 .Where(post => post.IsDeleted == false
                     && (searchContent != null && searchContent != string.Empty ? 
-                            post.Title.ToLower().Contains(searchContent.ToLower())
-                                || post.Content.ToLower().Contains(searchContent.ToLower()) : true))
+                            post.Title.ToLower().Contains(searchContent.ToLower().Trim())
+                                || post.Content.ToLower().Contains(searchContent.ToLower().Trim()) : true)
+                    && (category != null ?
+                        post.Category.ToString() == category.ToString() : true))
                 .OrderByDescending(post => post.CreatedOn)
                 .Skip((pageNumber - 1) * postsPerPage)
                 .Take(postsPerPage)
@@ -88,8 +90,10 @@
             int postsCount = this.Data.Posts.All()
                 .Where(post => post.IsDeleted == false 
                     && (searchContent != null && searchContent != string.Empty ?
-                            post.Title.ToLower().Contains(searchContent.ToLower())
-                                || post.Content.ToLower().Contains(searchContent.ToLower()) : true)).Count();
+                            post.Title.ToLower().Contains(searchContent.ToLower().Trim())
+                                || post.Content.ToLower().Contains(searchContent.ToLower().Trim()) : true)
+                    && (category != null ?
+                        post.Category.ToString() == category.ToString() : true)).Count();
 
             if (postsToDisplay == null)
             {
@@ -122,6 +126,7 @@
                     AvailablePages = availablePages,
                     UpdateTarget = "postsShown",
                     SearchContent = searchContent,
+                    Category = category,
                 },
             };
 

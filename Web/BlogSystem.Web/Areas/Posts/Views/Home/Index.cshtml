@@ -1,4 +1,7 @@
-﻿@using BlogSystem.Web.Helpers
+﻿@using BlogSystem.Web.Areas.Posts.Models
+@using BlogSystem.Web.Helpers
+
+@model SearchInputModel
 
 @{
     ViewBag.Title = "Posts Home Page";
@@ -8,30 +11,6 @@
 
 </div>
 
-@*<div>
-        <p>
-            @using (Ajax.BeginForm("Posts", null,
-                new AjaxOptions
-                {
-                    UpdateTargetId = "postsShown",
-                    InsertionMode = InsertionMode.Replace,
-                    LoadingElementId = "mainLoadingElement",
-                    HttpMethod = "GET"
-                },
-                new { @class = "form-horizontal", role = "form" }))
-            {
-                <div class="row">
-                    <div class="form-group">
-                        <div class="col-sm-1 col-md-1 col-md-offset-10">
-                            <input type="text" class="form-control" name="searchContent" placeholder="search" />
-                        </div>
-                        @Html.Submit("Search", new { @class = "btn col-sm-1 col-md-1", id = "submitId" })
-                    </div>
-                </div>
-            }
-        </p>
-    </div>*@
-
 <div class="row">
     <p>
         @using (Ajax.BeginForm("Posts", null,
@@ -39,15 +18,17 @@
             {
                 UpdateTargetId = "postsShown",
                 InsertionMode = InsertionMode.Replace,
-                LoadingElementId = "mainLoadingElement",
+                LoadingElementId = "searchLoadingElement",
                 HttpMethod = "GET"
             },
-            new { @class = "navbar-form navbar-left", role = "search" }))
+            new { @class = "form-horizontal", role = "search" }))
         {
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search" name="searchContent">
-            </div>
-            <button type="submit" class="btn btn-default">Search</button>
+            @Html.LabelFor(m => m.Category, new { @class = "control-label col-sm-1" })
+            @Html.EnumDropDownListFor(m => m.Category, new { @class = "form-control col-sm-1"})
+            @Html.Submit("Search", "btn btn-default col-sm-1")
+            <button id="searchLoadingElement" type="button" class="btn btn-default btn-info progressBar" aria-label="Left Align">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </button>
         }
     </p>
 </div>

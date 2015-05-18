@@ -22,7 +22,8 @@
                             area = @Model.AreaName,
                             PostId = @Model.PostId,
                             ParentCommentId = @Model.ParentCommentId,
-                            searchContent = @Model.SearchContent
+                            searchContent = @Model.SearchContent,
+                            category = @Model.Category,
                         },
                         new AjaxOptions
                         {
@@ -43,7 +44,8 @@
                             area = @Model.AreaName,
                             PostId = @Model.PostId,
                             ParentCommentId = @Model.ParentCommentId,
-                            searchContent = @Model.SearchContent
+                            searchContent = @Model.SearchContent,
+                            category = @Model.Category,
                         },
                         new AjaxOptions
                         {
@@ -87,7 +89,8 @@
                                 area = @Model.AreaName,
                                 PostId = @Model.PostId,
                                 ParentCommentId = @Model.ParentCommentId,
-                                searchContent = @Model.SearchContent
+                                searchContent = @Model.SearchContent,
+                                category = @Model.Category,
                             },
                             new AjaxOptions
                             {
@@ -113,7 +116,8 @@
                             area = @Model.AreaName,
                             PostId = @Model.PostId,
                             commentId = @Model.ParentCommentId,
-                            searchContent = @Model.SearchContent
+                            searchContent = @Model.SearchContent,
+                            category = @Model.Category,
                         },
                         new AjaxOptions
                         {
@@ -134,7 +138,8 @@
                             area = @Model.AreaName,
                             PostId = @Model.PostId,
                             ParentCommentId = @Model.ParentCommentId,
-                            searchContent = @Model.SearchContent
+                            searchContent = @Model.SearchContent,
+                            category = @Model.Category,
                         },
                         new AjaxOptions
                         {
@@ -159,8 +164,8 @@
                     </a>
                 </li>
             }
-            <li id="@loadElementId" style="display:none">
-                <button type="button" class="btn btn-default btn-warning" aria-label="Left Align">
+            <li >
+                <button id="@loadElementId" type="button" class="btn btn-default btn-info progressBar" aria-label="Left Align">
                     <span class="glyphicon glyphicon-transfer" aria-hidden="true"></span>
                 </button>
             </li>

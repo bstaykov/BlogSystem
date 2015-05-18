@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
 
+    using BlogSystem.Web.Areas.Posts.Models;
+
     public class PaginationModel
     {
         public string AreaName { get; set; }
@@ -20,6 +22,8 @@
         public int AvailablePages { get; set; }
 
         public string SearchContent { get; set; }
+
+        public PostSearchCategory? Category { get; set; }
 
         public int PostId { get; set; }
 
