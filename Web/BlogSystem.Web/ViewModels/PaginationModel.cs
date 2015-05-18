@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    using BlogSystem.Web.Areas.Posts.Models;
+    using BlogSystem.Models;
 
     public class PaginationModel
     {
@@ -23,7 +23,9 @@
 
         public string SearchContent { get; set; }
 
-        public PostSearchCategory? Category { get; set; }
+        public PostCategory? Category { get; set; }
+
+        public string SearchAuthor { get; set; }
 
         public int PostId { get; set; }
 

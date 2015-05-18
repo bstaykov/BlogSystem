@@ -68,8 +68,8 @@
         }
 
         [HttpGet]
-        [OutputCache(Duration = 1, VaryByParam = "pageNumber;searchContent")]
-        public ActionResult Posts(PostSearchCategory? category = null, string searchContent = null, int pageNumber = 1, int postsPerPage = 5)
+        [OutputCache(Duration = 1, VaryByParam = "pageNumber;searchContent;searchAuthor")]
+        public ActionResult Posts(string searchAuthor, string searchContent, PostCategory? category, int pageNumber = 1, int postsPerPage = 5)
         {
             PagingHelper.CheckParams(ref pageNumber, ref postsPerPage);
 
@@ -77,10 +77,12 @@
                 .AsQueryable()
                 .Where(post => post.IsDeleted == false
                     && (searchContent != null && searchContent != string.Empty ? 
-                            post.Title.ToLower().Contains(searchContent.ToLower().Trim())
-                                || post.Content.ToLower().Contains(searchContent.ToLower().Trim()) : true)
+                        post.Title.ToLower().Contains(searchContent.ToLower().Trim())
+                            || post.Content.ToLower().Contains(searchContent.ToLower().Trim()) : true)
+                    && (searchAuthor != null && searchAuthor != string.Empty ?
+                        post.User.UserName.ToLower().Contains(searchAuthor.ToLower().Trim()) : true)
                     && (category != null ?
-                        post.Category.ToString() == category.ToString() : true))
+                        post.Category == category : true))
                 .OrderByDescending(post => post.CreatedOn)
                 .Skip((pageNumber - 1) * postsPerPage)
                 .Take(postsPerPage)
@@ -92,6 +94,8 @@
                     && (searchContent != null && searchContent != string.Empty ?
                             post.Title.ToLower().Contains(searchContent.ToLower().Trim())
                                 || post.Content.ToLower().Contains(searchContent.ToLower().Trim()) : true)
+                    && (searchAuthor != null && searchAuthor != string.Empty ?
+                        post.User.UserName.ToLower().Contains(searchAuthor.ToLower().Trim()) : true)
                     && (category != null ?
                         post.Category.ToString() == category.ToString() : true)).Count();
 
@@ -127,6 +131,7 @@
                     UpdateTarget = "postsShown",
                     SearchContent = searchContent,
                     Category = category,
+                    SearchAuthor = searchAuthor,
                 },
             };
 

@@ -6,6 +6,8 @@
     {
         public string SearchContent { get; set; }
 
-        public PostSearchCategory? Category { get; set; }
+        public PostCategory? Category { get; set; }
+
+        public string SearchAuthor { get; set; }
     }
 }

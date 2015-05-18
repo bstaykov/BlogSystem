@@ -25,7 +25,10 @@
         {
             @Html.LabelFor(m => m.Category, new { @class = "control-label col-sm-1" })
             @Html.EnumDropDownListFor(m => m.Category, new { @class = "form-control col-sm-1"})
-            @Html.TextBoxFor(m => m.SearchContent, new { @class = "form-control col-sm-1" })
+            @*@Html.LabelFor(m => m.SearchAuthor, new { @class = "control-label col-sm-1" })*@
+            @Html.TextBoxFor(m => m.SearchAuthor, new { @class = "form-control col-sm-1", placeholder = "Author" })
+            @*@Html.LabelFor(m => m.SearchContent, new { @class = "control-label col-sm-1" })*@
+            @Html.TextBoxFor(m => m.SearchContent, new { @class = "form-control col-sm-1", placeholder = "Search" })
             @Html.Submit("Search", "btn btn-default col-sm-1")
             <button id="searchLoadingElement" type="button" class="btn btn-default btn-info progressBar" aria-label="Left Align">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
