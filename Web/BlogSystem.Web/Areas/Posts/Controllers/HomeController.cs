@@ -68,22 +68,28 @@
         }
 
         [HttpGet]
-        [OutputCache(Duration = 60, VaryByParam = "pageNumber")]
-        public ActionResult Posts(int pageNumber = 1, int postsPerPage = 2)
+        [OutputCache(Duration = 60, VaryByParam = "pageNumber;searchContent")]
+        public ActionResult Posts(string searchContent = null, int pageNumber = 1, int postsPerPage = 5)
         {
             PagingHelper.CheckParams(ref pageNumber, ref postsPerPage);
 
             List<PostListViewModel> postsToDisplay = this.Data.Posts.All()
                 .AsQueryable()
-                .Where(post => post.IsDeleted == false)
-                .Project().To<PostListViewModel>()
+                .Where(post => post.IsDeleted == false
+                    && (searchContent != null && searchContent != string.Empty ? 
+                            post.Title.ToLower().Contains(searchContent.ToLower())
+                                || post.Content.ToLower().Contains(searchContent.ToLower()) : true))
                 .OrderByDescending(post => post.CreatedOn)
                 .Skip((pageNumber - 1) * postsPerPage)
                 .Take(postsPerPage)
+                .Project().To<PostListViewModel>()
                 .ToList();
 
             int postsCount = this.Data.Posts.All()
-                .Where(post => post.IsDeleted == false).Count();
+                .Where(post => post.IsDeleted == false 
+                    && (searchContent != null && searchContent != string.Empty ?
+                            post.Title.ToLower().Contains(searchContent.ToLower())
+                                || post.Content.ToLower().Contains(searchContent.ToLower()) : true)).Count();
 
             if (postsToDisplay == null)
             {
@@ -93,8 +99,8 @@
 
             if (postsCount == 0)
             {
-                this.TempData["error"] = "No posts yet!";
-                return this.PartialView("Error");
+                this.TempData["error"] = "No posts found!";
+                return this.PartialView("_Message");
             }
 
             int startPage;
@@ -114,7 +120,8 @@
                     CurrentPage = pageNumber,
                     EndPage = endPage,
                     AvailablePages = availablePages,
-                    UpdateTarget = "postsShown"
+                    UpdateTarget = "postsShown",
+                    SearchContent = searchContent,
                 },
             };
 
@@ -331,7 +338,7 @@
             return this.PartialView("_EditPostForm", postToBeEdited);
         }
 
-        [OutputCache(Duration = 1)]
+        [OutputCache(Duration = 60)]
         public ActionResult MostReadPosts(int take = 3)
         {
             var topPosts = this.Data.Posts.All()

@@ -1,4 +1,6 @@
-﻿@{
+﻿@using BlogSystem.Web.Helpers
+
+@{
     ViewBag.Title = "Posts Home Page";
 }
 
@@ -6,14 +8,56 @@
 
 </div>
 
-<div id="postsShown">
-    <div class="row">
-        <div class="col-sm-9">
-            @Html.Action("Posts", "Home", new { area = "Posts" })
-        </div>
-        <div class="col-sm-3">
-            @Html.Action("MostReadPosts", "Home", new { area = "Posts" })
-        </div>
+@*<div>
+        <p>
+            @using (Ajax.BeginForm("Posts", null,
+                new AjaxOptions
+                {
+                    UpdateTargetId = "postsShown",
+                    InsertionMode = InsertionMode.Replace,
+                    LoadingElementId = "mainLoadingElement",
+                    HttpMethod = "GET"
+                },
+                new { @class = "form-horizontal", role = "form" }))
+            {
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-sm-1 col-md-1 col-md-offset-10">
+                            <input type="text" class="form-control" name="searchContent" placeholder="search" />
+                        </div>
+                        @Html.Submit("Search", new { @class = "btn col-sm-1 col-md-1", id = "submitId" })
+                    </div>
+                </div>
+            }
+        </p>
+    </div>*@
+
+<div class="row">
+    <p>
+        @using (Ajax.BeginForm("Posts", null,
+            new AjaxOptions
+            {
+                UpdateTargetId = "postsShown",
+                InsertionMode = InsertionMode.Replace,
+                LoadingElementId = "mainLoadingElement",
+                HttpMethod = "GET"
+            },
+            new { @class = "navbar-form navbar-left", role = "search" }))
+        {
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search" name="searchContent">
+            </div>
+            <button type="submit" class="btn btn-default">Search</button>
+        }
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-sm-9" id="postsShown">
+        @Html.Action("Posts", "Home", new { area = "Posts" })
+    </div>
+    <div class="col-sm-3">
+        @Html.Action("MostReadPosts", "Home", new { area = "Posts" })
     </div>
 </div>
 

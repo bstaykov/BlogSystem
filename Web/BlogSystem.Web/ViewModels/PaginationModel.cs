@@ -19,6 +19,8 @@
 
         public int AvailablePages { get; set; }
 
+        public string SearchContent { get; set; }
+
         public int PostId { get; set; }
 
         public int? ParentCommentId { get; set; }
