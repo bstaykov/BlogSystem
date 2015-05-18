@@ -6,11 +6,8 @@
     using AutoMapper;
 
     using BlogSystem.Models;
-    using BlogSystem.Web.Infrastructure.Mapping;
 
-    using Microsoft.AspNet.Identity;
-
-    public class PostViewModel : IMapFrom<Post>, IHaveCustomMappings
+    public class PostViewModel : PostListViewModel
     {
         public static Expression<Func<Post, PostViewModel>> FromPost
         {
@@ -30,25 +27,7 @@
             }
         }
 
-        public int Id { get; set; }
-
-        public string Title { get; set; }
-
-        public string Content { get; set; }
-
-        public PostCategory Category { get; set; }
-
-        public DateTime CreatedOn { get; set; }
-
-        public string Author { get; set; }
-
-        public int Likes { get; set; }
-
-        public int CommentsCount { get; set; }
-
-        public int TimesRead { get; set; }
-
-        public void CreateMappings(IConfiguration configuration)
+        public override void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Post, PostViewModel>()
                 .ForMember(post => post.Author, options => options.MapFrom(post => post.User.UserName));

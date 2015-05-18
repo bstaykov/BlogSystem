@@ -348,8 +348,9 @@
             return this.PartialView("_EditPostForm", postToBeEdited);
         }
 
+        [HttpGet]
         [OutputCache(Duration = 60)]
-        public ActionResult MostReadPosts(int take = 3)
+        public ActionResult MostReadPosts(int take = 5)
         {
             var topPosts = this.Data.Posts.All()
                 .OrderByDescending(post => post.TimesRead)
@@ -357,6 +358,30 @@
                 .Project().To<TopPostViewModel>();
 
             return this.PartialView("_MostReadPosts", topPosts);
+        }
+
+        [HttpGet]
+        [OutputCache(Duration = 60)]
+        public ActionResult MostCommentedPosts(int take = 5)
+        {
+            var topPosts = this.Data.Posts.All()
+                .OrderByDescending(post => post.CommentsCount)
+                .Take(take)
+                .Project().To<TopCommentedPostViewModel>();
+
+            return this.PartialView("_MostCommentedPosts", topPosts);
+        }
+
+        [HttpGet]
+        [OutputCache(Duration = 60)]
+        public ActionResult MostLikedPosts(int take = 5)
+        {
+            var topPosts = this.Data.Posts.All()
+                .OrderByDescending(post => post.Likes)
+                .Take(take)
+                .Project().To<TopPostViewModel>();
+
+            return this.PartialView("_MostLikedPosts", topPosts);
         }
 
         [HttpPut]

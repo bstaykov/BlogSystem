@@ -248,6 +248,7 @@
     <Compile Include="Areas\Posts\Models\PostsPagingViewModel.cs" />
     <Compile Include="Areas\Posts\Models\PostViewModel.cs" />
     <Compile Include="Areas\Posts\Models\SearchInputModel.cs" />
+    <Compile Include="Areas\Posts\Models\TopCommentedPostViewModel.cs" />
     <Compile Include="Areas\Posts\Models\TopPostViewModel.cs" />
     <Compile Include="Areas\Posts\PostsAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -353,6 +354,10 @@
     <Content Include="Areas\Posts\Views\Shared\_RePostLink.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_EditLinks.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_MostReadPosts.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\_MostCommentedPosts.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\TopCommentedPostViewModel.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\_MostLikedPosts.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\TopLikedPostViewModel.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

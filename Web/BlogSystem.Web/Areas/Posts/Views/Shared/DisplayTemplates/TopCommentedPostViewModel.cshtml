@@ -1,0 +1,17 @@
+﻿@using BlogSystem.Web.Areas.Posts.Models
+@using Microsoft.AspNet.Identity
+
+@model TopCommentedPostViewModel
+
+<div class="row">
+    <p>
+        <div class="col-sm-12" id="@Model.Id">
+            <h4 class="media-heading">
+                @Html.ActionLink(@Model.Title, "Post", "Home", new { id = @Model.Id, area = "Posts" }, htmlAttributes: null)
+            </h4>
+            <span class="label label-info"><span>Comments @Model.CommentsCount</span></span>
+            <span class="label label-primary">@Model.Category</span>
+            <span class="label label-success">@Model.Author</span>
+        </div>
+    </p>
+</div>
