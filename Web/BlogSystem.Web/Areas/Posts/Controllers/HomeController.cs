@@ -349,7 +349,7 @@
         }
 
         [HttpGet]
-        [OutputCache(Duration = 60)]
+        [OutputCache(Duration = 1)]
         public ActionResult MostReadPosts(int take = 5)
         {
             var topPosts = this.Data.Posts.All()
@@ -361,7 +361,7 @@
         }
 
         [HttpGet]
-        [OutputCache(Duration = 60)]
+        [OutputCache(Duration = 1)]
         public ActionResult MostCommentedPosts(int take = 5)
         {
             var topPosts = this.Data.Posts.All()
@@ -373,7 +373,7 @@
         }
 
         [HttpGet]
-        [OutputCache(Duration = 60)]
+        [OutputCache(Duration = 1)]
         public ActionResult MostLikedPosts(int take = 5)
         {
             var topPosts = this.Data.Posts.All()

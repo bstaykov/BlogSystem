@@ -38,13 +38,13 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-9" id="postsShown">
+    <div class="col-sm-8" id="postsShown">
         @Html.Action("Posts", "Home", new { area = "Posts" })
     </div>
-    <div class="col-sm-3">
-        @Html.Action("MostReadPosts", "Home", new { area = "Posts" })
-        @Html.Action("MostCommentedPosts", "Home", new { area = "Posts" })
-        @Html.Action("MostLikedPosts", "Home", new { area = "Posts" })
+    <div class="col-sm-4">
+        <div id="mostReadAjax"></div>
+        <div id="mostCommentedAjax"></div>
+        <div id="mostLikedAjax"></div>
     </div>
 </div>
 
@@ -53,4 +53,34 @@
 @* CLIENT VALIDATION *@
 @section scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "Home/MostReadPosts",
+                context: document.body,
+                success: function (data) {
+                    $('#mostReadAjax').append(data);
+                    $("#mainLoadingElement").show();
+                }
+            });
+
+            $.ajax({
+                url: "Home/MostCommentedPosts",
+                context: document.body,
+                success: function (data) {
+                    $('#mostCommentedAjax').append(data);
+                }
+            });
+
+            $.ajax({
+                url: "Home/MostLikedPosts",
+                context: document.body,
+                success: function (data) {
+                    $('#mostLikedAjax').append(data);
+                    $("#mainLoadingElement").hide();
+                }
+            }); 
+        });
+    </script>
 }
