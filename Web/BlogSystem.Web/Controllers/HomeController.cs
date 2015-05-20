@@ -21,8 +21,8 @@
         public ActionResult Index()
         {
             // return this.View();
-            // return this.RedirectToActionPermanent("Index", "Home", new { area = "Posts" });
-            return this.RedirectToRoutePermanent("Posts_default");
+            // return this.RedirectToRoutePermanent("Posts_default");
+            return this.RedirectToActionPermanent("Index", "Home", new { area = "Posts" });
         }
 
         [ChildActionOnly]

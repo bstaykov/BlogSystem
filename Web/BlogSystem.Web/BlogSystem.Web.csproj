@@ -358,6 +358,7 @@
     <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\TopCommentedPostViewModel.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_MostLikedPosts.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\TopLikedPostViewModel.cshtml" />
+    <Content Include="Areas\Posts\Views\Shared\_Statistic.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

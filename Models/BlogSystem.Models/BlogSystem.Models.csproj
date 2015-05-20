@@ -56,6 +56,7 @@
     <Compile Include="CommentLiker.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="LogStatus.cs" />
+    <Compile Include="Message.cs" />
     <Compile Include="Post.cs" />
     <Compile Include="PostCategory.cs" />
     <Compile Include="PostLiker.cs" />

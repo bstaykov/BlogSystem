@@ -8,7 +8,7 @@
     public class Comment : DeletableEntity
     {
         private ICollection<CommentLiker> commentLikers;
-        private ICollection<Comment> subComments;
+        private ICollection<Comment> replyComments;
 
         public Comment()
         {
@@ -55,12 +55,12 @@
         {
             get
             {
-                return this.subComments;
+                return this.replyComments;
             }
 
             set
             {
-                this.subComments = value;
+                this.replyComments = value;
             }
         }
     }

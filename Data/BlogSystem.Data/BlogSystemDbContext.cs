@@ -24,6 +24,8 @@
 
         public IDbSet<Tag> Tags { get; set; }
 
+        public IDbSet<Message> Messages { get; set; }
+
         public IDbSet<Comment> Comments { get; set; }
 
         public IDbSet<PostLiker> PostLikers { get; set; }

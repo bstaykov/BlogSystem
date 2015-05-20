@@ -7,6 +7,8 @@
     {
         IRepository<User> Users { get; }
 
+        IRepository<Message> Messages { get; }
+
         IRepository<Comment> Comments { get; }
 
         IRepository<CommentLiker> CommentLikers { get; }

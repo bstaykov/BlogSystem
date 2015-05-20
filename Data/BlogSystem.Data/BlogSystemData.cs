@@ -23,6 +23,11 @@
             get { return this.GetRepository<User>(); }
         }
 
+        public IRepository<Message> Messages
+        {
+            get { return this.GetRepository<Message>(); }
+        }
+
         public IRepository<Comment> Comments
         {
             get { return this.GetRepository<Comment>(); }

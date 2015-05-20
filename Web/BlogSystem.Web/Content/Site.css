@@ -82,6 +82,10 @@ textarea {
     margin-top: 10px;
 }
 
+.progressBar{
+    margin: 5px;
+}
+
 .progressBar, .hiddenMessage {
     display: none;
 }

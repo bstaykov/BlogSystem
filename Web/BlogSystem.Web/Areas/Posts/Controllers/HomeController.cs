@@ -349,7 +349,13 @@
         }
 
         [HttpGet]
-        [OutputCache(Duration = 1)]
+        [OutputCache(Duration = 60)]
+        public ActionResult Statistic()
+        {
+            return this.PartialView("_Statistic");
+        }
+
+        [HttpGet]
         public ActionResult MostReadPosts(int take = 5)
         {
             var topPosts = this.Data.Posts.All()
@@ -361,7 +367,6 @@
         }
 
         [HttpGet]
-        [OutputCache(Duration = 1)]
         public ActionResult MostCommentedPosts(int take = 5)
         {
             var topPosts = this.Data.Posts.All()
@@ -373,7 +378,6 @@
         }
 
         [HttpGet]
-        [OutputCache(Duration = 1)]
         public ActionResult MostLikedPosts(int take = 5)
         {
             var topPosts = this.Data.Posts.All()

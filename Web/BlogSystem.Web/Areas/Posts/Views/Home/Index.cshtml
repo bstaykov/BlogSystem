@@ -23,8 +23,8 @@
             },
             new { @class = "form-horizontal", role = "search" }))
         {
-            @Html.LabelFor(m => m.Category, new { @class = "control-label col-sm-1" })
-            @Html.EnumDropDownListFor(m => m.Category, new { @class = "form-control col-sm-1"})
+            @*@Html.LabelFor(m => m.Category, new { @class = "control-label col-sm-1" })*@
+            @Html.EnumDropDownListFor(m => m.Category, new { @class = "form-control col-sm-1" })
             @*@Html.LabelFor(m => m.SearchAuthor, new { @class = "control-label col-sm-1" })*@
             @Html.TextBoxFor(m => m.SearchAuthor, new { @class = "form-control col-sm-1", placeholder = "Author" })
             @*@Html.LabelFor(m => m.SearchContent, new { @class = "control-label col-sm-1" })*@
@@ -42,9 +42,11 @@
         @Html.Action("Posts", "Home", new { area = "Posts" })
     </div>
     <div class="col-sm-4">
-        <div id="mostReadAjax"></div>
-        <div id="mostCommentedAjax"></div>
-        <div id="mostLikedAjax"></div>
+        @LoadingElementHelper.ProgressBar(id: "statisticLoading", width: 90, alertType: "info")
+        <div id="statistic"></div>
+        @*<div id="mostReadAjax"></div>
+            <div id="mostCommentedAjax"></div>
+            <div id="mostLikedAjax"></div>*@
     </div>
 </div>
 
@@ -56,31 +58,40 @@
 
     <script>
         $(document).ready(function () {
-            $.ajax({
-                url: "Home/MostReadPosts",
-                context: document.body,
-                success: function (data) {
-                    $('#mostReadAjax').append(data);
-                    $("#mainLoadingElement").show();
-                }
-            });
+            $("#statisticLoading").show();
 
             $.ajax({
-                url: "Home/MostCommentedPosts",
+                url: "Home/Statistic",
                 context: document.body,
                 success: function (data) {
-                    $('#mostCommentedAjax').append(data);
-                }
+                    $('#statistic').append(data);
+                    $("#statisticLoading").hide();
+                },
             });
 
-            $.ajax({
-                url: "Home/MostLikedPosts",
-                context: document.body,
-                success: function (data) {
-                    $('#mostLikedAjax').append(data);
-                    $("#mainLoadingElement").hide();
-                }
-            }); 
+            //$.ajax({
+            //    url: "Home/MostReadPosts",
+            //    context: document.body,
+            //    success: function (data) {
+            //        $('#mostReadAjax').append(data);
+            //    }
+            //});
+
+            //$.ajax({
+            //    url: "Home/MostCommentedPosts",
+            //    context: document.body,
+            //    success: function (data) {
+            //        $('#mostCommentedAjax').append(data);
+            //    }
+            //});
+
+            //$.ajax({
+            //    url: "Home/MostLikedPosts",
+            //    context: document.body,
+            //    success: function (data) {
+            //        $('#mostLikedAjax').append(data);
+            //    }
+            //});
         });
     </script>
 }

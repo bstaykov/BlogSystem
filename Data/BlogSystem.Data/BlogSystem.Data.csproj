@@ -67,6 +67,10 @@
     <Compile Include="Migrations\201505151918374_PostReaders.Designer.cs">
       <DependentUpon>201505151918374_PostReaders.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201505201431138_Messages.cs" />
+    <Compile Include="Migrations\201505201431138_Messages.Designer.cs">
+      <DependentUpon>201505201431138_Messages.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -95,6 +99,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201505151918374_PostReaders.resx">
       <DependentUpon>201505151918374_PostReaders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505201431138_Messages.resx">
+      <DependentUpon>201505201431138_Messages.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
