@@ -1,0 +1,51 @@
+﻿@using BlogSystem.Web.Areas.Messages.Models
+
+@model  MessagesPageViewModel
+
+@{
+    var className = string.Empty;
+    if (@Model.Page == 2)
+    {
+        className = "modal-content";
+    }
+}
+
+<div class="@className">
+    @if (@Model.Page == 2)
+    {
+        <div class="modal-header">
+            @Ajax.ActionLink("Mark all as read", "MarkAllMessagesAsRead", "Home", new { area = "Messages" },
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "modalContentElement",
+                LoadingElementId = "modalLoadingElement",
+                HttpMethod = "Get",
+            },
+              htmlAttributes: new { Title = "Mark all messages as read" })
+        </div>
+    }
+
+    @foreach (var message in @Model.Messages)
+    {
+        @Html.DisplayFor(model => message)
+    }
+
+    @{
+        var pageId = "pageId" + @Model.Page;
+    }
+    @if (@Model.Messages.Count() == 5)
+    {
+        <div class="well well-sm" id="@pageId">
+            @Ajax.ActionLink(" Load more...", "GetMessages", "Home", new { page = @Model.Page, area = "Messages" },
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.ReplaceWith,
+                UpdateTargetId = @pageId,
+                LoadingElementId = "modalLoadingElement",
+                HttpMethod = "Get",
+            },
+              htmlAttributes: new { Title = "Load more messages...", @class = "glyphicon glyphicon-refresh" })
+        </div>
+    }
+</div>

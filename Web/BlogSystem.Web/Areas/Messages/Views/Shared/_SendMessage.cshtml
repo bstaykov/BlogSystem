@@ -1,0 +1,11 @@
+﻿@using BlogSystem.Web.Areas.Messages.Models
+
+@model MessageInputModel
+
+@Html.EditorForModel(@Model)
+
+<script>
+    $(document).ready(function () {
+        $.validator.unobtrusive.parse("#messageForm");
+    });
+</script>

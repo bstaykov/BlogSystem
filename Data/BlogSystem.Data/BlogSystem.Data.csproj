@@ -55,21 +55,9 @@
     <Compile Include="BlogSystemData.cs" />
     <Compile Include="BlogSystemDbContext.cs" />
     <Compile Include="IBlogSystemData.cs" />
-    <Compile Include="Migrations\201505020900205_Initial.cs" />
-    <Compile Include="Migrations\201505020900205_Initial.Designer.cs">
-      <DependentUpon>201505020900205_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201505020922238_TitleLength50.cs" />
-    <Compile Include="Migrations\201505020922238_TitleLength50.Designer.cs">
-      <DependentUpon>201505020922238_TitleLength50.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201505151918374_PostReaders.cs" />
-    <Compile Include="Migrations\201505151918374_PostReaders.Designer.cs">
-      <DependentUpon>201505151918374_PostReaders.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201505201431138_Messages.cs" />
-    <Compile Include="Migrations\201505201431138_Messages.Designer.cs">
-      <DependentUpon>201505201431138_Messages.cs</DependentUpon>
+    <Compile Include="Migrations\201505220544445_Initial.cs" />
+    <Compile Include="Migrations\201505220544445_Initial.Designer.cs">
+      <DependentUpon>201505220544445_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,17 +79,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201505020900205_Initial.resx">
-      <DependentUpon>201505020900205_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201505020922238_TitleLength50.resx">
-      <DependentUpon>201505020922238_TitleLength50.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201505151918374_PostReaders.resx">
-      <DependentUpon>201505151918374_PostReaders.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201505201431138_Messages.resx">
-      <DependentUpon>201505201431138_Messages.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201505220544445_Initial.resx">
+      <DependentUpon>201505220544445_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

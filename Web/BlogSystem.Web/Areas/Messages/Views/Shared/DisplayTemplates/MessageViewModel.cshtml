@@ -1,0 +1,41 @@
+﻿@using BlogSystem.Web.Areas.Messages.Models
+
+@model MessageViewModel
+
+<div class="well well-sm">
+    @foreach (var picUrl in Model.ParticipantsPicturesUrls)
+    {
+        <img src="@Url.Content(picUrl)" class="img-rounded img-responsive profilePic" alt="picture">
+    }
+
+    <span>
+        @foreach (var name in Model.ParticipantsNames)
+        {
+            if (name == this.User.Identity.Name)
+            {
+                @:You
+            }
+            else
+            {
+                @name
+            }
+        }
+    </span>
+
+    <span class="label label-primary">@Model.SendOn</span>
+
+    @Ajax.ActionLink(@Model.Sender + " wrote:", "ViewMessage", "Home", new { messageId = @Model.Id, area = "Comments" },
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "content",
+                LoadingElementId = "modalLoadingElement",
+                //OnComplete = "$('#globalMesseges').trigger('customRefreshEvent', [" + @Model.PostId + "]); $('.modal').hide();",
+                HttpMethod = "Get",
+            },
+            htmlAttributes: new { Title = "ViewMessage ..." })
+    @*@if (@Model.IsReadByAuthor == false)
+    {
+        <span class="glyphicon glyphicon-bell"></span>
+    }*@
+</div>

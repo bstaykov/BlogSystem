@@ -7,7 +7,7 @@ namespace BlogSystem.Data.Migrations
     {
         public override void Up()
         {
-            CreateTable(
+            this.CreateTable(
                 "dbo.CommentLikers",
                 c => new
                     {
@@ -20,8 +20,8 @@ namespace BlogSystem.Data.Migrations
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.CommentId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.Comments",
                 c => new
                     {
@@ -32,6 +32,7 @@ namespace BlogSystem.Data.Migrations
                         Likes = c.Int(nullable: false),
                         ReplyCommentsCount = c.Int(nullable: false),
                         PostId = c.Int(nullable: false),
+                        IsReadByAuthor = c.Boolean(nullable: false),
                         IsDeleted = c.Boolean(nullable: false),
                         DeletedOn = c.DateTime(),
                         CreatedOn = c.DateTime(nullable: false),
@@ -44,18 +45,19 @@ namespace BlogSystem.Data.Migrations
                 .Index(t => t.UserId)
                 .Index(t => t.ParentCommentId)
                 .Index(t => t.PostId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.Posts",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Title = c.String(maxLength: 20),
+                        Title = c.String(maxLength: 50),
                         Content = c.String(),
                         Category = c.Int(nullable: false),
                         UserId = c.String(maxLength: 128),
                         Likes = c.Int(nullable: false),
                         CommentsCount = c.Int(nullable: false),
+                        TimesRead = c.Int(nullable: false),
                         IsDeleted = c.Boolean(nullable: false),
                         DeletedOn = c.DateTime(),
                         CreatedOn = c.DateTime(nullable: false),
@@ -65,8 +67,8 @@ namespace BlogSystem.Data.Migrations
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId)
                 .Index(t => t.Title, unique: true, name: "UniqueTitle")
                 .Index(t => t.UserId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.PostLikers",
                 c => new
                     {
@@ -79,8 +81,8 @@ namespace BlogSystem.Data.Migrations
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.PostId)
                 .Index(t => t.UserId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.AspNetUsers",
                 c => new
                     {
@@ -101,8 +103,8 @@ namespace BlogSystem.Data.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.AspNetUserClaims",
                 c => new
                     {
@@ -114,8 +116,8 @@ namespace BlogSystem.Data.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.AspNetUserLogins",
                 c => new
                     {
@@ -126,8 +128,8 @@ namespace BlogSystem.Data.Migrations
                 .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.Logs",
                 c => new
                     {
@@ -139,8 +141,63 @@ namespace BlogSystem.Data.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId)
                 .Index(t => t.UserId);
-            
-            CreateTable(
+
+            this.CreateTable(
+                "dbo.Messages",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        DialogId = c.Int(nullable: false),
+                        UserId = c.String(maxLength: 128),
+                        SendOn = c.DateTime(nullable: false),
+                        Content = c.String(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Dialogs", t => t.DialogId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
+                .Index(t => t.DialogId)
+                .Index(t => t.UserId);
+
+            this.CreateTable(
+                "dbo.Dialogs",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        StartedOn = c.DateTime(nullable: false),
+                        StarterId = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.StarterId)
+                .Index(t => t.StarterId);
+
+            this.CreateTable(
+                "dbo.DialogParticipants",
+                c => new
+                    {
+                        DialogId = c.Int(nullable: false),
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        DateAdded = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => new { t.DialogId, t.UserId })
+                .ForeignKey("dbo.Dialogs", t => t.DialogId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.DialogId)
+                .Index(t => t.UserId);
+
+            this.CreateTable(
+                "dbo.PostReaders",
+                c => new
+                    {
+                        PostId = c.Int(nullable: false),
+                        UserId = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => new { t.PostId, t.UserId })
+                .ForeignKey("dbo.Posts", t => t.PostId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .Index(t => t.PostId)
+                .Index(t => t.UserId);
+
+            this.CreateTable(
                 "dbo.AspNetUserRoles",
                 c => new
                     {
@@ -152,8 +209,8 @@ namespace BlogSystem.Data.Migrations
                 .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.RoleId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.Tags",
                 c => new
                     {
@@ -161,8 +218,8 @@ namespace BlogSystem.Data.Migrations
                         PostId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -171,8 +228,8 @@ namespace BlogSystem.Data.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.TagPosts",
                 c => new
                     {
@@ -183,7 +240,7 @@ namespace BlogSystem.Data.Migrations
                 .ForeignKey("dbo.Tags", t => t.Tag_Id, cascadeDelete: true)
                 .ForeignKey("dbo.Posts", t => t.Post_Id, cascadeDelete: true)
                 .Index(t => t.Tag_Id)
-                .Index(t => t.Post_Id);
+                .Index(t => t.Post_Id); 
         }
         
         public override void Down()
@@ -193,7 +250,14 @@ namespace BlogSystem.Data.Migrations
             this.DropForeignKey("dbo.TagPosts", "Tag_Id", "dbo.Tags");
             this.DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             this.DropForeignKey("dbo.Posts", "UserId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.PostReaders", "UserId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.PostReaders", "PostId", "dbo.Posts");
             this.DropForeignKey("dbo.PostLikers", "UserId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.Messages", "UserId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.Dialogs", "StarterId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.Messages", "DialogId", "dbo.Dialogs");
+            this.DropForeignKey("dbo.DialogParticipants", "UserId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.DialogParticipants", "DialogId", "dbo.Dialogs");
             this.DropForeignKey("dbo.Logs", "UserId", "dbo.AspNetUsers");
             this.DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             this.DropForeignKey("dbo.Comments", "UserId", "dbo.AspNetUsers");
@@ -208,6 +272,13 @@ namespace BlogSystem.Data.Migrations
             this.DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             this.DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             this.DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
+            this.DropIndex("dbo.PostReaders", new[] { "UserId" });
+            this.DropIndex("dbo.PostReaders", new[] { "PostId" });
+            this.DropIndex("dbo.DialogParticipants", new[] { "UserId" });
+            this.DropIndex("dbo.DialogParticipants", new[] { "DialogId" });
+            this.DropIndex("dbo.Dialogs", new[] { "StarterId" });
+            this.DropIndex("dbo.Messages", new[] { "UserId" });
+            this.DropIndex("dbo.Messages", new[] { "DialogId" });
             this.DropIndex("dbo.Logs", new[] { "UserId" });
             this.DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             this.DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
@@ -225,6 +296,10 @@ namespace BlogSystem.Data.Migrations
             this.DropTable("dbo.AspNetRoles");
             this.DropTable("dbo.Tags");
             this.DropTable("dbo.AspNetUserRoles");
+            this.DropTable("dbo.PostReaders");
+            this.DropTable("dbo.DialogParticipants");
+            this.DropTable("dbo.Dialogs");
+            this.DropTable("dbo.Messages");
             this.DropTable("dbo.Logs");
             this.DropTable("dbo.AspNetUserLogins");
             this.DropTable("dbo.AspNetUserClaims");

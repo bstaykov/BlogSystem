@@ -1,0 +1,39 @@
+﻿@using BlogSystem.Web.Areas.Messages.Models
+@using BlogSystem.Web.Helpers
+
+@model MessageInputModel
+
+@using (Ajax.BeginForm("SendMessage", "Home", new { area = "Messages" },
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "modalContentElement",
+                LoadingElementId = "modalLoadingElement",
+                //OnComplete = "$('#globalMesseges').trigger('customRefreshEvent', [" + @Model.PostId + "]);",
+                HttpMethod = "POST"
+            },
+            new { id = "messageForm", @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Message to @Model.UserName</h4>
+            </div>
+            <div class="modal-body">
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.UserName, htmlAttributes: new { id = "message" })
+                <div>
+                    @Html.TextAreaFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(post => post.Content, null, new { @class = "alert-warning" })
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                @Html.Submit("Send", new { @class = "btn" })
+            </div>
+        </div>
+    </div>
+}

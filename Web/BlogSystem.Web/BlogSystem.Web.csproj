@@ -230,6 +230,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\Likes\LikesAreaRegistration.cs" />
+    <Compile Include="Areas\Messages\Controllers\HomeController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Messages\Models\MessageInputModel.cs" />
+    <Compile Include="Areas\Messages\Models\MessagesPageViewModel.cs" />
+    <Compile Include="Areas\Messages\Models\MessageViewModel.cs" />
+    <Compile Include="Areas\Messages\MessagesAreaRegistration.cs" />
     <Compile Include="Areas\Posts\Controllers\CommentsController.cs" />
     <Compile Include="Areas\Posts\Controllers\HomeController.cs" />
     <Compile Include="Areas\Posts\Models\CommentInputModel.cs" />
@@ -292,6 +299,9 @@
     <Compile Include="ViewModels\UserInfoModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Messages\Views\Shared\_LastMessagesList.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Areas\Posts\Views\Home\Index.cshtml" />
     <Content Include="Areas\Posts\Views\Home\InsertPost.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\PostListViewModel.cshtml" />
@@ -359,6 +369,10 @@
     <Content Include="Areas\Posts\Views\Shared\_MostLikedPosts.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\DisplayTemplates\TopLikedPostViewModel.cshtml" />
     <Content Include="Areas\Posts\Views\Shared\_Statistic.cshtml" />
+    <Content Include="Areas\Messages\Views\web.config" />
+    <Content Include="Areas\Messages\Views\Shared\DisplayTemplates\MessageViewModel.cshtml" />
+    <Content Include="Areas\Messages\Views\Shared\EditorTemplates\MessageInputModel.cshtml" />
+    <Content Include="Areas\Messages\Views\Shared\_SendMessage.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -456,9 +470,11 @@
     <Folder Include="Areas\Administration\Views\Shared\" />
     <Folder Include="Areas\Likes\Models\" />
     <Folder Include="Areas\Likes\Views\Home\" />
+    <Folder Include="Areas\Messages\Views\Home\" />
     <Folder Include="Areas\Posts\Views\Comments\" />
     <Folder Include="Views\Admin\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Messages\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

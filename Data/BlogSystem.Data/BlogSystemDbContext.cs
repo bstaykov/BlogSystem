@@ -24,7 +24,11 @@
 
         public IDbSet<Tag> Tags { get; set; }
 
+        public IDbSet<Dialog> Dialogs { get; set; }
+
         public IDbSet<Message> Messages { get; set; }
+
+        public IDbSet<DialogParticipant> DialogParticipants { get; set; }
 
         public IDbSet<Comment> Comments { get; set; }
 
