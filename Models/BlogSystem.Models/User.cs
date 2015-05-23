@@ -16,7 +16,6 @@
         private ICollection<CommentLiker> commentLikers;
         private ICollection<Comment> comments;
         private ICollection<Dialog> messagesStarted;
-        private ICollection<DialogParticipant> messagesParticipaiting;
         private ICollection<Message> messagesContent;
 
         public User()
@@ -28,7 +27,6 @@
             this.CommentLikers = new HashSet<CommentLiker>();
             this.Comments = new HashSet<Comment>();
             this.MessagesStarted = new HashSet<Dialog>();
-            this.MessagesParticipaiting = new HashSet<DialogParticipant>();
             this.MessagesContent = new HashSet<Message>();
         }
 
@@ -124,19 +122,6 @@
             set
             {
                 this.messagesStarted = value;
-            }
-        }
-
-        public virtual ICollection<DialogParticipant> MessagesParticipaiting
-        {
-            get
-            {
-                return this.messagesParticipaiting;
-            }
-
-            set
-            {
-                this.messagesParticipaiting = value;
             }
         }
 

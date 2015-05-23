@@ -33,16 +33,6 @@
             get { return this.GetRepository<Message>(); }
         }
 
-        public IRepository<DialogParticipant> DialogParticipants
-        {
-            get { return this.GetRepository<DialogParticipant>(); }
-        }
-
-        public IRepository<ReadDialog> ReadDialogs
-        {
-            get { return this.GetRepository<ReadDialog>(); }
-        }
-
         public IRepository<Comment> Comments
         {
             get { return this.GetRepository<Comment>(); }

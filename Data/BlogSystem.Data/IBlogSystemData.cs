@@ -9,11 +9,7 @@
 
         IRepository<Dialog> Dialogs { get; }
 
-        IRepository<DialogParticipant> DialogParticipants { get; }
-
         IRepository<Message> Messages { get; }
-
-        IRepository<ReadDialog> ReadDialogs { get; }
 
         IRepository<Comment> Comments { get; }
 

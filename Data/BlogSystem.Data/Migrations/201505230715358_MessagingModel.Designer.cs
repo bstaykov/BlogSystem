@@ -7,13 +7,13 @@ namespace BlogSystem.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class DialogsIsReadTable : IMigrationMetadata
+    public sealed partial class MessagingModel : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(DialogsIsReadTable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(MessagingModel));
         
         string IMigrationMetadata.Id
         {
-            get { return "201505221510102_DialogsIsReadTable"; }
+            get { return "201505230715358_MessagingModel"; }
         }
         
         string IMigrationMetadata.Source

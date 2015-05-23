@@ -60,12 +60,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Message.cs" />
-    <Compile Include="DialogParticipant.cs" />
+    <Compile Include="MessageReadBy.cs" />
     <Compile Include="Post.cs" />
     <Compile Include="PostCategory.cs" />
     <Compile Include="PostLiker.cs" />
     <Compile Include="PostReader.cs" />
-    <Compile Include="ReadDialog.cs" />
     <Compile Include="Tag.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

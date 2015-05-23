@@ -31,10 +31,10 @@
         // public string ReceiverPictureUrl { get; set; }
         public void CreateMappings(IConfiguration configuration)
         {
-            configuration.CreateMap<Message, MessageViewModel>()
-                .ForMember(messageViewModel => messageViewModel.Sender, options => options.MapFrom(message => message.User.UserName));
-            configuration.CreateMap<Message, MessageViewModel>()
-                .ForMember(messageViewModel => messageViewModel.SenderPictureUrl, options => options.MapFrom(message => message.User.ImageUrl));
+            //configuration.CreateMap<Message, MessageViewModel>()
+            //    .ForMember(messageViewModel => messageViewModel.Sender, options => options.MapFrom(message => message.User.UserName));
+            //configuration.CreateMap<Message, MessageViewModel>()
+            //    .ForMember(messageViewModel => messageViewModel.SenderPictureUrl, options => options.MapFrom(message => message.User.ImageUrl));
 
             // configuration.CreateMap<MessageContent, MessageViewModel>()
             // .ForMember(message => message.ParticipantsNames, options => options.MapFrom(message => message.User.ImageUrl));

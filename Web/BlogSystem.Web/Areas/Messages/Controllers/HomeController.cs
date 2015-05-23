@@ -257,120 +257,120 @@
             return this.PartialView("_SendMessageLink", model.UserName);
         }
 
-        [HttpGet]
-        public ActionResult GetMessages(int page = 1)
-        {
-            if (page < 1)
-            {
-                page = 1;
-            }
+        //[HttpGet]
+        //public ActionResult GetMessages(int page = 1)
+        //{
+        //    if (page < 1)
+        //    {
+        //        page = 1;
+        //    }
 
-            var userName = this.User.Identity.Name;
-            var userId = this.User.Identity.GetUserId();
+        //    var userName = this.User.Identity.Name;
+        //    var userId = this.User.Identity.GetUserId();
 
-            // Messages participating in. Take last contents of these messages.
-            var messagesParticipatingInIds = this.Data.DialogParticipants.All()
-                .Where(participant => participant.UserId == userId)
-                .OrderByDescending(participant => participant.DateAdded)
-                .Select(participant => participant.DialogId)
-                .Skip((page - 1) * 5)
-                .Take(5)
-                .ToList();
+        //    // Messages participating in. Take last contents of these messages.
+        //    var messagesParticipatingInIds = this.Data.DialogParticipants.All()
+        //        .Where(participant => participant.UserId == userId)
+        //        .OrderByDescending(participant => participant.DateAdded)
+        //        .Select(participant => participant.DialogId)
+        //        .Skip((page - 1) * 5)
+        //        .Take(5)
+        //        .ToList();
 
-            ICollection<MessageViewModel> messageViewModels = new List<MessageViewModel>();
+        //    ICollection<MessageViewModel> messageViewModels = new List<MessageViewModel>();
 
-            foreach (var id in messagesParticipatingInIds)
-            {
-                // id, sender, picUrl, date, content
-                MessageViewModel messageViewModel = this.Data.Messages.All()
-                    .OrderByDescending(message => message.SendOn)
-                    .Where(message => message.DialogId == id)
-                    .Take(1)
-                    .Project().To<MessageViewModel>()
-                    .FirstOrDefault();
+        //    foreach (var id in messagesParticipatingInIds)
+        //    {
+        //        // id, sender, picUrl, date, content
+        //        MessageViewModel messageViewModel = this.Data.Messages.All()
+        //            .OrderByDescending(message => message.SendOn)
+        //            .Where(message => message.DialogId == id)
+        //            .Take(1)
+        //            .Project().To<MessageViewModel>()
+        //            .FirstOrDefault();
 
-                messageViewModel.ParticipantsInfo = this.Data.DialogParticipants.All()
-                    .Where(participant => participant.DialogId == id && participant.UserId != userId)
-                    .Select(participant => 
-                        new MessageParticipantInfo()
-                        {
-                            ParticipantName = participant.User.UserName,
-                            ParticipantPictureUrl = participant.User.ImageUrl,
-                        }
-                    );
+        //        messageViewModel.ParticipantsInfo = this.Data.DialogParticipants.All()
+        //            .Where(participant => participant.DialogId == id && participant.UserId != userId)
+        //            .Select(participant => 
+        //                new MessageParticipantInfo()
+        //                {
+        //                    ParticipantName = participant.User.UserName,
+        //                    ParticipantPictureUrl = participant.User.ImageUrl,
+        //                }
+        //            );
 
-                messageViewModels.Add(messageViewModel);
-            }
+        //        messageViewModels.Add(messageViewModel);
+        //    }
 
-            // var messageIds = this.Data.MessagesContents.All()
-            // .Where(message => message.User.UserName == userName)
-            // .OrderByDescending(message => message.SendOn)
-            // .Select(message => message.MessageId)
-            // .Distinct()
-            // .Skip((page - 1) * 5)
-            // .Take(5)
-            // .ToList();
+        //    // var messageIds = this.Data.MessagesContents.All()
+        //    // .Where(message => message.User.UserName == userName)
+        //    // .OrderByDescending(message => message.SendOn)
+        //    // .Select(message => message.MessageId)
+        //    // .Distinct()
+        //    // .Skip((page - 1) * 5)
+        //    // .Take(5)
+        //    // .ToList();
 
-            // var messages = this.Data.Messages.All()
-            // .Project().To<MessageViewModel>()
-            // .OrderByDescending(message => message.SendOn)
-            // .Skip((page - 1) * 5)
-            // .Take(5)
-            // .ToList();
-            var model = new MessagesPageViewModel()
-            {
-                Page = page + 1,
-                Messages = messageViewModels,
-            };
+        //    // var messages = this.Data.Messages.All()
+        //    // .Project().To<MessageViewModel>()
+        //    // .OrderByDescending(message => message.SendOn)
+        //    // .Skip((page - 1) * 5)
+        //    // .Take(5)
+        //    // .ToList();
+        //    var model = new MessagesPageViewModel()
+        //    {
+        //        Page = page + 1,
+        //        Messages = messageViewModels,
+        //    };
 
-            return this.PartialView("_LastMessagesList", model);
-        }
+        //    return this.PartialView("_LastMessagesList", model);
+        //}
 
-        [HttpGet]
-        public ActionResult ViewDialog(int dialogId, int page = 1)
-        {
-            var userId = this.User.Identity.GetUserId();
+        //[HttpGet]
+        //public ActionResult ViewDialog(int dialogId, int page = 1)
+        //{
+        //    var userId = this.User.Identity.GetUserId();
 
-            var dialogParticipant = this.Data.DialogParticipants.All()
-                .FirstOrDefault(participant => participant.DialogId == dialogId && participant.UserId == userId);
+        //    var dialogParticipant = this.Data.DialogParticipants.All()
+        //        .FirstOrDefault(participant => participant.DialogId == dialogId && participant.UserId == userId);
 
-            if (dialogParticipant == null)
-            {
-                this.TempData["error"] = "You are not part from this conversation.";
-                return this.PartialView("_Message");
-            }
+        //    if (dialogParticipant == null)
+        //    {
+        //        this.TempData["error"] = "You are not part from this conversation.";
+        //        return this.PartialView("_Message");
+        //    }
 
-            var messages = this.Data.Messages.All()
-                .OrderByDescending(message => message.SendOn)
-                .Where(message => message.DialogId == dialogId && message.SendOn > dialogParticipant.DateAdded)
-                .Skip((page - 1) * 5)
-                .Take(5)
-                .Project().To<DialogMessagesViewModel>()
-                .ToList();
+        //    var messages = this.Data.Messages.All()
+        //        .OrderByDescending(message => message.SendOn)
+        //        .Where(message => message.DialogId == dialogId && message.SendOn > dialogParticipant.DateAdded)
+        //        .Skip((page - 1) * 5)
+        //        .Take(5)
+        //        .Project().To<DialogMessagesViewModel>()
+        //        .ToList();
 
-            messages.Reverse();
+        //    messages.Reverse();
 
-            DialogViewModel model = new DialogViewModel()
-            {
-                Page = page + 1,
-                DialogId = dialogId,
-                Messages = messages,
-            };
+        //    DialogViewModel model = new DialogViewModel()
+        //    {
+        //        Page = page + 1,
+        //        DialogId = dialogId,
+        //        Messages = messages,
+        //    };
 
-            if (page == 1)
-            {
-                model.ParticipantsInfo = this.Data.DialogParticipants.All()
-                .Where(participant => participant.DialogId == dialogId)
-                .Select(participant =>
-                    new MessageParticipantInfo()
-                    {
-                        ParticipantName = participant.User.UserName,
-                        ParticipantPictureUrl = participant.User.ImageUrl,
-                    }
-                );
-            }
+        //    if (page == 1)
+        //    {
+        //        model.ParticipantsInfo = this.Data.DialogParticipants.All()
+        //        .Where(participant => participant.DialogId == dialogId)
+        //        .Select(participant =>
+        //            new MessageParticipantInfo()
+        //            {
+        //                ParticipantName = participant.User.UserName,
+        //                ParticipantPictureUrl = participant.User.ImageUrl,
+        //            }
+        //        );
+        //    }
 
-            return this.PartialView("_DialogViewModel", model);
-        }
+        //    return this.PartialView("_DialogViewModel", model);
+        //}
     }
 }

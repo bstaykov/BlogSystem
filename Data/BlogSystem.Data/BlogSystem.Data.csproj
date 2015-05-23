@@ -59,9 +59,9 @@
     <Compile Include="Migrations\201505220544445_Initial.Designer.cs">
       <DependentUpon>201505220544445_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201505221510102_DialogsIsReadTable.cs" />
-    <Compile Include="Migrations\201505221510102_DialogsIsReadTable.Designer.cs">
-      <DependentUpon>201505221510102_DialogsIsReadTable.cs</DependentUpon>
+    <Compile Include="Migrations\201505230715358_MessagingModel.cs" />
+    <Compile Include="Migrations\201505230715358_MessagingModel.Designer.cs">
+      <DependentUpon>201505230715358_MessagingModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,8 +86,8 @@
     <EmbeddedResource Include="Migrations\201505220544445_Initial.resx">
       <DependentUpon>201505220544445_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201505221510102_DialogsIsReadTable.resx">
-      <DependentUpon>201505221510102_DialogsIsReadTable.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201505230715358_MessagingModel.resx">
+      <DependentUpon>201505230715358_MessagingModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
