@@ -1,0 +1,25 @@
+﻿@using BlogSystem.Web.Areas.Messages.Models
+@using Microsoft.AspNet.Identity
+
+@model DialogMessagesViewModel
+
+@{
+    var sender = @Model.Sender;
+    var displayMessage = sender + " wrote: " + @Model.Content;
+    var backgroundColor = "bg-warning";
+    var href = "/Home/UserInfo?username=" + @Model.Sender;
+}
+@if (@Model.Sender == this.User.Identity.Name)
+{
+    sender = "You";
+    displayMessage = sender + " wrote: " + @Model.Content;
+    backgroundColor = "bg-success";
+}
+
+<p class="@backgroundColor">
+    <a href="@href">
+        <img data-holder-rendered="true" src="@Url.Content(@Model.SenderPictureUrl)" class="img-rounded img-responsive profilePic" title="@Model.Sender" alt="picture">
+    </a>
+    <span class="label label-primary">@Model.SendOn</span>
+    <span>@displayMessage</span>
+</p>

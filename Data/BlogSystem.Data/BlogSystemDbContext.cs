@@ -30,6 +30,8 @@
 
         public IDbSet<DialogParticipant> DialogParticipants { get; set; }
 
+        public IDbSet<ReadDialog> ReadDialogs { get; set; }
+
         public IDbSet<Comment> Comments { get; set; }
 
         public IDbSet<PostLiker> PostLikers { get; set; }

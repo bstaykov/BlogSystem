@@ -1,0 +1,47 @@
+﻿@using BlogSystem.Web.Areas.Messages.Models
+@using Microsoft.AspNet.Identity
+
+@model DialogViewModel
+
+@{
+    var className = string.Empty;
+    if (@Model.Page == 2)
+    {
+        className = "modal-content";
+    }
+}
+
+<div class="@className">
+    @if (@Model.Page == 2) { 
+        foreach (var participantInfo in @Model.ParticipantsInfo)
+        {
+            var href = "/Home/UserInfo?username=" + @participantInfo.ParticipantName;
+            <a href="@href">
+                <img src="@Url.Content(@participantInfo.ParticipantPictureUrl)" class="img-rounded img-responsive profilePic" title="@participantInfo.ParticipantName" alt="picture">
+            </a>
+        }
+    }
+
+    @if (@Model.Messages.Count() == 5)
+    {
+        var pageId = "pageId" + @Model.Page;
+        
+        <div class="well well-sm" id="@pageId">
+            @Ajax.ActionLink(" Load older messages...", "ViewDialog", new { dialogId = @Model.DialogId, page = @Model.Page, area = "Messages" },
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.ReplaceWith,
+                UpdateTargetId = @pageId,
+                LoadingElementId = "modalLoadingElement",
+                //OnComplete = "$('#globalMesseges').trigger('customRefreshEvent', [" + @Model.PostId + "]); $('.modal').hide();",
+                HttpMethod = "Get",
+            },
+            htmlAttributes: new { Title = "Load more messages...", @class = "glyphicon glyphicon-refresh" })
+        </div>
+    }
+
+    @foreach (var message in @Model.Messages)
+    {
+        @Html.DisplayFor(model => message)
+    }
+</div>

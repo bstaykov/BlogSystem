@@ -11,7 +11,7 @@
 }
 
 <div class="@className">
-    @if (@Model.Page == 2)
+    @*@if (@Model.Page == 2)
     {
         <div class="modal-header">
             @Ajax.ActionLink("Mark all as read", "MarkAllMessagesAsRead", "Home", new { area = "Messages" },
@@ -24,7 +24,7 @@
             },
               htmlAttributes: new { Title = "Mark all messages as read" })
         </div>
-    }
+    }*@
 
     @foreach (var message in @Model.Messages)
     {

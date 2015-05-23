@@ -1,41 +1,41 @@
 ﻿@using BlogSystem.Web.Areas.Messages.Models
+@using Microsoft.AspNet.Identity
 
 @model MessageViewModel
 
 <div class="well well-sm">
-    @foreach (var picUrl in Model.ParticipantsPicturesUrls)
+    @foreach (var participantInfo in Model.ParticipantsInfo)
     {
-        <img src="@Url.Content(picUrl)" class="img-rounded img-responsive profilePic" alt="picture">
+        var href = "/Home/UserInfo?username=" + @participantInfo.ParticipantName;
+        <a href="@href">
+            <img src="@Url.Content(@participantInfo.ParticipantPictureUrl)" class="img-rounded img-responsive profilePic" title="@participantInfo.ParticipantName" alt="picture">
+        </a>
     }
-
-    <span>
-        @foreach (var name in Model.ParticipantsNames)
-        {
-            if (name == this.User.Identity.Name)
-            {
-                @:You
-            }
-            else
-            {
-                @name
-            }
-        }
-    </span>
 
     <span class="label label-primary">@Model.SendOn</span>
 
-    @Ajax.ActionLink(@Model.Sender + " wrote:", "ViewMessage", "Home", new { messageId = @Model.Id, area = "Comments" },
+    @{
+        var sender = @Model.Sender;
+        var displayMessage = sender + " wrote: " + @Model.Content;
+    }
+    @if (@Model.Sender == this.User.Identity.Name)
+    {
+        sender = "You";
+        displayMessage = sender + " wrote: " + @Model.Content;
+    }
+
+    @Ajax.ActionLink(@displayMessage, "ViewDialog", new { dialogId = @Model.DialogId, area = "Messages" },
             new AjaxOptions
             {
                 InsertionMode = InsertionMode.Replace,
-                UpdateTargetId = "content",
+                UpdateTargetId = "modalContentElement",
                 LoadingElementId = "modalLoadingElement",
                 //OnComplete = "$('#globalMesseges').trigger('customRefreshEvent', [" + @Model.PostId + "]); $('.modal').hide();",
                 HttpMethod = "Get",
             },
-            htmlAttributes: new { Title = "ViewMessage ..." })
+                    htmlAttributes: new { Title = "View Full Conversation" })
     @*@if (@Model.IsReadByAuthor == false)
-    {
-        <span class="glyphicon glyphicon-bell"></span>
-    }*@
+        {
+            <span class="glyphicon glyphicon-bell"></span>
+        }*@
 </div>

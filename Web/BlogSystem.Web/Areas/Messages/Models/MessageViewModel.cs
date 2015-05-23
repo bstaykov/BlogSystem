@@ -10,15 +10,13 @@
 
     public class MessageViewModel : IMapFrom<Message>, IHaveCustomMappings
     {
-        public int Id { get; set; }
+        public int DialogId { get; set; }
 
         public string Content { get; set; }
 
         public DateTime SendOn { get; set; }
 
-        public IEnumerable<string> ParticipantsPicturesUrls { get; set; }
-
-        public IEnumerable<string> ParticipantsNames { get; set; }
+        public IEnumerable<MessageParticipantInfo> ParticipantsInfo { get; set; }
 
         public IEnumerable<string> ReadBy { get; set; }
 
@@ -34,9 +32,9 @@
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Message, MessageViewModel>()
-                .ForMember(message => message.Sender, options => options.MapFrom(message => message.User.UserName));
+                .ForMember(messageViewModel => messageViewModel.Sender, options => options.MapFrom(message => message.User.UserName));
             configuration.CreateMap<Message, MessageViewModel>()
-                .ForMember(message => message.SenderPictureUrl, options => options.MapFrom(message => message.User.ImageUrl));
+                .ForMember(messageViewModel => messageViewModel.SenderPictureUrl, options => options.MapFrom(message => message.User.ImageUrl));
 
             // configuration.CreateMap<MessageContent, MessageViewModel>()
             // .ForMember(message => message.ParticipantsNames, options => options.MapFrom(message => message.User.ImageUrl));

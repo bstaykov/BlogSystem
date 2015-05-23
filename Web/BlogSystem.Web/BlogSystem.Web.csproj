@@ -233,7 +233,16 @@
     <Compile Include="Areas\Messages\Controllers\HomeController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Areas\Messages\Models\DialogMessagesViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Messages\Models\DialogViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Areas\Messages\Models\MessageInputModel.cs" />
+    <Compile Include="Areas\Messages\Models\MessageParticipantInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Areas\Messages\Models\MessagesPageViewModel.cs" />
     <Compile Include="Areas\Messages\Models\MessageViewModel.cs" />
     <Compile Include="Areas\Messages\MessagesAreaRegistration.cs" />
@@ -299,6 +308,9 @@
     <Compile Include="ViewModels\UserInfoModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Messages\Views\Shared\DisplayTemplates\DialogMessagesViewModel.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Areas\Messages\Views\Shared\_LastMessagesList.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -373,6 +385,9 @@
     <Content Include="Areas\Messages\Views\Shared\DisplayTemplates\MessageViewModel.cshtml" />
     <Content Include="Areas\Messages\Views\Shared\EditorTemplates\MessageInputModel.cshtml" />
     <Content Include="Areas\Messages\Views\Shared\_SendMessage.cshtml" />
+    <Content Include="Areas\Messages\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Messages\Views\Shared\_SendMessageLink.cshtml" />
+    <Content Include="Areas\Messages\Views\Shared\_DialogViewModel.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

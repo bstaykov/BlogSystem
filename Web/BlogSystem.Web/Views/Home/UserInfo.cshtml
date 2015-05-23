@@ -1,5 +1,7 @@
 ﻿@using BlogSystem.Web.ViewModels
+
 @model UserInfoModel
+
 @{
     ViewBag.Title = "UserInfo";
 }
@@ -19,6 +21,7 @@
                 <h3>@Model.UserName</h3>
                 <p><a href="#" class="btn btn-primary" role="button">Add as friend</a></p>
             </div>
+
             @Ajax.RawActionLink("<span class='smallMessageCounter badge'></span>", "SendMessage", "Home", new { userName = @Model.UserName, area = "Messages" },
                         new AjaxOptions
                         {

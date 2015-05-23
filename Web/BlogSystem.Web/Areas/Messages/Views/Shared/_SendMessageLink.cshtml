@@ -1,0 +1,18 @@
+﻿@using BlogSystem.Web.Helpers
+
+@model string
+
+<div class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    Message sent.
+    @Ajax.ActionLink("Send another.", "SendPrivateMessage", "Home", new { userName = @Model, area = "Messages" },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "modalContentElement",
+                            LoadingElementId = "modalLoadingElement",
+                            OnBegin = "$('#modalContentElement').empty()",
+                            HttpMethod = "Get",
+                        },
+                        htmlAttributes: new { Title = "Send another message." })
+</div>

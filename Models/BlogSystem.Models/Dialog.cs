@@ -7,11 +7,13 @@
     {
         private ICollection<DialogParticipant> dialogParticipants;
         private ICollection<Message> messages;
+        private ICollection<ReadDialog> readDiologs;
 
         public Dialog()
         {
             this.DialogParticipants = new HashSet<DialogParticipant>();
             this.Messages = new HashSet<Message>();
+            this.ReadDialogs = new HashSet<ReadDialog>();
         }
 
         public int Id { get; set; }
@@ -45,6 +47,19 @@
             set
             {
                 this.messages = value;
+            }
+        }
+
+        public virtual ICollection<ReadDialog> ReadDialogs
+        {
+            get
+            {
+                return this.readDiologs;
+            }
+
+            set
+            {
+                this.readDiologs = value;
             }
         }
 

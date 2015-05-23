@@ -13,6 +13,8 @@
 
         IRepository<Message> Messages { get; }
 
+        IRepository<ReadDialog> ReadDialogs { get; }
+
         IRepository<Comment> Comments { get; }
 
         IRepository<CommentLiker> CommentLikers { get; }
