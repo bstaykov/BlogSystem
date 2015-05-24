@@ -246,6 +246,7 @@
     <Compile Include="Areas\Messages\Models\MessagesPageViewModel.cs" />
     <Compile Include="Areas\Messages\Models\MessageViewModel.cs" />
     <Compile Include="Areas\Messages\MessagesAreaRegistration.cs" />
+    <Compile Include="Areas\Messages\Models\TestModel.cs" />
     <Compile Include="Areas\Posts\Controllers\CommentsController.cs" />
     <Compile Include="Areas\Posts\Controllers\HomeController.cs" />
     <Compile Include="Areas\Posts\Models\CommentInputModel.cs" />

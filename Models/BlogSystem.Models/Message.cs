@@ -1,7 +1,6 @@
 ﻿namespace BlogSystem.Models
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
 
     public class Message
     {
@@ -14,6 +13,8 @@
         public DateTime SendOn { get; set; }
 
         public string Content { get; set; }
+
+        public MessageSender Sender { get; set; }
 
         public MessageReadBy ReadBy { get; set; }
     }

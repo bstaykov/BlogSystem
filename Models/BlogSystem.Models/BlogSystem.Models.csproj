@@ -61,6 +61,7 @@
     </Compile>
     <Compile Include="Message.cs" />
     <Compile Include="MessageReadBy.cs" />
+    <Compile Include="MessageSender.cs" />
     <Compile Include="Post.cs" />
     <Compile Include="PostCategory.cs" />
     <Compile Include="PostLiker.cs" />

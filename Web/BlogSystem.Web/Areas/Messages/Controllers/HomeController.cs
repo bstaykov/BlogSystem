@@ -231,7 +231,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SendPrivateMessage(MessageInputModel model)
+        public ActionResult SendMessage(MessageInputModel model)
         {
             var userName = this.User.Identity.Name;
             var userId = this.User.Identity.GetUserId();
@@ -254,7 +254,89 @@
                 return this.PartialView("_SendMessage", model);
             }
 
+            var existingDialog = this.Data.Dialogs.All()
+                .FirstOrDefault(dialog => 
+                    (dialog.FirstUserId == userId && dialog.SecondUserId == receiver.Id) 
+                        || (dialog.FirstUserId == receiver.Id && dialog.SecondUserId == userId));
+
+            if (existingDialog == null)
+            {
+                existingDialog = new Dialog()
+                {
+                    FirstUserId = userId,
+                    SecondUserId = receiver.Id,
+                };
+                this.Data.Dialogs.Add(existingDialog);
+                this.Data.SaveChanges();
+            }
+
+            var currentDate = DateTime.Now;
+            this.Data.Messages.Add(
+                new Message() 
+                {
+                    DialogId = existingDialog.Id,
+                    SendOn = currentDate,
+                    Content = model.Content,
+                    ReadBy = MessageReadBy.First,
+                }
+            );
+            existingDialog.LastMessagedOn = currentDate;
+            this.Data.SaveChanges();
+
             return this.PartialView("_SendMessageLink", model.UserName);
+        }
+
+        [HttpGet]
+        public ActionResult GetMessages(int page = 1)
+        {
+            if (page < 1)
+            {
+                page = 1;
+            }
+
+            var userName = this.User.Identity.Name;
+            var userId = this.User.Identity.GetUserId();
+
+            var dialogs = this.Data.Dialogs.All()
+                .Where(dialog => dialog.FirstUserId == userId || dialog.SecondUserId == userId)
+                .OrderByDescending(dialog => dialog.LastMessagedOn)
+                .Skip((page - 1) * 5)
+                .Take(5)
+
+                //.Select(dialog =>
+                //    //new TestModel()
+                //    //{
+                //    //    Message = dialog.Messages.AsQueryable().OrderByDescending(message => message.SendOn).Take(1).Project().To<MessageViewModel>().FirstOrDefault(),
+                //    //    ParticipantName = dialog.FirstUser.UserName == userName ? dialog.SecondUser.UserName : dialog.FirstUser.UserName,
+                //    //    ParticipantPicUrl = dialog.FirstUser.UserName == userName ? dialog.SecondUser.ImageUrl : dialog.FirstUser.ImageUrl,
+                //    //}
+                //    )
+                .ToList();
+
+            ICollection<MessageViewModel> messageViewModels = new List<MessageViewModel>();
+            foreach (var dialog in dialogs)
+            {
+                MessageViewModel messageViewModel = this.Data.Messages.All()
+                    .OrderByDescending(message => message.SendOn)
+                    .Where(message => message.DialogId == dialog.Id)
+                    .Take(1)
+                    .Project().To<MessageViewModel>()
+                    .FirstOrDefault();
+                messageViewModel.ParticipantInformation = new MessageParticipantInfo()
+                        {
+                            ParticipantName = dialog.FirstUser.UserName == userName ? dialog.SecondUser.UserName : dialog.FirstUser.UserName,
+                            ParticipantPictureUrl = dialog.FirstUser.UserName == userName ? dialog.SecondUser.ImageUrl : dialog.FirstUser.ImageUrl,
+                        };
+                messageViewModels.Add(messageViewModel);
+            }
+
+            var model = new MessagesPageViewModel()
+            {
+                Page = page + 1,
+                Messages = messageViewModels,
+            };
+
+            return this.PartialView("_LastMessagesList", model);
         }
 
         //[HttpGet]

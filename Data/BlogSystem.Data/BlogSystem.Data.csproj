@@ -59,9 +59,9 @@
     <Compile Include="Migrations\201505220544445_Initial.Designer.cs">
       <DependentUpon>201505220544445_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201505230715358_MessagingModel.cs" />
-    <Compile Include="Migrations\201505230715358_MessagingModel.Designer.cs">
-      <DependentUpon>201505230715358_MessagingModel.cs</DependentUpon>
+    <Compile Include="Migrations\201505230814274_MessageModel.cs" />
+    <Compile Include="Migrations\201505230814274_MessageModel.Designer.cs">
+      <DependentUpon>201505230814274_MessageModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,8 +86,8 @@
     <EmbeddedResource Include="Migrations\201505220544445_Initial.resx">
       <DependentUpon>201505220544445_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201505230715358_MessagingModel.resx">
-      <DependentUpon>201505230715358_MessagingModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201505230814274_MessageModel.resx">
+      <DependentUpon>201505230814274_MessageModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

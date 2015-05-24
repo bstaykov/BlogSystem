@@ -3,7 +3,7 @@ namespace BlogSystem.Data.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class MessagingModel : DbMigration
+    public partial class MessageModel : DbMigration
     {
         public override void Up()
         {
@@ -18,6 +18,7 @@ namespace BlogSystem.Data.Migrations
             this.AddColumn("dbo.Messages", "ReadBy", c => c.Int(nullable: false));
             this.AddColumn("dbo.Dialogs", "FirstUserId", c => c.String(maxLength: 128));
             this.AddColumn("dbo.Dialogs", "SecondUserId", c => c.String(maxLength: 128));
+            this.AddColumn("dbo.Dialogs", "LastMessagedOn", c => c.DateTime(nullable: false));
             this.CreateIndex("dbo.Dialogs", "FirstUserId");
             this.CreateIndex("dbo.Dialogs", "SecondUserId");
             this.AddForeignKey("dbo.Dialogs", "FirstUserId", "dbo.AspNetUsers", "Id");
@@ -37,12 +38,13 @@ namespace BlogSystem.Data.Migrations
                         DateAdded = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => new { t.DialogId, t.UserId });
-
+            
             this.AddColumn("dbo.Dialogs", "StartedOn", c => c.DateTime(nullable: false));
             this.DropForeignKey("dbo.Dialogs", "SecondUserId", "dbo.AspNetUsers");
             this.DropForeignKey("dbo.Dialogs", "FirstUserId", "dbo.AspNetUsers");
             this.DropIndex("dbo.Dialogs", new[] { "SecondUserId" });
             this.DropIndex("dbo.Dialogs", new[] { "FirstUserId" });
+            this.DropColumn("dbo.Dialogs", "LastMessagedOn");
             this.DropColumn("dbo.Dialogs", "SecondUserId");
             this.DropColumn("dbo.Dialogs", "FirstUserId");
             this.DropColumn("dbo.Messages", "ReadBy");

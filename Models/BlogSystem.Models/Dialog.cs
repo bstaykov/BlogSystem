@@ -1,5 +1,6 @@
 ﻿namespace BlogSystem.Models
 {
+    using System;
     using System.Collections.Generic;
 
     public class Dialog
@@ -20,6 +21,8 @@
         public string SecondUserId { get; set; }
 
         public virtual User SecondUser { get; set; }
+
+        public DateTime LastMessagedOn { get; set; }
 
         public virtual ICollection<Message> Messages
         {
