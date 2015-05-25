@@ -1,4 +1,5 @@
 ﻿@using BlogSystem.Web.Areas.Messages.Models
+@using BlogSystem.Web.Helpers
 @using Microsoft.AspNet.Identity
 
 @model MessageViewModel
@@ -27,7 +28,7 @@
         displayMessage = sender + " wrote: " + @Model.Content;
     }
 
-    @Ajax.ActionLink(@displayMessage, "ViewDialog", new { userName = @participantName, area = "Messages" },
+    @Ajax.ActionLink(@displayMessage, "ViewFullConversation", new { userName = @participantName, area = "Messages" },
             new AjaxOptions
             {
                 InsertionMode = InsertionMode.Replace,
@@ -37,6 +38,16 @@
                 HttpMethod = "Get",
             },
                     htmlAttributes: new { Title = "View Full Conversation" })
+    @Ajax.RawActionLink("<span class='smallMessageCounter badge'></span>", "SendMessage", "Home", new { userName = @participantName, area = "Messages" },
+                        new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            UpdateTargetId = "modalContentElement",
+                            LoadingElementId = "modalLoadingElement",
+                            OnBegin = "$('#modalContentElement').empty()",
+                            HttpMethod = "Get",
+                        },
+                        htmlAttributes: new { @class = "glyphicon glyphicon-comment largerGlyphicon", Title = "Send message." })
     @*@if (@Model.IsReadByAuthor == false)
         {
             <span class="glyphicon glyphicon-bell"></span>

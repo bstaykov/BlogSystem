@@ -8,7 +8,7 @@
     using BlogSystem.Models;
     using BlogSystem.Web.Infrastructure.Mapping;
 
-    public class MessageViewModel : IMapFrom<Message>, IHaveCustomMappings
+    public class ConversationViewModel : IMapFrom<Message>, IHaveCustomMappings
     {
         public string Content { get; set; }
 
@@ -18,9 +18,9 @@
 
         public string SenderPictureUrl { get; set; }
 
-        public string Receiver { get; set; }
+        public string Participant { get; set; }
 
-        public string ReceiverPictureUrl { get; set; }
+        public string ParticipantPictureUrl { get; set; }
 
         public bool IsRead { get; set; }
 
@@ -28,14 +28,10 @@
 
         public void CreateMappings(IConfiguration configuration)
         {
-            configuration.CreateMap<Message, MessageViewModel>()
+            configuration.CreateMap<Message, ConversationViewModel>()
                 .ForMember(messageViewModel => messageViewModel.Sender, options => options.MapFrom(message => message.Sender.UserName));
-            configuration.CreateMap<Message, MessageViewModel>()
+            configuration.CreateMap<Message, ConversationViewModel>()
                 .ForMember(messageViewModel => messageViewModel.SenderPictureUrl, options => options.MapFrom(message => message.Sender.ImageUrl));
-            configuration.CreateMap<Message, MessageViewModel>()
-                .ForMember(messageViewModel => messageViewModel.Receiver, options => options.MapFrom(message => message.Receiver.UserName));
-            configuration.CreateMap<Message, MessageViewModel>()
-                .ForMember(messageViewModel => messageViewModel.ReceiverPictureUrl, options => options.MapFrom(message => message.Receiver.ImageUrl));
         }
     }
 }

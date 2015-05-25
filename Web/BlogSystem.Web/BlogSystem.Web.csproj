@@ -233,6 +233,8 @@
     <Compile Include="Areas\Messages\Controllers\HomeController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Areas\Messages\Models\ConversationPageViewModel.cs" />
+    <Compile Include="Areas\Messages\Models\ConversationViewModel.cs" />
     <Compile Include="Areas\Messages\Models\DialogMessagesViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -246,7 +248,6 @@
     <Compile Include="Areas\Messages\Models\MessagesPageViewModel.cs" />
     <Compile Include="Areas\Messages\MessagesAreaRegistration.cs" />
     <Compile Include="Areas\Messages\Models\MessageViewModel.cs" />
-    <Compile Include="Areas\Messages\Models\TestModel.cs" />
     <Compile Include="Areas\Posts\Controllers\CommentsController.cs" />
     <Compile Include="Areas\Posts\Controllers\HomeController.cs" />
     <Compile Include="Areas\Posts\Models\CommentInputModel.cs" />
@@ -389,6 +390,8 @@
     <Content Include="Areas\Messages\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Messages\Views\Shared\_SendMessageLink.cshtml" />
     <Content Include="Areas\Messages\Views\Shared\_DialogViewModel.cshtml" />
+    <Content Include="Areas\Messages\Views\Shared\DisplayTemplates\ConversationViewModel.cshtml" />
+    <Content Include="Areas\Messages\Views\Shared\_ViewFullConversation.cshtml" />
     <None Include="Scripts\jquery-2.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
