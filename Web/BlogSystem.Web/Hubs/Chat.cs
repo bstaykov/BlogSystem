@@ -74,6 +74,8 @@
 
             this.GetNewCommentsCount();
 
+            this.UpdateUnreadMessagesCounter();
+
             return base.OnConnected();
         }
 
@@ -86,6 +88,8 @@
             this.UpdateOnlineUsersCount();
 
             this.GetNewCommentsCount();
+
+            this.UpdateUnreadMessagesCounter();
 
             return base.OnReconnected();
         }
@@ -136,6 +140,17 @@
             Clients.Caller.UpdateCommentsCounter(commentsCount);
         }
 
+        public void UpdateUnreadMessagesCounter()
+        {
+            var userName = Context.User.Identity.Name;
+            var unreadMessages = this.data.Messages.All()
+                .Where(message => message.DialogId.Value != null 
+                    && message.Receiver.UserName == userName 
+                    && message.IsRead == false)
+                .Count();
+            Clients.Caller.updateUnreadMessagesCounter(unreadMessages);
+        }
+
         public void GetListOfComments()
         {
             var userName = Context.User.Identity.Name;
@@ -147,6 +162,19 @@
                 .Take(10)
                 .ToList();
             Clients.Caller.DisplayListOfComments(comments);
+        }
+
+        public void RefreshUnreadMessagesCount(string userName)
+        {
+            if (connectedIds.ContainsKey(userName) == true)
+            {
+                var unreadMessages = this.data.Messages.All()
+                .Where(message => message.DialogId.Value != null
+                    && message.Receiver.UserName == userName
+                    && message.IsRead == false)
+                .Count();
+                Clients.Client(connectedIds[userName]).updateUnreadMessagesCounter(unreadMessages);
+            }
         }
 
         public void RefreshCommentsCount(int postId)

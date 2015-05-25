@@ -50,13 +50,15 @@ $(document).ready(function () {
 
     // Get postId before modal window changes
     $('#globalMesseges').on("customRefreshEvent", function (event, postId) {
-        console.log(postId);
         chat.server.refreshCommentsCount(postId);
     });
 
-    // Alert about New Posts
+    // Refresh participant unread messages count before modal window changes
+    $('#globalPrivateMessages').on("refreshMessagesEvent", function (event, userName) {
+        chat.server.refreshUnreadMessagesCount(userName);
+    });
+
     $('#newPostAlerts').on("refresh", function (event) {
-        console.log("REFRESHED");
         chat.server.sendNewPostAlert();
     });
 
@@ -68,6 +70,7 @@ $(document).ready(function () {
     chat.client.updateCommentsCounter = newCommentsCounter;
     chat.client.displayListOfComments = displayListOfComments;
     chat.client.displayNewPostMessage = displayNewPostMessage;
+    chat.client.updateUnreadMessagesCounter = updateUnreadMessagesCounter;
 });
 
 function displayNewPostMessage(author, postId, title) {
@@ -125,6 +128,17 @@ function newCommentsCounter(commentsCount) {
     $counter = $('#globalMessegesCount');
     if (commentsCount > 0) {
         $counter.html(commentsCount);
+        $counter.attr("style", "display: initial");
+    } else {
+        $counter.empty();
+        $counter.attr("style", "display: none");
+    }
+}
+
+function updateUnreadMessagesCounter(unreadMessages) {
+    $counter = $('#globalPrivateMessagesCount');
+    if (unreadMessages > 0) {
+        $counter.html(unreadMessages);
         $counter.attr("style", "display: initial");
     } else {
         $counter.empty();
@@ -272,12 +286,20 @@ function joinRoom(room) {
                 return proxies['chat'].invoke.apply(proxies['chat'], $.merge(["GetNewCommentsCount"], $.makeArray(arguments)));
             },
 
+            updateUnreadMessagesCounter: function () {
+                return proxies['chat'].invoke.apply(proxies['chat'], $.merge(["UpdateUnreadMessagesCounter"], $.makeArray(arguments)));
+            },
+
             getListOfComments: function () {
                 return proxies['chat'].invoke.apply(proxies['chat'], $.merge(["GetListOfComments"], $.makeArray(arguments)));
             },
 
             refreshCommentsCount: function (postId) {
                 return proxies['chat'].invoke.apply(proxies['chat'], $.merge(["RefreshCommentsCount"], $.makeArray(arguments)));
+            },
+
+            refreshUnreadMessagesCount: function (userName) {
+                return proxies['chat'].invoke.apply(proxies['chat'], $.merge(["RefreshUnreadMessagesCount"], $.makeArray(arguments)));
             },
 
             sendNewPostAlert: function () {

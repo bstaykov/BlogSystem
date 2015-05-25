@@ -31,7 +31,7 @@
                 InsertionMode = InsertionMode.ReplaceWith,
                 UpdateTargetId = @pageId,
                 LoadingElementId = "modalLoadingElement",
-                //OnComplete = "$('#globalMesseges').trigger('customRefreshEvent', [" + @Model.PostId + "]); $('.modal').hide();",
+                OnComplete = "$('#globalPrivateMessages').trigger('refreshMessagesEvent', ['" + this.User.Identity.Name + "']);",
                 HttpMethod = "Get",
             },
             htmlAttributes: new { Title = "Load more messages...", @class = "glyphicon glyphicon-refresh" })

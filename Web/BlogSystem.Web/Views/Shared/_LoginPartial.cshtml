@@ -25,7 +25,7 @@
                         htmlAttributes: new { @class = "glyphicon glyphicon-globe largerGlyphicon", id = "globalMesseges", Title = "Comments of your posts.", data_toggle = "modal", data_target = "#layoutModal" })
             </li>
             <li>
-                @Ajax.RawActionLink("<span id='globalPrivateMessegesCount' class='smallMessageCounter badge'></span>", "GetMessages", "Home", new { page = 1, area = "Messages" },
+                @Ajax.RawActionLink("<span id='globalPrivateMessagesCount' class='smallMessageCounter badge'></span>", "GetMessages", "Home", new { page = 1, area = "Messages" },
                         new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
@@ -34,7 +34,7 @@
                             OnBegin = "$('#modalContentElement').empty()",
                             HttpMethod = "Get",
                         },
-                        htmlAttributes: new { @class = "glyphicon glyphicon-comment largerGlyphicon", id = "globalPrivateMesseges", Title = "Your private messages.", data_toggle = "modal", data_target = "#layoutModal" })
+                        htmlAttributes: new { @class = "glyphicon glyphicon-comment largerGlyphicon", id = "globalPrivateMessages", Title = "Your private messages.", data_toggle = "modal", data_target = "#layoutModal" })
             </li>
             <li>
                 @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", new { area = "" }, htmlAttributes: new { title = "Manage" })

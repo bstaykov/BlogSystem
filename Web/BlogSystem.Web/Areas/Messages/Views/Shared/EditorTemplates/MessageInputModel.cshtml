@@ -9,7 +9,7 @@
                 InsertionMode = InsertionMode.Replace,
                 UpdateTargetId = "modalContentElement",
                 LoadingElementId = "modalLoadingElement",
-                //OnComplete = "$('#globalMesseges').trigger('customRefreshEvent', [" + @Model.PostId + "]);",
+                OnComplete = "$('#globalPrivateMessages').trigger('refreshMessagesEvent', ['" + @Model.UserName + "']);",
                 HttpMethod = "POST"
             },
             new { id = "messageForm", @class = "form-horizontal", role = "form" }))

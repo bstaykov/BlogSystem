@@ -143,15 +143,30 @@
 
             //var parrentMessageId = this.Data.Messages.All().Where(message => message.DialogId.Value == null && ((message.SenderId == userId && message.ReceiverId == receiver.Id) || (message.SenderId == receiver.Id && message.ReceiverId == userId))).FirstOrDefault().Id;
 
-            var conversationMessages = this.Data.Messages.All()
+            var messages = this.Data.Messages.All()
                 .Where(message => message.DialogId.Value != null && ((message.SenderId == userId && message.ReceiverId == receiver.Id) || (message.SenderId == receiver.Id && message.ReceiverId == userId)))
                 .OrderByDescending(message => message.SendOn)
                 .Skip((page - 1) * 5)
-                .Take(5)
-                .Project().To<ConversationViewModel>()
-                .ToList();
+                .Take(5);
 
+            var conversationMessages = messages.Project().To<ConversationViewModel>().ToList();
             conversationMessages.Reverse();
+
+            bool isAnyUnreadMessages = false;
+
+            foreach (var message in messages)
+            {
+                if (message.ReceiverId == userId && message.IsRead == false)
+                {
+                    message.IsRead = true;
+                    isAnyUnreadMessages = true;
+                }
+            }
+
+            if (isAnyUnreadMessages)
+            {
+                this.Data.Messages.SaveChanges();
+            }
 
             var model = new ConversationPageViewModel()
             {

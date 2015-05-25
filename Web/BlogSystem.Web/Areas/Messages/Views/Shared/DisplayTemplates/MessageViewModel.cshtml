@@ -34,7 +34,7 @@
                 InsertionMode = InsertionMode.Replace,
                 UpdateTargetId = "modalContentElement",
                 LoadingElementId = "modalLoadingElement",
-                //OnComplete = "$('#globalMesseges').trigger('customRefreshEvent', [" + @Model.PostId + "]); $('.modal').hide();",
+                OnComplete = "$('#globalPrivateMessages').trigger('refreshMessagesEvent', ['" + this.User.Identity.Name + "']);",
                 HttpMethod = "Get",
             },
                     htmlAttributes: new { Title = "View Full Conversation" })
