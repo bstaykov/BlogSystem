@@ -4,13 +4,16 @@
 @model MessageViewModel
 
 <div class="well well-sm">
-    @foreach (var participantInfo in Model.ParticipantsInfo)
-    {
-        var href = "/Home/UserInfo?username=" + @participantInfo.ParticipantName;
-        <a href="@href">
-            <img src="@Url.Content(@participantInfo.ParticipantPictureUrl)" class="img-rounded img-responsive profilePic" title="@participantInfo.ParticipantName" alt="picture">
-        </a>
+    @{
+        var userName = this.User.Identity.Name;
+        var participantName = userName != @Model.Sender ? @Model.Sender : @Model.Receiver;
+        var participantPicUrl = userName != @Model.Sender ? @Model.SenderPictureUrl : @Model.ReceiverPictureUrl;
+
+        var href = "/Home/UserInfo?username=" + participantName;
     }
+        <a href="@href">
+            <img src="@Url.Content(participantPicUrl)" class="img-rounded img-responsive profilePic" title="@participantName" alt="picture">
+        </a>
 
     <span class="label label-primary">@Model.SendOn</span>
 
@@ -24,7 +27,7 @@
         displayMessage = sender + " wrote: " + @Model.Content;
     }
 
-    @Ajax.ActionLink(@displayMessage, "ViewDialog", new { dialogId = @Model.DialogId, area = "Messages" },
+    @Ajax.ActionLink(@displayMessage, "ViewDialog", new { userName = @participantName, area = "Messages" },
             new AjaxOptions
             {
                 InsertionMode = InsertionMode.Replace,

@@ -13,6 +13,7 @@
     using BlogSystem.Web.Controllers;
 
     using Microsoft.AspNet.Identity;
+    using System.Linq.Expressions;
 
     [Authorize]
     public class HomeController : BaseController
@@ -254,34 +255,71 @@
                 return this.PartialView("_SendMessage", model);
             }
 
-            var existingDialog = this.Data.Dialogs.All()
-                .FirstOrDefault(dialog => 
-                    (dialog.FirstUserId == userId && dialog.SecondUserId == receiver.Id) 
-                        || (dialog.FirstUserId == receiver.Id && dialog.SecondUserId == userId));
+            //var existingDialog = this.Data.Dialogs.All()
+            //    .FirstOrDefault(dialog =>
+            //        (dialog.FirstUserId == userId && dialog.SecondUserId == receiver.Id)
+            //            || (dialog.FirstUserId == receiver.Id && dialog.SecondUserId == userId));
+
+            //if (existingDialog == null)
+            //{
+            //    existingDialog = new Dialog()
+            //    {
+            //        FirstUserId = userId,
+            //        SecondUserId = receiver.Id,
+            //        LastMessagedOn = DateTime.Now,
+            //    };
+            //    this.Data.Dialogs.Add(existingDialog);
+            //    this.Data.Dialogs.SaveChanges();
+            //}
+
+            //var currentDate = DateTime.Now;
+            //var newMessage = new Message()
+            //{
+            //    DialogId = existingDialog.Id,
+            //    SendOn = currentDate,
+            //    Content = model.Content,
+            //    ReadBy = 0, // existingDialog.FirstUser.UserName == userName ? MessageReadBy.First : MessageReadBy.Second,
+            //    Sender = 0, //existingDialog.FirstUser.UserName == userName ? MessageSender.FirstUser : MessageSender.SecondUser,
+            //};
+            //this.Data.Messages.Add(newMessage);
+            //existingDialog.LastMessagedOn = currentDate;
+            //this.Data.SaveChanges();
+
+            //return this.PartialView("_SendMessageLink", model.UserName);
+
+            var existingDialog = this.Data.Messages.All()
+                .FirstOrDefault(message =>
+                    (message.SenderId == userId && message.ReceiverId == receiver.Id)
+                        || (message.SenderId == receiver.Id && message.ReceiverId == userId));
 
             if (existingDialog == null)
             {
-                existingDialog = new Dialog()
+                existingDialog = new Message()
                 {
-                    FirstUserId = userId,
-                    SecondUserId = receiver.Id,
+                    //Id = Guid.NewGuid(),
+                    //DialogId = null,
+                    SenderId = userId,
+                    ReceiverId = receiver.Id,
+                    Content = "Dialog Started",
+                    SendOn = DateTime.Now,
+                    IsRead = false,
                 };
-                this.Data.Dialogs.Add(existingDialog);
-                this.Data.SaveChanges();
+                this.Data.Messages.Add(existingDialog);
+                this.Data.Messages.SaveChanges();
             }
 
-            var currentDate = DateTime.Now;
-            this.Data.Messages.Add(
-                new Message() 
-                {
-                    DialogId = existingDialog.Id,
-                    SendOn = currentDate,
-                    Content = model.Content,
-                    ReadBy = MessageReadBy.First,
-                }
-            );
-            existingDialog.LastMessagedOn = currentDate;
-            this.Data.SaveChanges();
+            var newMessage = new Message()
+            {
+                //Id = Guid.NewGuid(),
+                DialogId = existingDialog.Id,
+                SenderId = userId,
+                ReceiverId = receiver.Id,
+                SendOn = DateTime.Now,
+                Content = model.Content,
+                IsRead = false,
+            };
+            this.Data.Messages.Add(newMessage);
+            this.Data.Messages.SaveChanges();
 
             return this.PartialView("_SendMessageLink", model.UserName);
         }
@@ -297,43 +335,74 @@
             var userName = this.User.Identity.Name;
             var userId = this.User.Identity.GetUserId();
 
-            var dialogs = this.Data.Dialogs.All()
-                .Where(dialog => dialog.FirstUserId == userId || dialog.SecondUserId == userId)
-                .OrderByDescending(dialog => dialog.LastMessagedOn)
+            //var DistinctTest = this.Data.Messages.All()
+            //    .Where(message => message.DialogId.HasValue  && (message.SenderId == userId || message.ReceiverId == userId))
+            //    .Distinct()
+            //    .ToList();
+
+            //var DistinctTest2 = this.Data.Messages.All()
+            //    .Where(message => message.DialogId.Value != null && (message.SenderId == userId || message.ReceiverId == userId))
+            //    .GroupBy(message => message.DialogId)
+            //    .Select(g => g.OrderByDescending(p => p.SendOn).FirstOrDefault())
+            //    .ToList();
+
+            var messages = this.Data.Messages.All()
+                .Where(message => message.DialogId.Value != null && (message.SenderId == userId || message.ReceiverId == userId))
+                .GroupBy(message => message.DialogId)
+                .Select(g => g.OrderByDescending(p => p.SendOn).FirstOrDefault())
+                .OrderByDescending(message => message.SendOn)
                 .Skip((page - 1) * 5)
                 .Take(5)
-
-                //.Select(dialog =>
-                //    //new TestModel()
-                //    //{
-                //    //    Message = dialog.Messages.AsQueryable().OrderByDescending(message => message.SendOn).Take(1).Project().To<MessageViewModel>().FirstOrDefault(),
-                //    //    ParticipantName = dialog.FirstUser.UserName == userName ? dialog.SecondUser.UserName : dialog.FirstUser.UserName,
-                //    //    ParticipantPicUrl = dialog.FirstUser.UserName == userName ? dialog.SecondUser.ImageUrl : dialog.FirstUser.ImageUrl,
-                //    //}
-                //    )
+                .Project().To<MessageViewModel>()
                 .ToList();
 
-            ICollection<MessageViewModel> messageViewModels = new List<MessageViewModel>();
-            foreach (var dialog in dialogs)
-            {
-                MessageViewModel messageViewModel = this.Data.Messages.All()
-                    .OrderByDescending(message => message.SendOn)
-                    .Where(message => message.DialogId == dialog.Id)
-                    .Take(1)
-                    .Project().To<MessageViewModel>()
-                    .FirstOrDefault();
-                messageViewModel.ParticipantInformation = new MessageParticipantInfo()
-                        {
-                            ParticipantName = dialog.FirstUser.UserName == userName ? dialog.SecondUser.UserName : dialog.FirstUser.UserName,
-                            ParticipantPictureUrl = dialog.FirstUser.UserName == userName ? dialog.SecondUser.ImageUrl : dialog.FirstUser.ImageUrl,
-                        };
-                messageViewModels.Add(messageViewModel);
-            }
+            //foreach (var message in messages)
+            //{
+            //    message.ParticipantInformation = new MessageParticipantInfo()
+            //            {
+            //                ParticipantName = dialog.FirstUser.UserName == userName ? dialog.SecondUser.UserName : dialog.FirstUser.UserName,
+            //                ParticipantPictureUrl = dialog.FirstUser.UserName == userName ? dialog.SecondUser.ImageUrl : dialog.FirstUser.ImageUrl,
+            //            };
+            //}
+
+
+            //var dialogs = this.Data.Dialogs.All()
+            //    .Where(dialog => dialog.FirstUserId == userId || dialog.SecondUserId == userId)
+            //    .OrderByDescending(dialog => dialog.LastMessagedOn)
+            //    .Skip((page - 1) * 5)
+            //    .Take(5)
+
+            //    //.Select(dialog =>
+            //    //    //new TestModel()
+            //    //    //{
+            //    //    //    Message = dialog.Messages.AsQueryable().OrderByDescending(message => message.SendOn).Take(1).Project().To<MessageViewModel>().FirstOrDefault(),
+            //    //    //    ParticipantName = dialog.FirstUser.UserName == userName ? dialog.SecondUser.UserName : dialog.FirstUser.UserName,
+            //    //    //    ParticipantPicUrl = dialog.FirstUser.UserName == userName ? dialog.SecondUser.ImageUrl : dialog.FirstUser.ImageUrl,
+            //    //    //}
+            //    //    )
+            //    .ToList();
+
+            //ICollection<MessageViewModel> messageViewModels = new List<MessageViewModel>();
+            //foreach (var dialog in dialogs)
+            //{
+            //    MessageViewModel messageViewModel = this.Data.Messages.All()
+            //        .OrderByDescending(message => message.SendOn)
+            //        .Where(message => message.DialogId == dialog.Id)
+            //        .Take(1)
+            //        .Project().To<MessageViewModel>()
+            //        .FirstOrDefault();
+            //    messageViewModel.ParticipantInformation = new MessageParticipantInfo()
+            //            {
+            //                ParticipantName = dialog.FirstUser.UserName == userName ? dialog.SecondUser.UserName : dialog.FirstUser.UserName,
+            //                ParticipantPictureUrl = dialog.FirstUser.UserName == userName ? dialog.SecondUser.ImageUrl : dialog.FirstUser.ImageUrl,
+            //            };
+            //    messageViewModels.Add(messageViewModel);
+            //}
 
             var model = new MessagesPageViewModel()
             {
                 Page = page + 1,
-                Messages = messageViewModels,
+                Messages = messages,
             };
 
             return this.PartialView("_LastMessagesList", model);

@@ -55,13 +55,13 @@
     <Compile Include="BlogSystemData.cs" />
     <Compile Include="BlogSystemDbContext.cs" />
     <Compile Include="IBlogSystemData.cs" />
-    <Compile Include="Migrations\201505220544445_Initial.cs" />
-    <Compile Include="Migrations\201505220544445_Initial.Designer.cs">
-      <DependentUpon>201505220544445_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201505250850397_Initial.cs" />
+    <Compile Include="Migrations\201505250850397_Initial.Designer.cs">
+      <DependentUpon>201505250850397_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201505230814274_MessageModel.cs" />
-    <Compile Include="Migrations\201505230814274_MessageModel.Designer.cs">
-      <DependentUpon>201505230814274_MessageModel.cs</DependentUpon>
+    <Compile Include="Migrations\201505251242320_MessageSystem.cs" />
+    <Compile Include="Migrations\201505251242320_MessageSystem.Designer.cs">
+      <DependentUpon>201505251242320_MessageSystem.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,11 +83,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201505220544445_Initial.resx">
-      <DependentUpon>201505220544445_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201505250850397_Initial.resx">
+      <DependentUpon>201505250850397_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201505230814274_MessageModel.resx">
-      <DependentUpon>201505230814274_MessageModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201505251242320_MessageSystem.resx">
+      <DependentUpon>201505251242320_MessageSystem.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

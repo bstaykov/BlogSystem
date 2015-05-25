@@ -23,11 +23,6 @@
             get { return this.GetRepository<User>(); }
         }
 
-        public IRepository<Dialog> Dialogs
-        {
-            get { return this.GetRepository<Dialog>(); }
-        }
-
         public IRepository<Message> Messages
         {
             get { return this.GetRepository<Message>(); }

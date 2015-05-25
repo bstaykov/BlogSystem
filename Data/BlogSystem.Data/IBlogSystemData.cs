@@ -7,8 +7,6 @@
     {
         IRepository<User> Users { get; }
 
-        IRepository<Dialog> Dialogs { get; }
-
         IRepository<Message> Messages { get; }
 
         IRepository<Comment> Comments { get; }
