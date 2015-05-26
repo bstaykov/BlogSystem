@@ -20,4 +20,8 @@
     </a>
     <span class="label label-primary">@Model.SendOn</span>
     <span>@displayMessage</span>
+    @if (@Model.IsRead == false && @Model.Sender != this.User.Identity.Name)
+    {
+        <span class="glyphicon glyphicon-bell"></span>
+    }
 </p>

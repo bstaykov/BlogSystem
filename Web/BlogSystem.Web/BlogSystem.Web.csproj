@@ -241,6 +241,7 @@
     <Compile Include="Areas\Messages\Models\DialogViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Areas\Messages\Models\MessageAlertsModel.cs" />
     <Compile Include="Areas\Messages\Models\MessageInputModel.cs" />
     <Compile Include="Areas\Messages\Models\MessageParticipantInfo.cs">
       <SubType>Code</SubType>

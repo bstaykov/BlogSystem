@@ -1,4 +1,5 @@
 ﻿@using BlogSystem.Web.Areas.Messages.Models
+@using BlogSystem.Web.Helpers
 @using Microsoft.AspNet.Identity
 
 @model ConversationPageViewModel
@@ -18,6 +19,17 @@
         <a href="@href">
             <img src="@Url.Content(@Model.ParticipantPictureUrl)" class="img-rounded img-responsive profilePic" title="@Model.ParticipantName" alt="picture">
         </a>
+
+        @Ajax.RawActionLink("<span class='smallMessageCounter badge'></span>", "SendMessage", "Home", new { userName = @Model.ParticipantName, area = "Messages" },
+        new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "modalContentElement",
+            LoadingElementId = "modalLoadingElement",
+            OnBegin = "$('#modalContentElement').empty()",
+            HttpMethod = "Get",
+        },
+        htmlAttributes: new { @class = "glyphicon glyphicon-comment largerGlyphicon", Title = "Reply..." })
     }
 
     @if (@Model.Messages.Count() == 5)
@@ -41,5 +53,21 @@
     @foreach (var message in @Model.Messages)
     {
         @Html.DisplayFor(model => message)
+    }
+
+    @if (@Model.Page == 2)
+    {
+        <div class="well well-sm">
+            @Ajax.ActionLink(" Reply...", "SendMessage", new { userName = @Model.ParticipantName, area = "Messages" },
+            new AjaxOptions
+            {
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "modalContentElement",
+                LoadingElementId = "modalLoadingElement",
+                OnBegin = "$('#modalContentElement').empty()",
+                HttpMethod = "Get",
+            },
+            htmlAttributes: new { @class = "glyphicon glyphicon-comment largerGlyphicon", Title = "Reply..." })
+        </div>
     }
 </div>

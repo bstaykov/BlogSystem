@@ -65,15 +65,19 @@ textarea {
     font-size: 1.4em;
 }
 
-#globalMesseges, #globalPrivateMessages, #globalAlerts {
+#globalMesseges, #globalPrivateMessages, #globalAlerts, .counterIcon {
     position: relative;
 }
 
-#globalMessegesCount, #globalPrivateMessagesCount, #globalAlertsCount {
+#globalMessegesCount, #globalPrivateMessagesCount, #globalAlertsCount, .counterValue {
     position: absolute;
     top: 5px;
     right: 5px;
     display: none;
+}
+
+.counterValue{
+    display: initial;
 }
 
 .commentsUrl {

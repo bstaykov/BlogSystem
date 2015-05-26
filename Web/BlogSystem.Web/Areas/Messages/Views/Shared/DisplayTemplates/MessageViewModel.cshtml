@@ -12,9 +12,13 @@
 
         var href = "/Home/UserInfo?username=" + participantName;
     }
-        <a href="@href">
-            <img src="@Url.Content(participantPicUrl)" class="img-rounded img-responsive profilePic" title="@participantName" alt="picture">
-        </a>
+    @if (@Model.UnreadMessagesCount > 0)
+    {
+        <span class="glyphicon glyphicon-bell largerGlyphicon counterIcon"></span>@:(@Model.UnreadMessagesCount)
+    }
+    <a href="@href">
+        <img src="@Url.Content(participantPicUrl)" class="img-rounded img-responsive profilePic" title="@participantName" alt="picture">
+    </a>
 
     <span class="label label-primary">@Model.SendOn</span>
 
@@ -22,34 +26,30 @@
         var sender = @Model.Sender;
         var displayMessage = sender + " wrote: " + @Model.Content;
     }
-    @if (@Model.Sender == this.User.Identity.Name)
+    @if (@Model.Sender == userName)
     {
         sender = "You";
         displayMessage = sender + " wrote: " + @Model.Content;
     }
 
     @Ajax.ActionLink(@displayMessage, "ViewFullConversation", new { userName = @participantName, area = "Messages" },
-            new AjaxOptions
-            {
-                InsertionMode = InsertionMode.Replace,
-                UpdateTargetId = "modalContentElement",
-                LoadingElementId = "modalLoadingElement",
-                OnComplete = "$('#globalPrivateMessages').trigger('refreshMessagesEvent', ['" + this.User.Identity.Name + "']);",
-                HttpMethod = "Get",
-            },
-                    htmlAttributes: new { Title = "View Full Conversation" })
-    @Ajax.RawActionLink("<span class='smallMessageCounter badge'></span>", "SendMessage", "Home", new { userName = @participantName, area = "Messages" },
-                        new AjaxOptions
-                        {
-                            InsertionMode = InsertionMode.Replace,
-                            UpdateTargetId = "modalContentElement",
-                            LoadingElementId = "modalLoadingElement",
-                            OnBegin = "$('#modalContentElement').empty()",
-                            HttpMethod = "Get",
-                        },
-                        htmlAttributes: new { @class = "glyphicon glyphicon-comment largerGlyphicon", Title = "Send message." })
-    @*@if (@Model.IsReadByAuthor == false)
+        new AjaxOptions
         {
-            <span class="glyphicon glyphicon-bell"></span>
-        }*@
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "modalContentElement",
+            LoadingElementId = "modalLoadingElement",
+            OnComplete = "$('#globalPrivateMessages').trigger('refreshMessagesEvent', ['" + this.User.Identity.Name + "']);",
+            HttpMethod = "Get",
+        },
+        htmlAttributes: new { Title = "View Full Conversation" })
+    @Ajax.RawActionLink("<span class='smallMessageCounter badge'></span>", "SendMessage", "Home", new { userName = @participantName, area = "Messages" },
+        new AjaxOptions
+        {
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "modalContentElement",
+            LoadingElementId = "modalLoadingElement",
+            OnBegin = "$('#modalContentElement').empty()",
+            HttpMethod = "Get",
+        },
+        htmlAttributes: new { @class = "glyphicon glyphicon-comment largerGlyphicon", Title = "Reply..." })
 </div>

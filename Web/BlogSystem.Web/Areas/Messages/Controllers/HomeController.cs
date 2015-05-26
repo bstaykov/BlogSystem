@@ -101,12 +101,18 @@
             var messages = this.Data.Messages.All()
                 .Where(message => message.DialogId.Value != null && (message.SenderId == userId || message.ReceiverId == userId))
                 .GroupBy(message => message.DialogId)
-                .Select(g => g.OrderByDescending(p => p.SendOn).FirstOrDefault())
-                .OrderByDescending(message => message.SendOn)
+                .Select(group => new MessageAlertsModel
+                                {
+                                    Message = group.OrderByDescending(message => message.SendOn).FirstOrDefault(),
+                                    UnreadMessagesCount =
+                                        group.Where(message => message.IsRead == false
+                                                                    && message.ReceiverId == userId)
+                                             .Count()
+                                })
+                .OrderByDescending(message => message.Message.SendOn)
                 .Skip((page - 1) * 5)
                 .Take(5)
-                .Project().To<MessageViewModel>()
-                .ToList();
+                .Project().To<MessageViewModel>().ToList();
 
             var model = new MessagesPageViewModel()
             {
@@ -141,8 +147,6 @@
                 return this.PartialView("Error");
             }
 
-            //var parrentMessageId = this.Data.Messages.All().Where(message => message.DialogId.Value == null && ((message.SenderId == userId && message.ReceiverId == receiver.Id) || (message.SenderId == receiver.Id && message.ReceiverId == userId))).FirstOrDefault().Id;
-
             var messages = this.Data.Messages.All()
                 .Where(message => message.DialogId.Value != null && ((message.SenderId == userId && message.ReceiverId == receiver.Id) || (message.SenderId == receiver.Id && message.ReceiverId == userId)))
                 .OrderByDescending(message => message.SendOn)
@@ -152,18 +156,18 @@
             var conversationMessages = messages.Project().To<ConversationViewModel>().ToList();
             conversationMessages.Reverse();
 
-            bool isAnyUnreadMessages = false;
+            bool areAnyUnreadMessages = false;
 
             foreach (var message in messages)
             {
                 if (message.ReceiverId == userId && message.IsRead == false)
                 {
                     message.IsRead = true;
-                    isAnyUnreadMessages = true;
+                    areAnyUnreadMessages = true;
                 }
             }
 
-            if (isAnyUnreadMessages)
+            if (areAnyUnreadMessages)
             {
                 this.Data.Messages.SaveChanges();
             }
