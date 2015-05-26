@@ -340,7 +340,17 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
+    <Content Include="Files\Images\05cc1645-2097-40c9-af42-e75ddd00cff9.jpeg" />
+    <Content Include="Files\Images\0b9a161f-c5cc-4e88-9a92-6063c416ef77.jpeg" />
+    <Content Include="Files\Images\16106bc0-9cd1-47f4-9afc-00723c15d283.jpeg" />
+    <Content Include="Files\Images\2ea5cd9d-1300-403a-abdf-c17f4c56a615.jpeg" />
+    <Content Include="Files\Images\3f68deda-6abe-4dee-a389-12c08f6f5005.jpeg" />
+    <Content Include="Files\Images\669e61cf-d434-4099-91b6-0090c2ed630a.png" />
+    <Content Include="Files\Images\6be1150e-a1b3-43fc-b91f-27007587f540.png" />
+    <Content Include="Files\Images\a97197cb-e19c-49fb-875f-a91224f35c63.jpeg" />
     <Content Include="Files\Images\avatar.jpg" />
+    <Content Include="Files\Images\c2e4cc1f-fd73-4331-a3c0-8ed8ebd90b03.jpeg" />
+    <Content Include="Files\Images\cfdb8463-97be-49d5-b4ab-af8e34a0df31.jpeg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
