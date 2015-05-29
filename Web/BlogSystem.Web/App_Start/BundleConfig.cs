@@ -32,6 +32,9 @@
                         "~/Scripts/custom/custom.js",
                         "~/Scripts/custom/customSignalRPosts.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/facebookLog").Include(
+                        "~/Scripts/custom/facebookExternalLogin.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
