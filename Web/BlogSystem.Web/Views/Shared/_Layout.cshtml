@@ -10,6 +10,8 @@
 </head>
 <body>
     @Scripts.Render("~/bundles/facebookLog")
+    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+    </fb:login-button>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
