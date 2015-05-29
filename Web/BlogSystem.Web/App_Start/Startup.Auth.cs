@@ -67,11 +67,11 @@
 
             var facebookOptions = new Microsoft.Owin.Security.Facebook.FacebookAuthenticationOptions()
             {
-                AppId = "849267775181018",
-                AppSecret = "f0c47ff020fc16ce1fce05c209cafea7"
+                AppId = "1578306832421623",
+                AppSecret = "dde1d4f4845b60cb7912da5d80f01936"
             };
             facebookOptions.Scope.Add("email");
-            //facebookOptions.Scope.Add("public_profile");
+            facebookOptions.Scope.Add("public_profile");
             app.UseFacebookAuthentication(facebookOptions);
 
             // app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
