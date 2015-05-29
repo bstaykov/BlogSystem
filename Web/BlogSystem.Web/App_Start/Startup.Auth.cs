@@ -13,6 +13,8 @@
     using Microsoft.Owin.Security.Google;
 
     using Owin;
+    using Microsoft.Owin.Security.Facebook;
+    using System.Security.Claims;
 
     public partial class Startup
     {
@@ -59,9 +61,17 @@
             // consumerKey: "",
             // consumerSecret: "");
 
-            app.UseFacebookAuthentication(
-            appId: "849267775181018",
-            appSecret: "f0c47ff020fc16ce1fce05c209cafea7");
+            //app.UseFacebookAuthentication(
+            //appId: "849267775181018",
+            //appSecret: "f0c47ff020fc16ce1fce05c209cafea7");
+
+            var facebookOptions = new Microsoft.Owin.Security.Facebook.FacebookAuthenticationOptions()
+            {
+                AppId = "849267775181018",
+                AppSecret = "f0c47ff020fc16ce1fce05c209cafea7"
+            };
+            facebookOptions.Scope.Add("email");
+            app.UseFacebookAuthentication(facebookOptions);
 
             // app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             // {
