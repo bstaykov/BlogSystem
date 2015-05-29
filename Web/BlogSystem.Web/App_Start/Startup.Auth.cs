@@ -71,7 +71,7 @@
                 AppSecret = "f0c47ff020fc16ce1fce05c209cafea7"
             };
             facebookOptions.Scope.Add("email");
-            facebookOptions.Scope.Add("public_profile");
+            //facebookOptions.Scope.Add("public_profile");
             app.UseFacebookAuthentication(facebookOptions);
 
             // app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
