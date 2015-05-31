@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Web.Mvc;
 
     using AutoMapper;
@@ -13,7 +14,6 @@
     using BlogSystem.Web.Controllers;
 
     using Microsoft.AspNet.Identity;
-    using System.Linq.Expressions;
 
     [Authorize]
     public class HomeController : BaseController
@@ -183,51 +183,44 @@
             return this.PartialView("_ViewFullConversation", model);
         }
 
-        //[HttpGet]
-        //public ActionResult ViewDialog(int dialogId, int page = 1)
-        //{
-        //    var userId = this.User.Identity.GetUserId();
+        // [HttpGet]
+        // public ActionResult ViewDialog(int dialogId, int page = 1)
+        // {
+        // var userId = this.User.Identity.GetUserId();
+        // var dialogParticipant = this.Data.DialogParticipants.All()
+        // .FirstOrDefault(participant => participant.DialogId == dialogId && participant.UserId == userId);        //    if (dialogParticipant == null)
+        // {
+        // this.TempData["error"] = "You are not part from this conversation.";
+        // return this.PartialView("_Message");
+        // }
+        // var messages = this.Data.Messages.All()
+        // .OrderByDescending(message => message.SendOn)
+        // .Where(message => message.DialogId == dialogId && message.SendOn > dialogParticipant.DateAdded)
+        // .Skip((page - 1) * 5)
+        // .Take(5)
+        // .Project().To<DialogMessagesViewModel>()
+        // .ToList();
+        // messages.Reverse();
+        // DialogViewModel model = new DialogViewModel()
+        // {
+        // Page = page + 1,
+        // DialogId = dialogId,
+        // Messages = messages,
+        // };
 
-        //    var dialogParticipant = this.Data.DialogParticipants.All()
-        //        .FirstOrDefault(participant => participant.DialogId == dialogId && participant.UserId == userId);
-
-        //    if (dialogParticipant == null)
-        //    {
-        //        this.TempData["error"] = "You are not part from this conversation.";
-        //        return this.PartialView("_Message");
-        //    }
-
-        //    var messages = this.Data.Messages.All()
-        //        .OrderByDescending(message => message.SendOn)
-        //        .Where(message => message.DialogId == dialogId && message.SendOn > dialogParticipant.DateAdded)
-        //        .Skip((page - 1) * 5)
-        //        .Take(5)
-        //        .Project().To<DialogMessagesViewModel>()
-        //        .ToList();
-
-        //    messages.Reverse();
-
-        //    DialogViewModel model = new DialogViewModel()
-        //    {
-        //        Page = page + 1,
-        //        DialogId = dialogId,
-        //        Messages = messages,
-        //    };
-
-        //    if (page == 1)
-        //    {
-        //        model.ParticipantsInfo = this.Data.DialogParticipants.All()
-        //        .Where(participant => participant.DialogId == dialogId)
-        //        .Select(participant =>
-        //            new MessageParticipantInfo()
-        //            {
-        //                ParticipantName = participant.User.UserName,
-        //                ParticipantPictureUrl = participant.User.ImageUrl,
-        //            }
-        //        );
-        //    }
-
-        //    return this.PartialView("_DialogViewModel", model);
-        //}
+        // if (page == 1)
+        // {
+        // model.ParticipantsInfo = this.Data.DialogParticipants.All()
+        // .Where(participant => participant.DialogId == dialogId)
+        // .Select(participant =>
+        // new MessageParticipantInfo()
+        // {
+        // ParticipantName = participant.User.UserName,
+        // ParticipantPictureUrl = participant.User.ImageUrl,
+        // }
+        // );
+        // }
+        // return this.PartialView("_DialogViewModel", model);
+        // }
     }
 }

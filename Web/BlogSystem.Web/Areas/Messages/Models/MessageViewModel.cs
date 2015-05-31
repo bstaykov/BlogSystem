@@ -22,12 +22,10 @@
 
         public string ReceiverPictureUrl { get; set; }
 
-        //public bool IsRead { get; set; }
-
+        // public bool IsRead { get; set; }
         public int UnreadMessagesCount { get; set; }
 
-        //public DateTime? ReadOn { get; set; }
-
+        // public DateTime? ReadOn { get; set; }
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<MessageAlertsModel, MessageViewModel>()

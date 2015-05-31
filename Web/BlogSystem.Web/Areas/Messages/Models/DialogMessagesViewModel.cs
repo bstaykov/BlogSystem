@@ -20,10 +20,10 @@
 
         public void CreateMappings(IConfiguration configuration)
         {
-            //configuration.CreateMap<Message, DialogMessagesViewModel>()
-            //    .ForMember(dialogMessagesViewModel => dialogMessagesViewModel.Sender, options => options.MapFrom(message => message.User.UserName));
-            //configuration.CreateMap<Message, DialogMessagesViewModel>()
-            //    .ForMember(dialogMessagesViewModel => dialogMessagesViewModel.SenderPictureUrl, options => options.MapFrom(message => message.User.ImageUrl));
+            // configuration.CreateMap<Message, DialogMessagesViewModel>()
+            // .ForMember(dialogMessagesViewModel => dialogMessagesViewModel.Sender, options => options.MapFrom(message => message.User.UserName));
+            // configuration.CreateMap<Message, DialogMessagesViewModel>()
+            // .ForMember(dialogMessagesViewModel => dialogMessagesViewModel.SenderPictureUrl, options => options.MapFrom(message => message.User.ImageUrl));
         }
     }
 }

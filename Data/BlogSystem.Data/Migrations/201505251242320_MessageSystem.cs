@@ -26,19 +26,18 @@ namespace BlogSystem.Data.Migrations
                 .ForeignKey("dbo.AspNetUsers", t => t.SenderId)
                 .Index(t => t.DialogId)
                 .Index(t => t.SenderId)
-                .Index(t => t.ReceiverId);
-            
+                .Index(t => t.ReceiverId);            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.Messages", "SenderId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Messages", "ReceiverId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Messages", "DialogId", "dbo.Messages");
-            DropIndex("dbo.Messages", new[] { "ReceiverId" });
-            DropIndex("dbo.Messages", new[] { "SenderId" });
-            DropIndex("dbo.Messages", new[] { "DialogId" });
-            DropTable("dbo.Messages");
+            this.DropForeignKey("dbo.Messages", "SenderId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.Messages", "ReceiverId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.Messages", "DialogId", "dbo.Messages");
+            this.DropIndex("dbo.Messages", new[] { "ReceiverId" });
+            this.DropIndex("dbo.Messages", new[] { "SenderId" });
+            this.DropIndex("dbo.Messages", new[] { "DialogId" });
+            this.DropTable("dbo.Messages");
         }
     }
 }

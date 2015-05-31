@@ -15,8 +15,6 @@
         private ICollection<PostReader> postReaders;
         private ICollection<CommentLiker> commentLikers;
         private ICollection<Comment> comments;
-        //private ICollection<Dialog> messagesStarted;
-        //private ICollection<Message> messagesContent;
 
         public User()
         {
@@ -26,8 +24,6 @@
             this.PostReaders = new HashSet<PostReader>();
             this.CommentLikers = new HashSet<CommentLiker>();
             this.Comments = new HashSet<Comment>();
-            //this.MessagesStarted = new HashSet<Dialog>();
-            //this.MessagesContent = new HashSet<Message>();
         }
 
         public string ImageUrl { get; set; }
@@ -111,32 +107,6 @@
                 this.comments = value;
             }
         }
-
-        //public virtual ICollection<Dialog> MessagesStarted
-        //{
-        //    get
-        //    {
-        //        return this.messagesStarted;
-        //    }
-
-        //    set
-        //    {
-        //        this.messagesStarted = value;
-        //    }
-        //}
-
-        //public virtual ICollection<Message> MessagesContent
-        //{
-        //    get
-        //    {
-        //        return this.messagesContent;
-        //    }
-
-        //    set
-        //    {
-        //        this.messagesContent = value;
-        //    }
-        //}
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {

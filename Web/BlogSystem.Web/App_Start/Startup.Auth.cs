@@ -1,6 +1,7 @@
 ﻿namespace BlogSystem.Web
 {
     using System;
+    using System.Security.Claims;
 
     using BlogSystem.Data;
     using BlogSystem.Models;
@@ -10,11 +11,10 @@
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin;
     using Microsoft.Owin.Security.Cookies;
+    using Microsoft.Owin.Security.Facebook;
     using Microsoft.Owin.Security.Google;
 
     using Owin;
-    using Microsoft.Owin.Security.Facebook;
-    using System.Security.Claims;
 
     public partial class Startup
     {
@@ -61,10 +61,9 @@
             // consumerKey: "",
             // consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //appId: "849267775181018",
-            //appSecret: "f0c47ff020fc16ce1fce05c209cafea7");
-
+            // app.UseFacebookAuthentication(
+            // appId: "849267775181018",
+            // appSecret: "f0c47ff020fc16ce1fce05c209cafea7");
             var facebookOptions = new Microsoft.Owin.Security.Facebook.FacebookAuthenticationOptions()
             {
                 AppId = "1578306832421623",

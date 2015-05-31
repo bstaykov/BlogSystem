@@ -7,7 +7,7 @@ namespace BlogSystem.Data.Migrations
     {
         public override void Up()
         {
-            CreateTable(
+            this.CreateTable(
                 "dbo.CommentLikers",
                 c => new
                     {
@@ -20,8 +20,8 @@ namespace BlogSystem.Data.Migrations
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.CommentId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.Comments",
                 c => new
                     {
@@ -45,8 +45,8 @@ namespace BlogSystem.Data.Migrations
                 .Index(t => t.UserId)
                 .Index(t => t.ParentCommentId)
                 .Index(t => t.PostId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.Posts",
                 c => new
                     {
@@ -67,8 +67,8 @@ namespace BlogSystem.Data.Migrations
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId)
                 .Index(t => t.Title, unique: true, name: "UniqueTitle")
                 .Index(t => t.UserId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.PostLikers",
                 c => new
                     {
@@ -81,8 +81,8 @@ namespace BlogSystem.Data.Migrations
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.PostId)
                 .Index(t => t.UserId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.AspNetUsers",
                 c => new
                     {
@@ -103,8 +103,8 @@ namespace BlogSystem.Data.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.UserName, unique: true, name: "UserNameIndex");
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.AspNetUserClaims",
                 c => new
                     {
@@ -116,8 +116,8 @@ namespace BlogSystem.Data.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.AspNetUserLogins",
                 c => new
                     {
@@ -128,8 +128,8 @@ namespace BlogSystem.Data.Migrations
                 .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.Logs",
                 c => new
                     {
@@ -141,8 +141,8 @@ namespace BlogSystem.Data.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId)
                 .Index(t => t.UserId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.PostReaders",
                 c => new
                     {
@@ -154,8 +154,8 @@ namespace BlogSystem.Data.Migrations
                 .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.PostId)
                 .Index(t => t.UserId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.AspNetUserRoles",
                 c => new
                     {
@@ -167,8 +167,8 @@ namespace BlogSystem.Data.Migrations
                 .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.RoleId);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.Tags",
                 c => new
                     {
@@ -176,8 +176,8 @@ namespace BlogSystem.Data.Migrations
                         PostId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -186,8 +186,8 @@ namespace BlogSystem.Data.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
-            
-            CreateTable(
+
+            this.CreateTable(
                 "dbo.TagPosts",
                 c => new
                     {
@@ -198,62 +198,61 @@ namespace BlogSystem.Data.Migrations
                 .ForeignKey("dbo.Tags", t => t.Tag_Id, cascadeDelete: true)
                 .ForeignKey("dbo.Posts", t => t.Post_Id, cascadeDelete: true)
                 .Index(t => t.Tag_Id)
-                .Index(t => t.Post_Id);
-            
+                .Index(t => t.Post_Id);            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.TagPosts", "Post_Id", "dbo.Posts");
-            DropForeignKey("dbo.TagPosts", "Tag_Id", "dbo.Tags");
-            DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Posts", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.PostReaders", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.PostReaders", "PostId", "dbo.Posts");
-            DropForeignKey("dbo.PostLikers", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Logs", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Comments", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.CommentLikers", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.PostLikers", "PostId", "dbo.Posts");
-            DropForeignKey("dbo.Comments", "PostId", "dbo.Posts");
-            DropForeignKey("dbo.Comments", "ParentCommentId", "dbo.Comments");
-            DropForeignKey("dbo.CommentLikers", "CommentId", "dbo.Comments");
-            DropIndex("dbo.TagPosts", new[] { "Post_Id" });
-            DropIndex("dbo.TagPosts", new[] { "Tag_Id" });
-            DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
-            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
-            DropIndex("dbo.PostReaders", new[] { "UserId" });
-            DropIndex("dbo.PostReaders", new[] { "PostId" });
-            DropIndex("dbo.Logs", new[] { "UserId" });
-            DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
-            DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
-            DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.PostLikers", new[] { "UserId" });
-            DropIndex("dbo.PostLikers", new[] { "PostId" });
-            DropIndex("dbo.Posts", new[] { "UserId" });
-            DropIndex("dbo.Posts", "UniqueTitle");
-            DropIndex("dbo.Comments", new[] { "PostId" });
-            DropIndex("dbo.Comments", new[] { "ParentCommentId" });
-            DropIndex("dbo.Comments", new[] { "UserId" });
-            DropIndex("dbo.CommentLikers", new[] { "CommentId" });
-            DropIndex("dbo.CommentLikers", new[] { "UserId" });
-            DropTable("dbo.TagPosts");
-            DropTable("dbo.AspNetRoles");
-            DropTable("dbo.Tags");
-            DropTable("dbo.AspNetUserRoles");
-            DropTable("dbo.PostReaders");
-            DropTable("dbo.Logs");
-            DropTable("dbo.AspNetUserLogins");
-            DropTable("dbo.AspNetUserClaims");
-            DropTable("dbo.AspNetUsers");
-            DropTable("dbo.PostLikers");
-            DropTable("dbo.Posts");
-            DropTable("dbo.Comments");
-            DropTable("dbo.CommentLikers");
+            this.DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            this.DropForeignKey("dbo.TagPosts", "Post_Id", "dbo.Posts");
+            this.DropForeignKey("dbo.TagPosts", "Tag_Id", "dbo.Tags");
+            this.DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.Posts", "UserId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.PostReaders", "UserId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.PostReaders", "PostId", "dbo.Posts");
+            this.DropForeignKey("dbo.PostLikers", "UserId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.Logs", "UserId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.Comments", "UserId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.CommentLikers", "UserId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
+            this.DropForeignKey("dbo.PostLikers", "PostId", "dbo.Posts");
+            this.DropForeignKey("dbo.Comments", "PostId", "dbo.Posts");
+            this.DropForeignKey("dbo.Comments", "ParentCommentId", "dbo.Comments");
+            this.DropForeignKey("dbo.CommentLikers", "CommentId", "dbo.Comments");
+            this.DropIndex("dbo.TagPosts", new[] { "Post_Id" });
+            this.DropIndex("dbo.TagPosts", new[] { "Tag_Id" });
+            this.DropIndex("dbo.AspNetRoles", "RoleNameIndex");
+            this.DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
+            this.DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
+            this.DropIndex("dbo.PostReaders", new[] { "UserId" });
+            this.DropIndex("dbo.PostReaders", new[] { "PostId" });
+            this.DropIndex("dbo.Logs", new[] { "UserId" });
+            this.DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
+            this.DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
+            this.DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            this.DropIndex("dbo.PostLikers", new[] { "UserId" });
+            this.DropIndex("dbo.PostLikers", new[] { "PostId" });
+            this.DropIndex("dbo.Posts", new[] { "UserId" });
+            this.DropIndex("dbo.Posts", "UniqueTitle");
+            this.DropIndex("dbo.Comments", new[] { "PostId" });
+            this.DropIndex("dbo.Comments", new[] { "ParentCommentId" });
+            this.DropIndex("dbo.Comments", new[] { "UserId" });
+            this.DropIndex("dbo.CommentLikers", new[] { "CommentId" });
+            this.DropIndex("dbo.CommentLikers", new[] { "UserId" });
+            this.DropTable("dbo.TagPosts");
+            this.DropTable("dbo.AspNetRoles");
+            this.DropTable("dbo.Tags");
+            this.DropTable("dbo.AspNetUserRoles");
+            this.DropTable("dbo.PostReaders");
+            this.DropTable("dbo.Logs");
+            this.DropTable("dbo.AspNetUserLogins");
+            this.DropTable("dbo.AspNetUserClaims");
+            this.DropTable("dbo.AspNetUsers");
+            this.DropTable("dbo.PostLikers");
+            this.DropTable("dbo.Posts");
+            this.DropTable("dbo.Comments");
+            this.DropTable("dbo.CommentLikers");
         }
     }
 }

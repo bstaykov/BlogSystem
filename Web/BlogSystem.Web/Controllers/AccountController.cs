@@ -392,9 +392,11 @@
                 }
 
                 var imageUrl = "/Files/Images/avatar.jpg";
-                if (info.Login.LoginProvider == "Facebook") { 
+                if (info.Login.LoginProvider == "Facebook") 
+                { 
                     imageUrl = "//graph.facebook.com/" + info.Login.ProviderKey + "/picture";
                 }
+
                 var user = new User { UserName = info.DefaultUserName, Email = model.Email, ImageUrl = imageUrl };
                 var result = await this.UserManager.CreateAsync(user);
                 if (result.Succeeded)

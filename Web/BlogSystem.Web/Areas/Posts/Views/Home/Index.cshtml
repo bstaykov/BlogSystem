@@ -38,13 +38,13 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-8" id="postsShown">
+    <div class="col-sm-12" id="postsShown">
         @Html.Action("Posts", "Home", new { area = "Posts" })
     </div>
-    <div class="col-sm-4">
-        @LoadingElementHelper.ProgressBar(id: "statisticLoading", width: 90, alertType: "info")
-        <div id="statistic"></div>
-    </div>
+</div>
+<div class="row">
+    @LoadingElementHelper.ProgressBar(id: "statisticLoading", width: 90, alertType: "info")
+    <div id="statistic"></div>
 </div>
 
 @LoadingElementHelper.ProgressBar(id: "loading", width: 90, alertType: "info")
