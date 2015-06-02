@@ -85,7 +85,6 @@
             };
             googleOptions.Scope.Add("email");
             googleOptions.Scope.Add("profile");
-            googleOptions.Scope.Add("picture");
             app.UseGoogleAuthentication(googleOptions);
         }
     }
