@@ -82,6 +82,7 @@
             {
                 ClientId = "412149234571-i6g8ucnud004l6bl77gms7um3tvavnre.apps.googleusercontent.com",
                 ClientSecret = "gYjHheyuK15SpoQKUSnjmqpb",
+                CallbackPath = new PathString("/signin-google"),
             };
             googleOptions.Scope.Add("email");
             googleOptions.Scope.Add("profile");
