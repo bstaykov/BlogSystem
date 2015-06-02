@@ -75,9 +75,18 @@
 
             // app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             // {
-            // ClientId = "",
-            // ClientSecret = ""
+            // ClientId = "412149234571-i6g8ucnud004l6bl77gms7um3tvavnre.apps.googleusercontent.com",
+            // ClientSecret = "gYjHheyuK15SpoQKUSnjmqpb"
             // });
+            var googleOptions = new Microsoft.Owin.Security.Google.GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "412149234571-i6g8ucnud004l6bl77gms7um3tvavnre.apps.googleusercontent.com",
+                ClientSecret = "gYjHheyuK15SpoQKUSnjmqpb",
+            };
+            googleOptions.Scope.Add("email");
+            googleOptions.Scope.Add("profile");
+            googleOptions.Scope.Add("picture");
+            app.UseGoogleAuthentication(googleOptions);
         }
     }
 }

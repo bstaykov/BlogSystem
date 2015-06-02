@@ -395,6 +395,19 @@
                 if (info.Login.LoginProvider == "Facebook") 
                 { 
                     imageUrl = "//graph.facebook.com/" + info.Login.ProviderKey + "/picture";
+                } 
+                else if (info.Login.LoginProvider == "Google")
+                {
+                    var externalIdentity = HttpContext.GetOwinContext().Authentication.GetExternalIdentityAsync(DefaultAuthenticationTypes.ExternalCookie);
+                    var pictureClaim = externalIdentity.Result.Claims.FirstOrDefault(c => c.Type.Equals("picture"));
+                    imageUrl = pictureClaim.Value;
+
+                    // using (var webClient = new System.Net.WebClient())
+                    // {
+                    // var json = webClient.DownloadString("https://www.googleapis.com/plus/v1/people/" + info.Login.ProviderKey + "?fields=image&key={YOUR_API_KEY}");
+                    // dynamic jsonResult = JsonConvert.DeserializeObject(json);
+                    // imageUrl = jsonResult.image.url;
+                    // }
                 }
 
                 var user = new User { UserName = info.DefaultUserName, Email = model.Email, ImageUrl = imageUrl };

@@ -3,13 +3,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="412149234571-i6g8ucnud004l6bl77gms7um3tvavnre.apps.googleusercontent.com">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <meta name="description" content="The description of my page" />
 </head>
 <body>
-    @Scripts.Render("~/bundles/facebookLog")
+    @Scripts.Render("~/bundles/externalLogins")
     @*<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
     </fb:login-button>*@
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -86,6 +88,7 @@
     @*@Scripts.Render("~/bundles/jqueryval")*@
 
     @RenderSection("scripts", required: false)
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 
     <!-- jQuery -->
     @*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
