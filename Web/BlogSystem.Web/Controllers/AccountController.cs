@@ -4,6 +4,7 @@
     using System.Drawing;
     using System.Globalization;
     using System.Linq;
+    using System.Net;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using System.Web;
@@ -17,6 +18,7 @@
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
+    using Newtonsoft.Json;
 
     [Authorize]
     public class AccountController : Controller
@@ -398,16 +400,16 @@
                 } 
                 else if (info.Login.LoginProvider == "Google")
                 {
-                    var externalIdentity = HttpContext.GetOwinContext().Authentication.GetExternalIdentityAsync(DefaultAuthenticationTypes.ExternalCookie);
-                    var pictureClaim = externalIdentity.Result.Claims.FirstOrDefault(c => c.Type.Equals("picture"));
-                    imageUrl = pictureClaim.Value;
-
-                    // using (var webClient = new System.Net.WebClient())
+                    // if (plusClient.isConnected)
                     // {
-                    // var json = webClient.DownloadString("https://www.googleapis.com/plus/v1/people/" + info.Login.ProviderKey + "?fields=image&key={YOUR_API_KEY}");
-                    // dynamic jsonResult = JsonConvert.DeserializeObject(json);
-                    // imageUrl = jsonResult.image.url;
+                    // plusClient.getCurrentPerson().getImage().getUrl();
                     // }
+                    using (var webClient = new WebClient())
+                    {
+                        var json = webClient.DownloadString("https://www.googleapis.com/plus/v1/people/" + info.Login.ProviderKey + "?fields=image&key=AIzaSyAIoX5WShLV5gA_rGwP0u6Cx4oIb2mQ4m4");
+                        dynamic jsonResult = JsonConvert.DeserializeObject(json);
+                        imageUrl = jsonResult.image.url;
+                    }                    
                 }
 
                 var user = new User { UserName = info.DefaultUserName, Email = model.Email, ImageUrl = imageUrl };
