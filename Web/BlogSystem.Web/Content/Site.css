@@ -76,7 +76,7 @@ textarea {
     display: none;
 }
 
-.counterValue{
+.counterValue {
     display: initial;
 }
 
@@ -86,7 +86,7 @@ textarea {
     margin-top: 10px;
 }
 
-.progressBar{
+.progressBar {
     margin: 5px;
 }
 
@@ -109,8 +109,10 @@ textarea {
     z-index: 10;
 }
 
-#modalContentElement > .modal-content{
+#modalContentElement > .modal-content {
     height: 560px;
     overflow-y: scroll;
 }
 
+.modal-dialog {
+  z-index: 1050;}

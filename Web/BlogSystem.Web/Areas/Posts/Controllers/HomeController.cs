@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
+    using System.Web.Caching;
     using System.Web.Mvc;
 
     using AutoMapper;
@@ -32,23 +33,38 @@
         [HttpGet]
         public ActionResult Post(int id)
         {
-            var post = this.Data.Posts.All()
-                .Where(p => p.Id == id && p.IsDeleted == false);
+            var key = "post" + id;
+            var cache = this.HttpContext.Cache[key];
 
-            if (post == null)
+            if(cache == null)
             {
-                this.TempData["error"] = "Error while loading post! (Repost)";
-                return this.View("Error");
+                var post = this.Data.Posts.All()
+                    .Where(p => p.Id == id && p.IsDeleted == false);
+
+                if (post == null)
+                {
+                    this.TempData["error"] = "Error while loading post!";
+                    return this.View("Error");
+                }
+
+                this.UpdateReadersCount(post.FirstOrDefault());
+
+                var postModel = post.Project().To<PostViewModel>().FirstOrDefault();
+
+                this.HttpContext.Cache.Insert(
+                    key,
+                    postModel,
+                    null,DateTime.Now.AddMinutes(1),
+                    TimeSpan.Zero,
+                    CacheItemPriority.Default,
+                    null
+                );
+
+                return this.View("Post", postModel);
+
             }
 
-            this.UpdateReadersCount(post.FirstOrDefault());
-
-            var postModel = post.Project().To<PostViewModel>().FirstOrDefault();
-
-            // Mapper.CreateMap<Post, PostViewModel>();
-            // PostViewModel postModel = Mapper.Map<PostViewModel>(post);
-            // postModel.Author = post.User.UserName;
-            return this.View("Post", postModel);
+            return this.View("Post", this.HttpContext.Cache[key]);
         }
 
         [HttpGet]
@@ -76,7 +92,7 @@
             List<PostListViewModel> postsToDisplay = this.Data.Posts.All()
                 .AsQueryable()
                 .Where(post => post.IsDeleted == false
-                    && (searchContent != null && searchContent != string.Empty ? 
+                    && (searchContent != null && searchContent != string.Empty ?
                         post.Title.ToLower().Contains(searchContent.ToLower().Trim())
                             || post.Content.ToLower().Contains(searchContent.ToLower().Trim()) : true)
                     && (searchAuthor != null && searchAuthor != string.Empty ?
@@ -90,7 +106,7 @@
                 .ToList();
 
             int postsCount = this.Data.Posts.All()
-                .Where(post => post.IsDeleted == false 
+                .Where(post => post.IsDeleted == false
                     && (searchContent != null && searchContent != string.Empty ?
                             post.Title.ToLower().Contains(searchContent.ToLower().Trim())
                                 || post.Content.ToLower().Contains(searchContent.ToLower().Trim()) : true)
@@ -120,7 +136,7 @@
             var pagingModel = new PostsPagingViewModel()
             {
                 Posts = postsToDisplay,
-                Pagination = new PaginationModel() 
+                Pagination = new PaginationModel()
                 {
                     AreaName = "Posts",
                     ActionName = "Posts",
