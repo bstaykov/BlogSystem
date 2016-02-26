@@ -85,7 +85,7 @@
             request.Resource = "{domain}/messages";
             request.AddParameter("from", "Excited User <mailgun@appa6ce04e331cc4c50942db4e595c66a5f.mailgun.org>");
             request.AddParameter("to", email);
-            request.AddParameter("to", "appa6ce04e331cc4c50942db4e595c66a5f.mailgun.org");
+            request.AddParameter("to", "mailgun@appa6ce04e331cc4c50942db4e595c66a5f.mailgun.org");
             request.AddParameter("subject", "Hello Email! (verison 1.0.0)");
             var url = "http://blog-120.apphb.com/Account/ConfirmEmail?userId=" + userId + "&code=" + code;
             request.AddParameter("text", "Confirm your email: <a href=" + url + ">Confirm</a> or by: " + url);
