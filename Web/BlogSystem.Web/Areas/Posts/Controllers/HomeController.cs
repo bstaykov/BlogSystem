@@ -36,7 +36,7 @@
             var key = "post" + id;
             var cache = this.HttpContext.Cache[key];
 
-            if(cache == null)
+            if (cache == null)
             {
                 var post = this.Data.Posts.All()
                     .Where(p => p.Id == id && p.IsDeleted == false);
@@ -54,14 +54,13 @@
                 this.HttpContext.Cache.Insert(
                     key,
                     postModel,
-                    null,DateTime.Now.AddMinutes(1),
+                    null,
+                    DateTime.Now.AddMinutes(1),
                     TimeSpan.Zero,
                     CacheItemPriority.Default,
-                    null
-                );
+                    null);
 
                 return this.View("Post", postModel);
-
             }
 
             return this.View("Post", this.HttpContext.Cache[key]);
