@@ -75,23 +75,24 @@
             }
         }
 
-        public static void SendSimpleMessage(string email, string userId, string code)
+        public static IRestResponse SendSimpleMessage(string email, string userId, string code)
         {
-            // Compose a message
-            MailMessage mail = new MailMessage("foo@sandboxf6aabaaeee5042cf9123cfa83cf289ba.mailgun.org", email);
-            mail.Subject = "Hello";
-            var url = "http://blog-120.apphb.com/Account/ConfirmEmail?userId=" + userId + "&code=" + code;
-            mail.Body = "Confirm your email: <a href=" + url + ">Confirm</a> or by: " + url;
-
-            // Send it!
-            SmtpClient client = new SmtpClient();
-            client.Port = 587;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
-            client.Credentials = new System.Net.NetworkCredential("postmaster@sandboxf6aabaaeee5042cf9123cfa83cf289ba.mailgun.org", "key-437e1e96c34e46425d2456c5cc1ead0b");
-            client.Host = "smtp.mailgun.org";
-
-            client.Send(mail);
+            RestClient client = new RestClient();
+            client.BaseUrl = new Uri("https://api.mailgun.net/v3");
+            client.Authenticator =
+                   new HttpBasicAuthenticator("api", "key-437e1e96c34e46425d2456c5cc1ead0b");
+            RestRequest request = new RestRequest();
+            request.AddParameter("domain",
+                                "sandboxf6aabaaeee5042cf9123cfa83cf289ba.mailgun.org", ParameterType.UrlSegment);
+            request.Resource = "{domain}/messages";
+            request.AddParameter("from", "Mailgun Sandbox <postmaster@sandboxf6aabaaeee5042cf9123cfa83cf289ba.mailgun.org>");
+            request.AddParameter("to", email);
+            request.AddParameter("to", "bstaykov <bobi_up@yahoo.com>");
+            request.AddParameter("subject", "Hello MAIL!!!");
+            var url = "http://blog-120.apphb.com/Account/ConfirmEmail?userId=" + userId + "&code=" + code;            
+            request.AddParameter("text", "Confirm your email: <a href=" + url + ">Confirm</a> or by: " + url);
+            request.Method = Method.POST;
+            return client.Execute(request);
         }
 
         //public static IRestResponse SendSimpleMessage(string email, string userId, string code)
