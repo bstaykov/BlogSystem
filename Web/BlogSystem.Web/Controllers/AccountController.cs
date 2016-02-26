@@ -77,7 +77,6 @@
 
         public static IRestResponse SendSimpleMessage(string email, string userId, string code)
         {
-
             RestClient client = new RestClient();
             client.BaseUrl = new Uri("https://api.mailgun.net/v3");
             client.Authenticator =
