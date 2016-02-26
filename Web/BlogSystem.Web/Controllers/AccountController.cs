@@ -86,16 +86,16 @@
             RestRequest request = new RestRequest();
             request.AddParameter("domain", "sandboxf6aabaaeee5042cf9123cfa83cf289ba.mailgun.org", ParameterType.UrlSegment);
             request.Resource = "{domain}/messages";
-            request.AddParameter("from", "blog-120.apphb.com");
+            request.AddParameter("from", "Mailgun Sandbox <postmaster@sandboxf6aabaaeee5042cf9123cfa83cf289ba.mailgun.org>");
             request.AddParameter("to", email);
             request.AddParameter("subject", "Email confirmation");
             var url = "http://blog-120.apphb.com/Account/ConfirmEmail?userId=" + userId + "&code=" + code;
-            request.AddParameter("text", "Confirm your email by clicking the link: " + url);            
+            request.AddParameter("text", "Confirm your email by clicking the link: " + url);
             request.Method = Method.POST;
-            
+
             return client.Execute(request);
         }
-        
+
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -210,7 +210,7 @@
                 var result = await this.UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    await this.SignInManager.SignInAsync(user, isPersistent: true, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
