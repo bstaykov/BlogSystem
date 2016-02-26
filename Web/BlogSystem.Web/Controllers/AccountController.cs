@@ -77,7 +77,6 @@
 
         public static IRestResponse SendSimpleMessage(string email, string userId, string code)
         {
-
             RestClient client = new RestClient();
             client.BaseUrl = new Uri("https://api.mailgun.net/v3");
             client.Authenticator =
@@ -85,40 +84,18 @@
             new HttpBasicAuthenticator("api",
                                        "key-437e1e96c34e46425d2456c5cc1ead0b");
             RestRequest request = new RestRequest();
-            request.AddParameter("domain",
-                                "sandboxf6aabaaeee5042cf9123cfa83cf289ba.mailgun.org", ParameterType.UrlSegment);
+            request.AddParameter("domain", "sandboxf6aabaaeee5042cf9123cfa83cf289ba.mailgun.org", ParameterType.UrlSegment);
             request.Resource = "{domain}/messages";
-            request.AddParameter("from", "Mailgun Sandbox <postmaster@sandboxf6aabaaeee5042cf9123cfa83cf289ba.mailgun.org>");
+            request.AddParameter("from", "blog-120.apphb.com");
             request.AddParameter("to", email);
-            request.AddParameter("to", "bstaykov <bobi_up@yahoo.com>");
-            request.AddParameter("subject", "Hello MAIL!!!");
+            request.AddParameter("subject", "Email confirmation");
             var url = "http://blog-120.apphb.com/Account/ConfirmEmail?userId=" + userId + "&code=" + code;
-            request.AddParameter("text", "Confirm your email: <a href=" + url + ">Confirm</a> or by: " + url);
-            request.AddParameter("subject", "Hello bstaykov");
-            request.AddParameter("text", "Congratulations bstaykov, you just sent an email with Mailgun!  You are truly awesome!  You can see a record of this email in your logs: https://mailgun.com/cp/log .  You can send up to 300 emails/day from this sandbox server.  Next, you should add your own domain so you can send 10,000 emails/month for free.");
+            request.AddParameter("text", "Confirm your email by clicking the link: " + url);            
             request.Method = Method.POST;
+            
             return client.Execute(request);
         }
-
-        //public static IRestResponse SendSimpleMessage(string email, string userId, string code)
-        //{
-        //    RestClient client = new RestClient();
-        //    client.BaseUrl = new Uri("https://api.mailgun.net/v3");
-        //    client.Authenticator =
-        //            new HttpBasicAuthenticator("api", "key-48700d10cf1ddf2ab25ad3ecae3a0c8d");
-        //    RestRequest request = new RestRequest();
-        //    request.AddParameter("domain", "appa6ce04e331cc4c50942db4e595c66a5f.mailgun.org", ParameterType.UrlSegment);
-        //    request.Resource = "{domain}/messages";
-        //    request.AddParameter("from", "Excited User <mailgun@appa6ce04e331cc4c50942db4e595c66a5f.mailgun.org>");
-        //    request.AddParameter("to", email);
-        //    request.AddParameter("to", "mailgun@appa6ce04e331cc4c50942db4e595c66a5f.mailgun.org");
-        //    request.AddParameter("subject", "Hello Email! (verison 1.0.0)");
-        //    var url = "http://blog-120.apphb.com/Account/ConfirmEmail?userId=" + userId + "&code=" + code;
-        //    request.AddParameter("text", "Confirm your email: <a href=" + url + ">Confirm</a> or by: " + url);
-        //    request.Method = Method.POST;
-        //    return client.Execute(request);
-        //}
-
+        
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -239,7 +216,6 @@
                     // Send an email with this link
                     string code = await this.UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var res = AccountController.SendSimpleMessage(user.Email, user.Id, code);
-                    System.Diagnostics.Debug.WriteLine(res);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     return this.RedirectToAction("Index", "Home");
