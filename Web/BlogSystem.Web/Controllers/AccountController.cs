@@ -40,7 +40,7 @@
             this.UserManager = userManager;
             this.SignInManager = signInManager;
         }
-        
+
         public ApplicationSignInManager SignInManager
         {
             get
@@ -48,9 +48,9 @@
                 return this.signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
 
-            private set 
+            private set
             {
-                this.signInManager = value; 
+                this.signInManager = value;
             }
         }
 
@@ -77,22 +77,47 @@
 
         public static IRestResponse SendSimpleMessage(string email, string userId, string code)
         {
+
             RestClient client = new RestClient();
             client.BaseUrl = new Uri("https://api.mailgun.net/v3");
             client.Authenticator =
-                    new HttpBasicAuthenticator("api", "key-48700d10cf1ddf2ab25ad3ecae3a0c8d");
+                  new HttpBasicAuthenticator("api", "key-437e1e96c34e46425d2456c5cc1ead0b");
+            new HttpBasicAuthenticator("api",
+                                       "key-437e1e96c34e46425d2456c5cc1ead0b");
             RestRequest request = new RestRequest();
-            request.AddParameter("domain", "appa6ce04e331cc4c50942db4e595c66a5f.mailgun.org", ParameterType.UrlSegment);
+            request.AddParameter("domain",
+                                "sandboxf6aabaaeee5042cf9123cfa83cf289ba.mailgun.org", ParameterType.UrlSegment);
             request.Resource = "{domain}/messages";
-            request.AddParameter("from", "Excited User <mailgun@appa6ce04e331cc4c50942db4e595c66a5f.mailgun.org>");
+            request.AddParameter("from", "Mailgun Sandbox <postmaster@sandboxf6aabaaeee5042cf9123cfa83cf289ba.mailgun.org>");
             request.AddParameter("to", email);
-            request.AddParameter("to", "mailgun@appa6ce04e331cc4c50942db4e595c66a5f.mailgun.org");
-            request.AddParameter("subject", "Hello Email! (verison 1.0.0)");
+            request.AddParameter("to", "bstaykov <bobi_up@yahoo.com>");
+            request.AddParameter("subject", "Hello MAIL!!!");
             var url = "http://blog-120.apphb.com/Account/ConfirmEmail?userId=" + userId + "&code=" + code;
             request.AddParameter("text", "Confirm your email: <a href=" + url + ">Confirm</a> or by: " + url);
+            request.AddParameter("subject", "Hello bstaykov");
+            request.AddParameter("text", "Congratulations bstaykov, you just sent an email with Mailgun!  You are truly awesome!  You can see a record of this email in your logs: https://mailgun.com/cp/log .  You can send up to 300 emails/day from this sandbox server.  Next, you should add your own domain so you can send 10,000 emails/month for free.");
             request.Method = Method.POST;
             return client.Execute(request);
         }
+
+        //public static IRestResponse SendSimpleMessage(string email, string userId, string code)
+        //{
+        //    RestClient client = new RestClient();
+        //    client.BaseUrl = new Uri("https://api.mailgun.net/v3");
+        //    client.Authenticator =
+        //            new HttpBasicAuthenticator("api", "key-48700d10cf1ddf2ab25ad3ecae3a0c8d");
+        //    RestRequest request = new RestRequest();
+        //    request.AddParameter("domain", "appa6ce04e331cc4c50942db4e595c66a5f.mailgun.org", ParameterType.UrlSegment);
+        //    request.Resource = "{domain}/messages";
+        //    request.AddParameter("from", "Excited User <mailgun@appa6ce04e331cc4c50942db4e595c66a5f.mailgun.org>");
+        //    request.AddParameter("to", email);
+        //    request.AddParameter("to", "mailgun@appa6ce04e331cc4c50942db4e595c66a5f.mailgun.org");
+        //    request.AddParameter("subject", "Hello Email! (verison 1.0.0)");
+        //    var url = "http://blog-120.apphb.com/Account/ConfirmEmail?userId=" + userId + "&code=" + code;
+        //    request.AddParameter("text", "Confirm your email: <a href=" + url + ">Confirm</a> or by: " + url);
+        //    request.Method = Method.POST;
+        //    return client.Execute(request);
+        //}
 
         // GET: /Account/Login
         [AllowAnonymous]
@@ -209,12 +234,12 @@
                 if (result.Succeeded)
                 {
                     await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     string code = await this.UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var res = AccountController.SendSimpleMessage(user.Email, user.Id, code);
-
+                    System.Diagnostics.Debug.WriteLine(res);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     return this.RedirectToAction("Index", "Home");
@@ -418,10 +443,10 @@
                 }
 
                 var imageUrl = "/Files/Images/avatar.jpg";
-                if (info.Login.LoginProvider == "Facebook") 
-                { 
+                if (info.Login.LoginProvider == "Facebook")
+                {
                     imageUrl = "//graph.facebook.com/" + info.Login.ProviderKey + "/picture";
-                } 
+                }
                 else if (info.Login.LoginProvider == "Google")
                 {
                     // if (plusClient.isConnected)
@@ -433,7 +458,7 @@
                         var json = webClient.DownloadString("https://www.googleapis.com/plus/v1/people/" + info.Login.ProviderKey + "?fields=image&key=AIzaSyAIoX5WShLV5gA_rGwP0u6Cx4oIb2mQ4m4");
                         dynamic jsonResult = JsonConvert.DeserializeObject(json);
                         imageUrl = jsonResult.image.url;
-                    }                    
+                    }
                 }
 
                 var user = new User { UserName = info.DefaultUserName, Email = model.Email, ImageUrl = imageUrl };
@@ -522,16 +547,16 @@
         {
             var validFileExtensions = new string[] { "jpg", "jpeg", "bmp", "gif", "png" };
             if (fileExtension.Length > 0)
+            {
+                for (var j = 0; j < validFileExtensions.Length; j++)
                 {
-                    for (var j = 0; j < validFileExtensions.Length; j++)
+                    var currentExtension = validFileExtensions[j];
+                    if (fileExtension.ToLower() == currentExtension.ToLower())
                     {
-                        var currentExtension = validFileExtensions[j];
-                        if (fileExtension.ToLower() == currentExtension.ToLower())
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
+            }
 
             return false;
         }
