@@ -234,7 +234,8 @@
         {
             if (userId == null || code == null)
             {
-                return this.View("Error Id or Code");
+				this.TempData["error"] = "ID or CODE missiong!";
+                return this.View("Error");
             }
 
             var result = await this.UserManager.ConfirmEmailAsync(userId, code);
