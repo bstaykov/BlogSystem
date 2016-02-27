@@ -6,7 +6,6 @@
     using BlogSystem.Web.Infrastructure.Filters;
 
     // [Log]
-    [RequireHttps]
     public abstract class BaseController : Controller
     {
         protected readonly IBlogSystemData Data;
