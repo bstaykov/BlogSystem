@@ -216,8 +216,8 @@
                     // Send an email with this link
                     string code = await this.UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var res = AccountController.SendSimpleMessage(user.Email, user.Id, code);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     return this.RedirectToAction("Index", "Home");
                 }
 
@@ -234,7 +234,7 @@
         {
             if (userId == null || code == null)
             {
-                return this.View("Error");
+                return this.View("Error Id or Code");
             }
 
             var result = await this.UserManager.ConfirmEmailAsync(userId, code);
