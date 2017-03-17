@@ -438,7 +438,7 @@
                     }
                 }
 
-                var user = new User { UserName = info.DefaultUserName, Email = model.Email, ImageUrl = imageUrl };
+                var user = new User { UserName = info.DefaultUserName, Email = model.Email, ImageUrl = imageUrl, Points = model.Points };
                 var result = await this.UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

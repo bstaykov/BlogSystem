@@ -15,6 +15,11 @@
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        // TODO DELETE TEMP TEST 
+        [Required]
+        [Range(10, 20, ErrorMessage = "Min 10 Max 20")]
+        public int Points { get; set; }
     }
 
     public class ExternalLoginListViewModel
